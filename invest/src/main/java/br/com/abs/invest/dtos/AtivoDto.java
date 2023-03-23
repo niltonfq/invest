@@ -24,9 +24,6 @@ public class AtivoDto {
 		public static interface AtivoPut {}
 	}
 	
-
-	private UUID id;
-	
 	@NotBlank(groups = { AtivoView.AtivoPost.class })
 	UsuarioModel usuario;
 	

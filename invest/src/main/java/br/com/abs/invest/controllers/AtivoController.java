@@ -18,16 +18,21 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import br.com.abs.invest.dtos.AtivoDto;
+import br.com.abs.invest.dtos.AtivoDto.AtivoView;
 import br.com.abs.invest.models.AtivoModel;
 import br.com.abs.invest.services.AtivoService;
 import br.com.abs.invest.specifications.SpecificationTemplate;
@@ -41,8 +46,8 @@ public class AtivoController {
 	AtivoService service;
 	
 	@GetMapping
-	public ResponseEntity<Page<AtivoModel>> getAll(
-			SpecificationTemplate.AtivoSpec spec,
+	public ResponseEntity<Page<AtivoModel>> getAll(			
+			SpecificationTemplate.AtivoSpec spec,			
 			@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable
 			){
 		Page<AtivoModel> page = service.findAll(spec, pageable);
@@ -78,80 +83,42 @@ public class AtivoController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Object> registerAtivo(
-			@RequestBody @Valid AtivoDto userDto){
+	public ResponseEntity<Object> create(
+			@RequestBody @Valid AtivoDto ativoDto) {
 		
-		var userModel = new AtivoModel();
-		BeanUtils.copyProperties(userDto, userModel);
+		var ativoModel = new AtivoModel();
 		
-		userModel.setDataCriacao(LocalDateTime.now(ZoneId.of("UTC")));
-		userModel.setDataAtualizacao(LocalDateTime.now(ZoneId.of("UTC")));
-		service.save(userModel);
-		return ResponseEntity.status(HttpStatus.CREATED).body(userModel);
+		BeanUtils.copyProperties(ativoDto, ativoModel);
+		
+		ativoModel.setDataCriacao(LocalDateTime.now(ZoneId.of("UTC")));
+		ativoModel.setDataAtualizacao(LocalDateTime.now(ZoneId.of("UTC")));
+		service.save(ativoModel);
+		return ResponseEntity.status(HttpStatus.CREATED).body(ativoModel);
 	}
 	
-	/*
+	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Object> update(@PathVariable(value = "id") UUID id,
-			@RequestBody
-			@Validated(AtivoDto.AtivoView.AtivoPut.class)
-			@JsonView(AtivoView.AtivoPut.class) AtivoDto userDto) { 
-		Optional<AtivoModel> optional = service.findById(id);
-		if (!optional.isPresent()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado");
-		} else {
+	public ResponseEntity<Object> update(
+			@PathVariable(value = "id") UUID id,
 			
-			var userModel = optional.get();
-			userModel.setDataAtualizacao(LocalDateTime.now(ZoneId.of("UTC")));
+			@RequestBody @Validated(AtivoDto.AtivoView.AtivoPut.class)
+			@JsonView(AtivoView.AtivoPut.class) AtivoDto ativoDto
 			
-			service.save(userModel);
-			
-			return ResponseEntity.status(HttpStatus.OK).body(userModel);
-		}
-	}
-	
-	@PutMapping(value = "/{id}/password")
-	public ResponseEntity<Object> updatePassword(@PathVariable(value = "id") UUID id,
-			@RequestBody 
-			@Validated(AtivoDto.AtivoView.PasswordPut.class)
-			@JsonView(AtivoView.PasswordPut.class) AtivoDto userDto) { 
-		Optional<AtivoModel> optional = service.findById(id);
-		if (!optional.isPresent()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado");
-		} 
+		) { 
 		
-		if (optional.get().getPassword().equals(userDto.getOldPassword())) {
-			return ResponseEntity.status(HttpStatus.OK).body("Senha antiga não confere");
-		} else {
-			
-			var userModel = optional.get();
-			userModel.setPassword(userDto.getPassword());
-			userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
-			
-			service.save(userModel);
-			
-			return ResponseEntity.status(HttpStatus.OK).body("Senha atualizada com sucesso!");
-		}
-	}
-	
-	@PutMapping(value = "/{id}/image")
-	public ResponseEntity<Object> updateImagem(@PathVariable(value = "id") UUID id,
-			@RequestBody 
-			@Validated(AtivoDto.AtivoView.ImagemPut.class)
-			@JsonView(AtivoView.ImagemPut.class) AtivoDto userDto) { 
 		Optional<AtivoModel> optional = service.findById(id);
 		if (!optional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado");
-		}  else {
+		} else {
 			
-			var userModel = optional.get();
-			userModel.setImagemUrl(userDto.getImagemUrl());
-			userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
+			var ativoModel = optional.get();
 			
-			service.save(userModel);
+			BeanUtils.copyProperties(ativoDto, ativoModel);			
+			ativoModel.setDataAtualizacao(LocalDateTime.now(ZoneId.of("UTC")));			
+			service.save(ativoModel);
 			
-			return ResponseEntity.status(HttpStatus.OK).body(userModel);
+			return ResponseEntity.status(HttpStatus.OK).body(ativoModel);
 		}
 	}
-*/
+	
 }

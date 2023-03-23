@@ -82,13 +82,13 @@ public class AtivoModel extends RepresentationModel<AtivoModel> implements Seria
 	private BigDecimal precoMedio = BigDecimal.ZERO;
 	
 	@Column(nullable = false)
-	private BigDecimal totalinvestido = BigDecimal.ZERO;
+	private BigDecimal totalInvestido = BigDecimal.ZERO;
 	
 	@Column(nullable = false)
-	private BigDecimal quantidadeinvestida = BigDecimal.ZERO;
+	private BigDecimal quantidadeInvestida = BigDecimal.ZERO;
 	
 	@Column(nullable = false)
-	private BigDecimal valoratual = BigDecimal.ZERO;
+	private BigDecimal valorAtual = BigDecimal.ZERO;
 	
 	private LocalDate dataAtualizacaoPreco;
 	
