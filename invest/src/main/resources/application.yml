@@ -1,0 +1,15 @@
+server:
+  port: 8088
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:6001/invest-db?useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true&useSSL=false    
+    username: root
+    password: rsdntvl
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    show-sql: false
