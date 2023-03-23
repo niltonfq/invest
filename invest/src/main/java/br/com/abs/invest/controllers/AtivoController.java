@@ -18,7 +18,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,10 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonView;
-
 import br.com.abs.invest.dtos.AtivoDto;
-import br.com.abs.invest.dtos.AtivoDto.AtivoView;
 import br.com.abs.invest.models.AtivoModel;
 import br.com.abs.invest.services.AtivoService;
 import br.com.abs.invest.specifications.SpecificationTemplate;
@@ -99,10 +95,8 @@ public class AtivoController {
 	
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Object> update(
-			@PathVariable(value = "id") UUID id,
-			
-			@RequestBody @Validated(AtivoDto.AtivoView.AtivoPut.class)
-			@JsonView(AtivoView.AtivoPut.class) AtivoDto ativoDto
+			@PathVariable(value = "id") UUID id,			
+			@RequestBody @Valid AtivoDto ativoDto
 			
 		) { 
 		

@@ -73,9 +73,10 @@ public class AtivoModel extends RepresentationModel<AtivoModel> implements Seria
 	@Column(nullable = false)
 	private Short nota = 0;
 
+	@Column(length = 14)
 	private String cnpj;
 
-	@Column(nullable = false)
+	@Column
 	private String nome;
 	
 	@Column(nullable = false)
