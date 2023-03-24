@@ -31,22 +31,32 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.abs.invest.dtos.AtivoDto;
 import br.com.abs.invest.models.AtivoModel;
 import br.com.abs.invest.services.AtivoService;
-import br.com.abs.invest.specifications.SpecificationTemplate;
+import br.com.abs.invest.services.UsuarioService;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/ativos/usuario/{usuario}")
 public class AtivoController {
 	
 	@Autowired
 	AtivoService service;
 	
+	@Autowired
+	UsuarioService usuarioService;
+	
 	@GetMapping
-	public ResponseEntity<Page<AtivoModel>> getAll(			
-			SpecificationTemplate.AtivoSpec spec,			
+	public ResponseEntity<Object> getAll(			
+			@PathVariable(value = "usuario") UUID IdUsuario,	
 			@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable
 			){
-		Page<AtivoModel> page = service.findAll(spec, pageable);
+		
+		var usuario = usuarioService.findById(IdUsuario);
+		
+		if (!usuario.isPresent()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
+		}
+		
+		Page<AtivoModel> page = service.findByUsuario(pageable, usuario.get());
 		
 		if (!page.isEmpty()) {
 			for (AtivoModel user : page.toList()) {

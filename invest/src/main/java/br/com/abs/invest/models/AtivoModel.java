@@ -43,6 +43,7 @@ public class AtivoModel extends RepresentationModel<AtivoModel> implements Seria
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Type(type = "uuid-char")
+	@Column(nullable = false, columnDefinition="char(36)")
 	private UUID id;
 	
 	@ManyToOne

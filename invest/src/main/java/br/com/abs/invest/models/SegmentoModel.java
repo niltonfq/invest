@@ -29,6 +29,7 @@ public class SegmentoModel extends RepresentationModel<SegmentoModel> implements
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Type(type = "uuid-char")
+	@Column(nullable = false, columnDefinition="char(36)")
 	private UUID id;
 	
 	@Column(nullable = false, unique = true, length = 255)

@@ -29,6 +29,7 @@ public class UsuarioModel extends RepresentationModel<UsuarioModel> implements S
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Type(type = "uuid-char")
+	@Column(nullable = false, columnDefinition="char(36)")
 	private UUID id;
 	
 	@Column(nullable = false, unique = true, length = 50)
