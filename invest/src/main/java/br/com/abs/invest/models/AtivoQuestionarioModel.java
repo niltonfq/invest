@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Type;
-import org.hibernate.type.descriptor.sql.SmallIntTypeDescriptor;
+
 import org.springframework.hateoas.RepresentationModel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -62,13 +62,13 @@ public class AtivoQuestionarioModel extends RepresentationModel<AtivoQuestionari
 	private QuestionarioModel questionario;
 	
 	@Column(length = 6)
-	private SmallIntTypeDescriptor relevante;
+	private short relevante;
 	
 	@Column(length = 255)
 	private String levantamento;	
 	
 	@Column(length = 6)
-	private SmallIntTypeDescriptor nota;
+	private short nota;
 
 	public AtivoQuestionarioModel() {
 		super();
@@ -122,11 +122,11 @@ public class AtivoQuestionarioModel extends RepresentationModel<AtivoQuestionari
 		this.questionario = questionario;
 	}
 
-	public SmallIntTypeDescriptor getRelevante() {
+	public short getRelevante() {
 		return relevante;
 	}
 
-	public void setRelevante(SmallIntTypeDescriptor relevante) {
+	public void setRelevante(short relevante) {
 		this.relevante = relevante;
 	}
 
@@ -138,11 +138,11 @@ public class AtivoQuestionarioModel extends RepresentationModel<AtivoQuestionari
 		this.levantamento = levantamento;
 	}
 
-	public SmallIntTypeDescriptor getNota() {
+	public short getNota() {
 		return nota;
 	}
 
-	public void setNota(SmallIntTypeDescriptor nota) {
+	public void setNota(short nota) {
 		this.nota = nota;
 	}	
 	

@@ -91,6 +91,7 @@ public class AtivoModel extends RepresentationModel<AtivoModel> implements Seria
 	@Column(nullable = false)
 	private BigDecimal valorAtual = BigDecimal.ZERO;
 	
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
 	private LocalDate dataAtualizacaoPreco;
 	
 	@Column(nullable = false)

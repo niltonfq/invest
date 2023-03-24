@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
-import org.hibernate.type.descriptor.sql.SmallIntTypeDescriptor;
 import org.springframework.hateoas.RepresentationModel;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -43,7 +42,7 @@ public class DominioModel extends RepresentationModel<DominioModel> implements S
 	private String descricao;
 	
 	@Column(length = 11)
-	private SmallIntTypeDescriptor ordem;
+	private short ordem;
 
 	public DominioModel() {
 		super();
@@ -89,11 +88,11 @@ public class DominioModel extends RepresentationModel<DominioModel> implements S
 		this.descricao = descricao;
 	}
 
-	public SmallIntTypeDescriptor getOrdem() {
+	public short getOrdem() {
 		return ordem;
 	}
 
-	public void setOrdem(SmallIntTypeDescriptor ordem) {
+	public void setOrdem(short ordem) {
 		this.ordem = ordem;
 	}
 	

@@ -1,11 +1,16 @@
 package br.com.abs.invest.models;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,23 +20,22 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Type;
-
 import org.springframework.hateoas.RepresentationModel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import br.com.abs.invest.enums.TipoAtivo;
+
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-
-
-
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
-@Table(name = "banco", 
+@Table(name = "provento", 
 	   uniqueConstraints = { @UniqueConstraint(columnNames = {"usuarioId"}) }
-
 )
-public class PercentualInvestimentoModel extends RepresentationModel<BancoModel> implements Serializable {
+public class ProventoModel extends RepresentationModel<BancoModel> implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -52,155 +56,123 @@ public class PercentualInvestimentoModel extends RepresentationModel<BancoModel>
 	@Column(nullable = false)
 	private LocalDateTime dataAtualizacao;
 	
-	@Column(length = 11)
-	private short rendaFixa;
+	@Column(nullable = false, length = 11)
+	@Enumerated(EnumType.STRING)
+	private TipoAtivo tipoProventoId;
 	
-	@Column(length = 11)
-	private short acoesNacionais;
+	@ManyToOne
+	@JoinColumn(nullable = false, name = "ativoId")
+	private AtivoModel ativo;
 	
-	@Column(length = 11)
-	private short acoesInternacionais;
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	@JoinColumn(nullable = false)
+	private LocalDate data;
 	
-	@Column(length = 11)
-	private short fundosImobiliarios;
+	@JoinColumn(nullable =  false, name = "bancoId")
+	private BancoModel banco;
 	
-	@Column(length = 11)
-	private short reits;
+	@Column(length = 15)
+	private BigDecimal quantidade = BigDecimal.ZERO;
 	
-	@Column(length = 11)
-	private short criptoMoedas;
+	@Column(length = 15)
+	private BigDecimal valor = BigDecimal.ZERO;
 	
-	
+	@Column(length = 15)
+	private BigDecimal total = BigDecimal.ZERO;
 
-	public PercentualInvestimentoModel() {
+	public ProventoModel() {
 		super();
 	}
-
-
 
 	public UUID getId() {
 		return id;
 	}
 
-
-
 	public void setId(UUID id) {
 		this.id = id;
 	}
-
-
 
 	public UsuarioModel getUsuario() {
 		return usuario;
 	}
 
-
-
 	public void setUsuario(UsuarioModel usuario) {
 		this.usuario = usuario;
 	}
-
-
 
 	public LocalDateTime getDataCriacao() {
 		return dataCriacao;
 	}
 
-
-
 	public void setDataCriacao(LocalDateTime dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
-
-
 
 	public LocalDateTime getDataAtualizacao() {
 		return dataAtualizacao;
 	}
 
-
-
 	public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
 		this.dataAtualizacao = dataAtualizacao;
 	}
 
-
-
-	public short getRendaFixa() {
-		return rendaFixa;
+	public TipoAtivo getTipoProventoId() {
+		return tipoProventoId;
 	}
 
-
-
-	public void setRendaFixa(short rendaFixa) {
-		this.rendaFixa = rendaFixa;
+	public void setTipoProventoId(TipoAtivo tipoProventoId) {
+		this.tipoProventoId = tipoProventoId;
 	}
 
-
-
-	public short getAcoesNacionais() {
-		return acoesNacionais;
+	public AtivoModel getAtivo() {
+		return ativo;
 	}
 
-
-
-	public void setAcoesNacionais(short acoesNacionais) {
-		this.acoesNacionais = acoesNacionais;
+	public void setAtivo(AtivoModel ativo) {
+		this.ativo = ativo;
 	}
 
-
-
-	public short getAcoesInternacionais() {
-		return acoesInternacionais;
+	public LocalDate getData() {
+		return data;
 	}
 
-
-
-	public void setAcoesInternacionais(short acoesInternacionais) {
-		this.acoesInternacionais = acoesInternacionais;
+	public void setData(LocalDate data) {
+		this.data = data;
 	}
 
-
-
-	public short getFundosImobiliarios() {
-		return fundosImobiliarios;
+	public BancoModel getBanco() {
+		return banco;
 	}
 
-
-
-	public void setFundosImobiliarios(short fundosImobiliarios) {
-		this.fundosImobiliarios = fundosImobiliarios;
+	public void setBanco(BancoModel banco) {
+		this.banco = banco;
 	}
 
-
-
-	public short getReits() {
-		return reits;
+	public BigDecimal getQuantidade() {
+		return quantidade;
 	}
 
-
-
-	public void setReits(short reits) {
-		this.reits = reits;
+	public void setQuantidade(BigDecimal quantidade) {
+		this.quantidade = quantidade;
 	}
 
-
-
-	public short getCriptoMoedas() {
-		return criptoMoedas;
+	public BigDecimal getValor() {
+		return valor;
 	}
 
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
+	}
 
+	public BigDecimal getTotal() {
+		return total;
+	}
 
-	public void setCriptoMoedas(short criptoMoedas) {
-		this.criptoMoedas = criptoMoedas;
+	public void setTotal(BigDecimal total) {
+		this.total = total;
 	}
 	
 	
+	
 
-	
-	
-	
-		
 }
-
