@@ -9,7 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Type;
 import org.springframework.hateoas.RepresentationModel;
@@ -23,7 +26,10 @@ import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
-@Table(name = "banco")
+@Table(name = "banco", 
+	   uniqueConstraints = { @UniqueConstraint(columnNames = {"usuarioId", "nome" }) }
+
+)
 public class BancoModel extends RepresentationModel<BancoModel> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -32,6 +38,10 @@ public class BancoModel extends RepresentationModel<BancoModel> implements Seria
 	@Type(type = "uuid-char")
 	@Column(nullable = false, columnDefinition="char(36)")
 	private UUID id;
+	
+	@ManyToOne
+	@JoinColumn(name="usuarioId", nullable=false)
+	UsuarioModel usuario;
 	
 	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
 	@Column(nullable = false)
