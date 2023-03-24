@@ -2,7 +2,6 @@ package br.com.abs.invest.models;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -23,11 +22,10 @@ import org.hibernate.annotations.Type;
 import org.springframework.hateoas.RepresentationModel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import br.com.abs.invest.enums.TipoAtivo;
-
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
