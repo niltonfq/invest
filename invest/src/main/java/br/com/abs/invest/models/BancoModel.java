@@ -71,6 +71,16 @@ public class BancoModel extends RepresentationModel<BancoModel> implements Seria
 	public void setId(UUID id) {
 		this.id = id;
 	}
+	
+	
+
+	public UsuarioModel getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(UsuarioModel usuario) {
+		this.usuario = usuario;
+	}
 
 	public String getNome() {
 		return nome;
