@@ -1,5 +1,6 @@
 package br.com.abs.invest.models;
 
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -9,22 +10,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Type;
 import org.springframework.hateoas.RepresentationModel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-
-
-
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
-@Table(name = "banco")
-public class BancoModel extends RepresentationModel<BancoModel> implements Serializable {
+@Table(name = "ativoFechamento",
+	uniqueConstraints = { @UniqueConstraint(columnNames = {"usuarioId", "ativoId" }) }
+)
+public class AtivoFechamentoModel extends RepresentationModel<AtivoFechamentoModel> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -41,16 +44,15 @@ public class BancoModel extends RepresentationModel<BancoModel> implements Seria
 	@Column(nullable = false)
 	private LocalDateTime dataAtualizacao;
 	
-	@Column(nullable = false, unique = true, length = 255)
-	private String nome;
+	@ManyToOne
+	@JoinColumn(name="usuarioId", nullable=false)
+	UsuarioModel usuario;
 	
-	@Column(length = 14)
-	private String cnpj;
-	
-	@Column(length = 10)
-	private String numero;
+	@ManyToOne
+	@JoinColumn(nullable = false ,name = "ativoId")
+	private AtivoModel ativo;
 
-	public BancoModel() {
+	public AtivoFechamentoModel() {
 		super();
 	}
 
@@ -60,30 +62,6 @@ public class BancoModel extends RepresentationModel<BancoModel> implements Seria
 
 	public void setId(UUID id) {
 		this.id = id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getCnpj() {
-		return cnpj;
-	}
-
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
-	}
-
-	public String getNumero() {
-		return numero;
-	}
-
-	public void setNumero(String numero) {
-		this.numero = numero;
 	}
 
 	public LocalDateTime getDataCriacao() {
@@ -101,8 +79,23 @@ public class BancoModel extends RepresentationModel<BancoModel> implements Seria
 	public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
 		this.dataAtualizacao = dataAtualizacao;
 	}
+
+	public UsuarioModel getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(UsuarioModel usuario) {
+		this.usuario = usuario;
+	}
+
+	public AtivoModel getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(AtivoModel ativo) {
+		this.ativo = ativo;
+	}
 	
 	
-	
-		
 }
+	
