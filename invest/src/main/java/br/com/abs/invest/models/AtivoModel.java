@@ -97,11 +97,11 @@ public class AtivoModel extends RepresentationModel<AtivoModel> implements Seria
 	@Column(nullable = false)
 	private Boolean quarentena = false;
 	
-	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
 	@Column(nullable = false)
 	private LocalDateTime dataCriacao;
 	
-	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
 	@Column(nullable = false)
 	private LocalDateTime dataAtualizacao;
 

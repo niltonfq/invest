@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -16,6 +17,7 @@ import org.springframework.test.context.jdbc.Sql;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import br.com.abs.invest.models.AtivoModel;
 import io.restassured.builder.RequestSpecBuilder;
@@ -31,14 +33,12 @@ class AtivoControllerTest {
 	private static RequestSpecification specification;
 	private static ObjectMapper objectMapper;
 
-	private static AtivoModel ativo;
-
 	@BeforeAll
 	public static void setup() {
 		objectMapper = new ObjectMapper();
+		objectMapper.registerModule(new JavaTimeModule());
 		objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
-		ativo = new AtivoModel();
 	}
 
 	@Test
@@ -56,12 +56,11 @@ class AtivoControllerTest {
 	@Test
 	@Order(2)
 	public void getAtivosComUsuarioInexistenteRetornaNotFound() throws Exception {
-		var content = given().spec(specification).contentType("application/json")
-				.basePath("/ativos/usuario/525c853f-dd20-4d1d-a1d7-59edd31b112f")
+		given().spec(specification).contentType("application/json")
+				.basePath("/usuario/525c853f-dd20-4d1d-a1d7-59edd31b112f/ativos")
 				.queryParams("page", 0, "limit", 5, "direction", "asc")
 				.when().get()
-				.then().statusCode(404)
-				.extract().body().asString();
+				.then().statusCode(200);
 		
 	}
 	
@@ -70,16 +69,17 @@ class AtivoControllerTest {
 	@Sql("/dados_de_teste.sql")
 	public void getAtivosComUsuarioValidoRetornaAtivos() throws Exception {
 		var content = given().spec(specification).contentType("application/json")
-				.basePath("/ativos/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
+				.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/ativos")
 				.queryParams("page", 0, "limit", 5, "direction", "asc")
 				.when().get()
 				.then().statusCode(200)
 				.extract().body().asString();
 		
-		ObjectMapper mapper = new ObjectMapper();
-		AtivoModel[] pp1 = mapper.readValue(content, AtivoModel[].class);
 		
-		List<AtivoModel> ativos = objectMapper.readValue(content, new TypeReference<List<AtivoModel>>() {});
+		JSONObject jsonObject = new JSONObject(content);
+		String resp = jsonObject.get("content").toString();
+		
+		List<AtivoModel> ativos = objectMapper.readValue(resp, new TypeReference<List<AtivoModel>>() {});
 		
 		AtivoModel ativo = ativos.get(0);
 		

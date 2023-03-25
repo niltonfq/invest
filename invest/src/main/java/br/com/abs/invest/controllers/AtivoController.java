@@ -32,10 +32,10 @@ import br.com.abs.invest.dtos.AtivoDto;
 import br.com.abs.invest.models.AtivoModel;
 import br.com.abs.invest.services.AtivoService;
 import br.com.abs.invest.services.UsuarioService;
+import br.com.abs.invest.specifications.SpecificationTemplate;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping(value = "/ativos/usuario/{usuario}")
 public class AtivoController {
 	
 	@Autowired
@@ -43,20 +43,15 @@ public class AtivoController {
 	
 	@Autowired
 	UsuarioService usuarioService;
-	
-	@GetMapping
+
+	@GetMapping(value = "/usuario/{usuarioId}/ativos")
 	public ResponseEntity<Object> getAll(			
-			@PathVariable(value = "usuario") UUID IdUsuario,	
+			@PathVariable(value = "usuarioId") UUID usuarioId,
+			SpecificationTemplate.AtivoSpec spec,	
 			@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable
-			){
+		) {
 		
-		var usuario = usuarioService.findById(IdUsuario);
-		
-		if (!usuario.isPresent()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
-		}
-		
-		Page<AtivoModel> page = service.findByUsuario(pageable, usuario.get());
+		Page<AtivoModel> page = service.findAllByUsuario(SpecificationTemplate.ativosUsuarioId(usuarioId).and(spec), pageable);
 		
 		if (!page.isEmpty()) {
 			for (AtivoModel user : page.toList()) {
