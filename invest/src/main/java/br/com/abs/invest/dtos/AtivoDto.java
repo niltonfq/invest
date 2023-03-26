@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -15,7 +16,7 @@ import br.com.abs.invest.enums.TipoAtivo;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AtivoDto {
 	
-	@NotBlank
+	@NotNull
 	UsuarioDto usuario;
 	
 	private SegmentoDto segmento;
@@ -25,10 +26,10 @@ public class AtivoDto {
 	@NotBlank
 	private String codigo;
 	
-	@NotBlank
+	@NotNull
 	private TipoAtivo tipoAtivo;	
 	
-	@NotBlank
+	@NotNull
 	private Moeda moeda;	
 	
 	private String observacao;
@@ -49,7 +50,7 @@ public class AtivoDto {
 	
 	private LocalDate dataAtualizacaoPreco;
 	
-	@NotBlank
+	@NotNull
 	private Boolean quarentena = false;
 
 	public AtivoDto() {

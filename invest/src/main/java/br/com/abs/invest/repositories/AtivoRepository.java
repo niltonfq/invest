@@ -1,5 +1,6 @@
 package br.com.abs.invest.repositories;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -13,6 +14,8 @@ import br.com.abs.invest.models.UsuarioModel;
 public interface AtivoRepository extends JpaRepository<AtivoModel, UUID>, JpaSpecificationExecutor<AtivoModel>{
 
 	Page<AtivoModel> findByUsuario(Pageable pageable, UsuarioModel usuario);
+
+	Optional<AtivoModel> findByUsuarioAndId(UsuarioModel usuario, UUID id);
 
 	
 }

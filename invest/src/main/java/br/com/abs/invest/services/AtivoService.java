@@ -18,14 +18,9 @@ public class AtivoService {
 
 	@Autowired
 	AtivoRepository repository;
-	
-	
-	public Page<AtivoModel> findByUsuario(Pageable pageable, UsuarioModel usuario) {
-		return repository.findByUsuario(pageable, usuario);
-	}
 
-	public Optional<AtivoModel> findById(UUID id) {
-		return repository.findById(id);
+	public Optional<AtivoModel> findByUsuario(UsuarioModel usuario, UUID id) {
+		return repository.findByUsuarioAndId(usuario, id);
 	}
 
 	public void delete(AtivoModel model) {
