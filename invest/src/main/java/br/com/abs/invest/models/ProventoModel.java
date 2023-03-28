@@ -25,15 +25,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import br.com.abs.invest.enums.TipoAtivo;
+import br.com.abs.invest.enums.TipoProvento;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "provento", 
 	   uniqueConstraints = { @UniqueConstraint(columnNames = {"usuarioId"}) }
 )
-public class ProventoModel extends RepresentationModel<BancoModel> implements Serializable {
-	
+public class ProventoModel extends RepresentationModel<ProventoModel> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -46,17 +45,9 @@ public class ProventoModel extends RepresentationModel<BancoModel> implements Se
 	@JoinColumn(name="usuarioId", nullable=false)
 	UsuarioModel usuario;
 	
-	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-	@Column(nullable = false)
-	private LocalDateTime dataCriacao;
-	
-	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-	@Column(nullable = false)
-	private LocalDateTime dataAtualizacao;
-	
 	@Column(nullable = false, length = 11)
 	@Enumerated(EnumType.STRING)
-	private TipoAtivo tipoProventoId;
+	private TipoProvento tipoProvento;
 	
 	@ManyToOne
 	@JoinColumn(nullable = false, name = "ativoId")
@@ -77,6 +68,15 @@ public class ProventoModel extends RepresentationModel<BancoModel> implements Se
 	
 	@Column(length = 15)
 	private BigDecimal total = BigDecimal.ZERO;
+	
+	
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	@Column(nullable = false)
+	private LocalDateTime dataCriacao;
+	
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	@Column(nullable = false)
+	private LocalDateTime dataAtualizacao;
 
 	public ProventoModel() {
 		super();
@@ -114,12 +114,12 @@ public class ProventoModel extends RepresentationModel<BancoModel> implements Se
 		this.dataAtualizacao = dataAtualizacao;
 	}
 
-	public TipoAtivo getTipoProventoId() {
-		return tipoProventoId;
+	public TipoProvento getTipoProvento() {
+		return tipoProvento;
 	}
 
-	public void setTipoProventoId(TipoAtivo tipoProventoId) {
-		this.tipoProventoId = tipoProventoId;
+	public void setTipoProvento(TipoProvento tipoProvento) {
+		this.tipoProvento = tipoProvento;
 	}
 
 	public AtivoModel getAtivo() {

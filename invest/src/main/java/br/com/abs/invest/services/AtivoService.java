@@ -17,23 +17,27 @@ import br.com.abs.invest.repositories.AtivoRepository;
 public class AtivoService {
 
 	@Autowired
-	AtivoRepository repository;
+	AtivoRepository ativoRepository;
 
 	public Optional<AtivoModel> findByUsuario(UsuarioModel usuario, UUID id) {
-		return repository.findByUsuarioAndId(usuario, id);
+		return ativoRepository.findByUsuarioAndId(usuario, id);
 	}
 
 	public void delete(AtivoModel model) {
-		repository.delete(model);		
+		ativoRepository.delete(model);		
 	}
 
-	public void save(AtivoModel userModel) {
-		repository.save(userModel);		
+	public AtivoModel save(AtivoModel ativoModel) {
+		return ativoRepository.save(ativoModel);		
 	}
 
     public Page<AtivoModel> findAllByUsuario(Specification<AtivoModel> spec, Pageable pageable) {
-		return repository.findAll(spec, pageable);
+		return ativoRepository.findAll(spec, pageable);
     }
+
+	public Optional<AtivoModel> findByUsuarioAndCodigo(UsuarioModel usuarioModel, String codigo) {
+		return ativoRepository.findByUsuarioAndCodigo( usuarioModel, codigo);
+	}
 
 	
 }

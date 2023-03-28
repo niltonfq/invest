@@ -2,6 +2,7 @@ package br.com.abs.invest.dtos;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -15,6 +16,8 @@ import br.com.abs.invest.enums.TipoAtivo;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AtivoDto {
+	
+	private UUID id;
 	
 	@NotNull
 	UsuarioDto usuario;
@@ -56,6 +59,17 @@ public class AtivoDto {
 	public AtivoDto() {
 		super();
 	}
+
+	
+	public UUID getId() {
+		return id;
+	}
+
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
+
 
 	public UsuarioDto getUsuario() {
 		return usuario;

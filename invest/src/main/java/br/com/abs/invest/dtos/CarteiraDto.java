@@ -3,19 +3,13 @@ package br.com.abs.invest.dtos;
 import java.io.Serializable;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
-
-
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class UsuarioDto implements Serializable {
+public class CarteiraDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	
 	private UUID id;
-
-	public UsuarioDto() {
+	private String nome;
+	
+	public CarteiraDto() {
 		super();
 	}
 
@@ -26,8 +20,14 @@ public class UsuarioDto implements Serializable {
 	public void setId(UUID id) {
 		this.id = id;
 	}
-	
-	
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 	
 	
 }

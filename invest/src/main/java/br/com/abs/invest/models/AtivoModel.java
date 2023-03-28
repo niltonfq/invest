@@ -60,7 +60,7 @@ public class AtivoModel extends RepresentationModel<AtivoModel> implements Seria
 	@Column(nullable = false, length = 50)
 	private String codigo;
 	
-	@Column(nullable = false)
+	@Column
 	@Enumerated(EnumType.STRING)
 	private TipoAtivo tipoAtivo;	
 	

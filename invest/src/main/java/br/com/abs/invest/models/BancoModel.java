@@ -18,8 +18,8 @@ import org.hibernate.annotations.Type;
 import org.springframework.hateoas.RepresentationModel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 
 
@@ -27,8 +27,7 @@ import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "banco", 
-	   uniqueConstraints = { @UniqueConstraint(columnNames = {"usuarioId", "nome" }) }
-
+	uniqueConstraints = { @UniqueConstraint(columnNames = {"usuarioId", "nome" }) }
 )
 public class BancoModel extends RepresentationModel<BancoModel> implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -43,15 +42,7 @@ public class BancoModel extends RepresentationModel<BancoModel> implements Seria
 	@JoinColumn(name="usuarioId", nullable=false)
 	UsuarioModel usuario;
 	
-	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-	@Column(nullable = false)
-	private LocalDateTime dataCriacao;
-	
-	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-	@Column(nullable = false)
-	private LocalDateTime dataAtualizacao;
-	
-	@Column(nullable = false, unique = true, length = 255)
+	@Column(nullable = false, length = 255)
 	private String nome;
 	
 	@Column(length = 14)
@@ -59,6 +50,14 @@ public class BancoModel extends RepresentationModel<BancoModel> implements Seria
 	
 	@Column(length = 10)
 	private String numero;
+	
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	@Column(nullable = false)
+	private LocalDateTime dataCriacao;
+	
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	@Column(nullable = false)
+	private LocalDateTime dataAtualizacao;
 
 	public BancoModel() {
 		super();

@@ -15,21 +15,19 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Type;
-
 import org.springframework.hateoas.RepresentationModel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
-@Table(name = "banco", 
+@Table(name = "percentualInvestimento", 
 	   uniqueConstraints = { @UniqueConstraint(columnNames = {"usuarioId"}) }
-
 )
 public class PercentualInvestimentoModel extends RepresentationModel<BancoModel> implements Serializable {
 	private static final long serialVersionUID = 1L;

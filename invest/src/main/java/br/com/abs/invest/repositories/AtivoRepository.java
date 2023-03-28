@@ -17,5 +17,7 @@ public interface AtivoRepository extends JpaRepository<AtivoModel, UUID>, JpaSpe
 
 	Optional<AtivoModel> findByUsuarioAndId(UsuarioModel usuario, UUID id);
 
+	Optional<AtivoModel> findByUsuarioAndCodigo(UsuarioModel usuarioModel, String codigo);
+
 	
 }
