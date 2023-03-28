@@ -32,7 +32,6 @@ import br.com.abs.invest.models.BancoModel;
 import br.com.abs.invest.models.UsuarioModel;
 import br.com.abs.invest.services.BancoService;
 import br.com.abs.invest.services.UsuarioService;
-import br.com.abs.invest.specifications.SpecificationTemplate;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -50,7 +49,12 @@ public class BancoController {
 			@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable
 		) {
 		
-		Page<BancoModel> page = bancoService.findAllByUsuario(SpecificationTemplate.bancosUsuarioId(usuarioId).and(spec), pageable);
+		Optional<UsuarioModel> usuarioOptional = usuarioService.findById(usuarioId);
+		if (!usuarioOptional.isPresent()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
+		}
+		
+		Page<BancoModel> page = bancoService.findByUsuario(usuarioOptional.get(), pageable);
 		
 		if (!page.isEmpty()) {
 			for (BancoModel banco : page.toList()) {
@@ -71,7 +75,7 @@ public class BancoController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
 		}
 		
-		Optional<BancoModel> optional = bancoService.findByUsuario(usuarioOptional.get(), id);
+		Optional<BancoModel> optional = bancoService.findByUsuarioAndId(usuarioOptional.get(), id);
 		if (!optional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Banco não encontrado");
 		} 
@@ -90,7 +94,7 @@ public class BancoController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
 		}
 		
-		Optional<BancoModel> optional = bancoService.findByUsuario(usuarioOptional.get(), id);
+		Optional<BancoModel> optional = bancoService.findByUsuarioAndId(usuarioOptional.get(), id);
 		if (!optional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Banco não encontrado");
 		} 
@@ -136,7 +140,7 @@ public class BancoController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
 		}
 		
-		Optional<BancoModel> optional = bancoService.findByUsuario(usuarioOptional.get(), id);
+		Optional<BancoModel> optional = bancoService.findByUsuarioAndId(usuarioOptional.get(), id);
 		if (!optional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Banco não encontrado");
 		} 
