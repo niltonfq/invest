@@ -33,9 +33,7 @@ import br.com.abs.invest.enums.TipoAtivo;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
-@Table(name = "questionario",
-	uniqueConstraints = { @UniqueConstraint(columnNames = {"usuarioId" }) }
-)
+@Table(name = "questionario")
 public class QuestionarioModel extends RepresentationModel<QuestionarioModel> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -58,7 +56,7 @@ public class QuestionarioModel extends RepresentationModel<QuestionarioModel> im
 	UsuarioModel usuario;
 	
 	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 20)
 	@Enumerated(EnumType.STRING)
 	private TipoAtivo tipoAtivo;
 	
