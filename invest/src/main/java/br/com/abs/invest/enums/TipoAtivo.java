@@ -2,19 +2,22 @@ package br.com.abs.invest.enums;
 
 public enum TipoAtivo {
 	
-	TesouroDireto,
+	Acoes,
+	BDR,
 	CDB,
-	Criptomoeda,
-	Debenture,
-	LCI,
-	LCA,
 	CRI,
 	CRA,
-	Prefixado,
-	Ipca,	
+	Criptomoeda,
+	Debenture,
+	ETF,
+	ETF_Exterior,
 	FII,
-	Acoes,
+	Ipca,	
+	LCI,
+	LCA,
+	Prefixado,
+	Reits,
 	Stocks,	
-	Reits;
+	Tesouro_Direto
 		
 }

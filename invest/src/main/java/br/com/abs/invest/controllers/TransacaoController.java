@@ -50,5 +50,23 @@ public class TransacaoController {
 	}
 
 	
+	@PostMapping("/usuario/{usuarioId}/transacoes/importar")
+	public ResponseEntity<Object> importar(
+			@PathVariable(value = "usuarioId") UUID usuarioId,
+			@RequestParam("file") MultipartFile excel
+			) throws IOException {
+		
+		Optional<UsuarioModel> usuarioOptional = usuarioService.findById(usuarioId);
+		if (!usuarioOptional.isPresent()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
+		}
+		
+		transacaoService.importar(excel, usuarioOptional.get());
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Arquivo importado com sucesso");
+	}
+	
+
+	
 	
 }
