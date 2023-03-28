@@ -15,8 +15,7 @@ public class BancoDto {
 	
 	private UUID id;
 	
-	@NotNull
-	UsuarioDto usuario;
+	
 		
 	@NotBlank
 	private String nome;
@@ -37,13 +36,6 @@ public class BancoDto {
 		this.id = id;
 	}
 
-	public UsuarioDto getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(UsuarioDto usuario) {
-		this.usuario = usuario;
-	}
 
 	public String getNome() {
 		return nome;

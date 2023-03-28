@@ -23,8 +23,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import br.com.abs.invest.dtos.BancoDto;
-import br.com.abs.invest.models.BancoModel;
+import br.com.abs.invest.dtos.SegmentoDto;
+import br.com.abs.invest.models.SegmentoModel;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.filter.log.RequestLoggingFilter;
@@ -34,12 +34,12 @@ import io.restassured.specification.RequestSpecification;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(OrderAnnotation.class)
-class BancoControllerTest {
+class SegmentoControllerTest {
 
 	private static RequestSpecification specification;
 	private static ObjectMapper objectMapper;
 	
-	private static BancoDto bancoDto;
+	private static SegmentoDto segmentoDto;
 
 	@BeforeAll
 	public static void setup() {
@@ -47,7 +47,7 @@ class BancoControllerTest {
 		objectMapper.registerModule(new JavaTimeModule());
 		objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
-		bancoDto = new BancoDto();
+		segmentoDto = new SegmentoDto();
 	}
 
 	@Test
@@ -65,9 +65,9 @@ class BancoControllerTest {
 
 	@Test
 	@Order(2)
-	public void getBancosDadosInvalidosRetornaVazio() throws Exception {
+	public void getSegmentosDadosInvalidosRetornaVazio() throws Exception {
 		      given().spec(specification).contentType("application/json")
-				.basePath("/usuario/525c953f-dd20-4d1d-a1d7-59edd31b112f/bancos")
+				.basePath("/usuario/525c953f-dd20-4d1d-a1d7-59edd31b112f/segmentos")
 				.queryParams("page", 0, "limit", 5, "direction", "asc")
 				.when().get()
 				.then().statusCode(404)
@@ -76,9 +76,9 @@ class BancoControllerTest {
 	
 	@Test
 	@Order(3)	
-	public void getBancosDadosValidosRetornaBancos() throws Exception {
+	public void getSegmentosDadosValidosRetornaSegmentos() throws Exception {
 		var content = given().spec(specification).contentType("application/json")
-				.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/bancos")
+				.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/segmentos")
 				.queryParams("page", 0, "limit", 5, "direction", "asc")
 				.when().get()
 				.then().statusCode(200)
@@ -88,38 +88,38 @@ class BancoControllerTest {
 		JSONObject jsonObject = new JSONObject(content);
 		String resp = jsonObject.get("content").toString();
 		
-		List<BancoModel> bancos = objectMapper.readValue(resp, new TypeReference<List<BancoModel>>() {});
+		List<SegmentoModel> segmentos = objectMapper.readValue(resp, new TypeReference<List<SegmentoModel>>() {});
 		
-		assertTrue(bancos.size() == 1);
-		assertTrue(bancos.get(0).getNome().equals("Bradesco"));
+		assertTrue(segmentos.size() == 1);
+		assertTrue(segmentos.get(0).getNome().equals("Shopping"));
 		
 	}
 
 	@Test
 	@Order(4)	
-	public void getOneBancoDadosValidoRetornaBanco() throws Exception {
+	public void getOneSegmentoDadosValidoRetornaSegmento() throws Exception {
 		var content = given().spec(specification).contentType("application/json")
-				.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/bancos/51a4dee7-23e9-4213-9e13-2a5a53da7d95")
+				.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/segmentos/e16613e7-cca0-46df-b2db-2dda5779e666")
 					.when().get()
 				.then()
 					.statusCode(200)
 				.extract().body().asString();
 		
 		
-		BancoModel banco = objectMapper.readValue(content, BancoModel.class);
+		SegmentoModel segmento = objectMapper.readValue(content, SegmentoModel.class);
 		    
-		assertNotNull(banco.getId());
-		assertNotNull(banco.getNome());
+		assertNotNull(segmento.getId());
+		assertNotNull(segmento.getNome());
 		
-		assertEquals("Bradesco", banco.getNome());
+		assertEquals("Shopping", segmento.getNome());
 
 	}
 	
 	@Test
 	@Order(5)	
-	public void getOneBancoDadosInvalidosRetornaNotFound() throws Exception {
+	public void getOneSegmentoDadosInvalidosRetornaNotFound() throws Exception {
 		given().spec(specification).contentType("application/json")
-				.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/bancos/32380fb1-82aa-4766-b63e-0141f5df5207")
+				.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/segmentos/32380fb1-82aa-4766-b63e-0141f5df5207")
 					.when().get()
 				.then()
 					.statusCode(404)
@@ -129,14 +129,14 @@ class BancoControllerTest {
 	
 	@Test
 	@Order(6)
-	public void postBancoDadosValidosRetornaCriado() throws JsonMappingException, JsonProcessingException {
+	public void postSegmentoDadosValidosRetornaCriado() throws JsonMappingException, JsonProcessingException {
 	    
-		bancoDto.setNome("Itau");
-		
+		segmentoDto.setNome("Itau");
+
 	    var content = given().spec(specification)
 	            .contentType("application/json")
-	            .basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/bancos")
-	                .body(bancoDto)
+	            .basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/segmentos")
+	                .body(segmentoDto)
 	                .when()
 	                .post()
 	            .then()
@@ -145,24 +145,25 @@ class BancoControllerTest {
 	                    .body()
 	                        .asString();
 	    
-	    BancoModel banco = objectMapper.readValue(content, BancoModel.class);
+	    SegmentoModel segmento = objectMapper.readValue(content, SegmentoModel.class);
 	    
-	    assertNotNull(banco.getId());
-	    assertNotNull(banco.getNome());
+	    assertNotNull(segmento.getId());
+	    assertNotNull(segmento.getNome());
 	    
-	    assertEquals("Itau", banco.getNome());
+	    assertEquals("Itau", segmento.getNome());
 	    
 	}
 	
 	@Test
 	@Order(7)
-	public void postBancoDadosInvalidosRetornaNotFound() throws JsonMappingException, JsonProcessingException {
+	public void postSegmentoDadosInvalidosRetornaNotFound() throws JsonMappingException, JsonProcessingException {
 		
-		bancoDto.setNome("BCFF11");
+		segmentoDto.setNome("BCFF11");
+
 		given().spec(specification)
 		            .contentType("application/json")
-		            .basePath("/usuario/9962c0e4-6e5d-4125-ad1c-7363cf72e45c/bancos")
-		                .body(bancoDto)
+		            .basePath("/usuario/9962c0e4-6e5d-4125-ad1c-7363cf72e45c/segmentos")
+		                .body(segmentoDto)
 		                .when()
 		                .post()
 		            .then()
@@ -175,14 +176,14 @@ class BancoControllerTest {
 	
 	@Test
 	@Order(8)
-	public void putBancoDadosValidosRetornaBanco() throws JsonMappingException, JsonProcessingException {
+	public void putSegmentoDadosValidosRetornaSegmento() throws JsonMappingException, JsonProcessingException {
 		
-		bancoDto.setNome("Bradesco");		
+		segmentoDto.setNome("Bradesco");		
 		
 		var content = given().spec(specification)
 	            .contentType("application/json")
-	            .basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/bancos/51a4dee7-23e9-4213-9e13-2a5a53da7d95")
-	                .body(bancoDto)
+	            .basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/segmentos/e16613e7-cca0-46df-b2db-2dda5779e666")
+	                .body(segmentoDto)
 	                .when()
 	                .put()
 	            .then()
@@ -191,26 +192,26 @@ class BancoControllerTest {
 	                    .body()
 	                        .asString();
 		
-		BancoModel banco = objectMapper.readValue(content, BancoModel.class);
+		SegmentoModel segmento = objectMapper.readValue(content, SegmentoModel.class);
 	    
-	    assertNotNull(banco.getId());
-	    assertNotNull(banco.getNome());
+	    assertNotNull(segmento.getId());
+	    assertNotNull(segmento.getNome());
 	    
-	    assertEquals("Bradesco", banco.getNome());
+	    assertEquals("Bradesco", segmento.getNome());
 		
 	}
 	
 	@Test
 	@Order(9)
-	public void putBancoDadosInvalidosRetornaNotFound() throws JsonMappingException, JsonProcessingException {
+	public void putSegmentoDadosInvalidosRetornaNotFound() throws JsonMappingException, JsonProcessingException {
 		
-		bancoDto.setNome("PTBR3");
+		segmentoDto.setNome("PTBR3");
 
 		
 		given().spec(specification)
 	            .contentType("application/json")
-	            .basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/bancos/9762c0e4-6e5d-4125-ad1c-7363cf72e459")
-	                .body(bancoDto)
+	            .basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/segmentos/9762c0e4-6e5d-4125-ad1c-7363cf72e459")
+	                .body(segmentoDto)
 	                .when()
 	                .put()
 	            .then()
@@ -223,12 +224,12 @@ class BancoControllerTest {
 	
 	@Test
 	@Order(10)
-	public void deleteBancoDadosValidosRetornaOk() throws JsonMappingException, JsonProcessingException {
+	public void deleteSegmentoDadosValidosRetornaOk() throws JsonMappingException, JsonProcessingException {
 		
 		
 		given().spec(specification)
 			.contentType("application/json")
-			.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/bancos/51a4dee7-23e9-4213-9e13-2a5a53da7d95")
+			.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/segmentos/e16613e7-cca0-46df-b2db-2dda5779e666")
 		.when()
 			.delete()
 		.then()
@@ -238,11 +239,11 @@ class BancoControllerTest {
 	
 	@Test
 	@Order(11)
-	public void deleteBancoDadosInvalidosRetornaNotFound() throws JsonMappingException, JsonProcessingException {
+	public void deleteSegmentoDadosInvalidosRetornaNotFound() throws JsonMappingException, JsonProcessingException {
 		
 		given().spec(specification)
 		.contentType("application/json")
-		.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/bancos/e2c8879c-cd1b-48c7-9880-2b864c81fe96")
+		.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/segmentos/e2c8879c-cd1b-48c7-9880-2b864c81fe96")
 		.when()
 			.delete()
 		.then()

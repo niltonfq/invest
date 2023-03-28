@@ -37,10 +37,18 @@ public class BancoModel extends RepresentationModel<BancoModel> implements Seria
 	@Type(type = "uuid-char")
 	@Column(nullable = false, columnDefinition="char(36)")
 	private UUID id;
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	@Column(nullable = false)
+	private LocalDateTime dataCriacao;
+	
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	@Column(nullable = false)
+	private LocalDateTime dataAtualizacao;
 	
 	@ManyToOne
 	@JoinColumn(name="usuarioId", nullable=false)
 	UsuarioModel usuario;
+	
 	
 	@Column(nullable = false, length = 255)
 	private String nome;
@@ -51,13 +59,7 @@ public class BancoModel extends RepresentationModel<BancoModel> implements Seria
 	@Column(length = 10)
 	private String numero;
 	
-	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-	@Column(nullable = false)
-	private LocalDateTime dataCriacao;
-	
-	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-	@Column(nullable = false)
-	private LocalDateTime dataAtualizacao;
+
 
 	public BancoModel() {
 		super();

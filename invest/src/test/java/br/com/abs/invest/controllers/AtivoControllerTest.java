@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
@@ -25,7 +24,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import br.com.abs.invest.dtos.AtivoDto;
-import br.com.abs.invest.dtos.UsuarioDto;
 import br.com.abs.invest.enums.Moeda;
 import br.com.abs.invest.enums.TipoAtivo;
 import br.com.abs.invest.models.AtivoModel;
@@ -147,10 +145,6 @@ class AtivoControllerTest {
 		ativoDto.setMoeda(Moeda.R$);
 		ativoDto.setTipoAtivo(TipoAtivo.FII);
 	    
-	    UsuarioDto usuario = new UsuarioDto();
-		usuario.setId(UUID.fromString("7062c0e4-6e5d-4125-ad1c-7363cf72e45c"));
-		ativoDto.setUsuario(usuario);
-		
 	    var content = given().spec(specification)
 	            .contentType("application/json")
 	            .basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/ativos")
@@ -180,9 +174,6 @@ class AtivoControllerTest {
 		ativoDto.setMoeda(Moeda.R$);
 		ativoDto.setTipoAtivo(TipoAtivo.FII);
 		
-		UsuarioDto usuario = new UsuarioDto();
-		usuario.setId(UUID.fromString("7762c0e4-6e5d-4125-ad1c-7363cf72e45c"));
-		ativoDto.setUsuario(usuario);
 		
 		given().spec(specification)
 		            .contentType("application/json")
@@ -206,9 +197,6 @@ class AtivoControllerTest {
 		ativoDto.setMoeda(Moeda.R$);
 		ativoDto.setTipoAtivo(TipoAtivo.FII);
 		
-		UsuarioDto usuario = new UsuarioDto();
-		usuario.setId(UUID.fromString("7762c0e4-6e5d-4125-ad1c-7363cf72e45c"));
-		ativoDto.setUsuario(usuario);
 		ativoDto.setNome("nome alterado");
 		
 		var content = given().spec(specification)

@@ -19,9 +19,6 @@ public class AtivoDto {
 	
 	private UUID id;
 	
-	@NotNull
-	UsuarioDto usuario;
-	
 	private SegmentoDto segmento;
 	
 	private BancoDto banco;
@@ -70,14 +67,6 @@ public class AtivoDto {
 		this.id = id;
 	}
 
-
-	public UsuarioDto getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(UsuarioDto usuario) {
-		this.usuario = usuario;
-	}
 
 	public SegmentoDto getSegmento() {
 		return segmento;

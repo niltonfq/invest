@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -14,6 +15,7 @@ public class SegmentoDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private UUID id;
+	
 	
 	@NotBlank
 	private String nome;
@@ -29,6 +31,8 @@ public class SegmentoDto implements Serializable {
 	public void setId(UUID id) {
 		this.id = id;
 	}
+	
+
 
 	public String getNome() {
 		return nome;
