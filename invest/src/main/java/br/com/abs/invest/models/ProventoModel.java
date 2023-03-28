@@ -16,7 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Type;
 import org.springframework.hateoas.RepresentationModel;
@@ -29,9 +28,7 @@ import br.com.abs.invest.enums.TipoProvento;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
-@Table(name = "provento", 
-	   uniqueConstraints = { @UniqueConstraint(columnNames = {"usuarioId"}) }
-)
+@Table(name = "provento")
 public class ProventoModel extends RepresentationModel<ProventoModel> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -57,6 +54,7 @@ public class ProventoModel extends RepresentationModel<ProventoModel> implements
 	@JoinColumn(nullable = false)
 	private LocalDate data;
 	
+	@ManyToOne
 	@JoinColumn(nullable =  false, name = "bancoId")
 	private BancoModel banco;
 	

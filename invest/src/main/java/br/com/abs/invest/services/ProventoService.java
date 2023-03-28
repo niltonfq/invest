@@ -61,6 +61,8 @@ public class ProventoService {
 			    	break;
 			    }
 			    
+			    provento.setUsuario(usuario);
+			    
 			    String dataTransacaoString = row.getCell(1).getStringCellValue();
 			    LocalDate dataTransacao = LocalDate.of(
 			    	Integer.parseInt( dataTransacaoString.substring(6, 10) ), 
