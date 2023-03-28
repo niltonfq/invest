@@ -144,6 +144,7 @@ public class AtivoController {
 			
 		var ativoModel = optional.get();
 		
+		ativoDto.setId(id);
 		BeanUtils.copyProperties(ativoDto, ativoModel);			
 		ativoModel.setDataAtualizacao(LocalDateTime.now(ZoneId.of("UTC")));			
 		ativoService.save(ativoModel);
