@@ -2,12 +2,15 @@ package br.com.abs.invest.services;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -18,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import br.com.abs.invest.enums.Moeda;
 import br.com.abs.invest.enums.TipoAtivo;
 import br.com.abs.invest.enums.TipoOperacao;
+import br.com.abs.invest.models.AtivoFechamentoModel;
 import br.com.abs.invest.models.AtivoModel;
 import br.com.abs.invest.models.BancoModel;
 import br.com.abs.invest.models.TransacaoModel;
@@ -31,15 +35,18 @@ public class TransacaoService {
 	private TransacaoRepository transacaoRepository;
 	private BancoService bancoService;
 	private AtivoService ativoService;
+	private AtivoFechamentoService ativoFechamentoService;
 	
 	public TransacaoService(
 			TransacaoRepository transacaoRepository,
 			BancoService bancoService,
-			AtivoService ativoService
+			AtivoService ativoService,
+			AtivoFechamentoService ativoFechamentoService
 		) {
 		this.transacaoRepository = transacaoRepository;
 		this.bancoService = bancoService;
 		this.ativoService = ativoService;
+		this.ativoFechamentoService = ativoFechamentoService;
 	}
 
 	public void saveAll(List<TransacaoModel> lista) {
@@ -130,6 +137,7 @@ public class TransacaoService {
 			    transacao.setTotalLiquido(BigDecimal.valueOf( preco ));
 			    transacao.setDataAtualizacao(LocalDateTime.now(ZoneId.of("UTC")));
 			    transacao.setDataCriacao(LocalDateTime.now(ZoneId.of("UTC")));
+			    transacao.setUsuario(usuario);
 			    
 			    Optional<TransacaoModel> transacaoOptional = transacaoRepository.findByUsuarioAndDataAndQuantidadeAndTipoOperacaoAndTotal(
 			    		usuario,
@@ -171,6 +179,9 @@ public class TransacaoService {
 			    }
 			    
 			    String dataTransacaoString = row.getCell(0).getStringCellValue();
+			    if (dataTransacaoString.isEmpty()) {
+			    	break;
+			    }
 			    LocalDate dataTransacao = LocalDate.of(
 			    	Integer.parseInt( dataTransacaoString.substring(6, 10) ), 
 			    	Integer.parseInt( dataTransacaoString.substring(3, 5) ), 
@@ -230,7 +241,17 @@ public class TransacaoService {
 			    	ativoModel.setCodigo(codigo);
 			    	ativoModel.setDataAtualizacao(LocalDateTime.now(ZoneId.of("UTC")));
 			    	ativoModel.setDataCriacao(LocalDateTime.now(ZoneId.of("UTC")));
-			    	ativoModel.setMoeda(Moeda.R$);
+			    	
+			    	if (
+			    			ativoModel.getTipoAtivo().equals(TipoAtivo.ETF_Exterior) || 
+			    			ativoModel.getTipoAtivo().equals(TipoAtivo.Reits) || 
+			    			ativoModel.getTipoAtivo().equals(TipoAtivo.Stocks)  
+			    	) {
+			    		ativoModel.setMoeda(Moeda.US$);
+			    	} else {
+			    		ativoModel.setMoeda(Moeda.R$);
+			    	}
+			    	
 			    	ativoModel.setQuarentena(false);
 			    	ativoModel.setUsuario(usuario);
 			    	ativoModel = ativoService.save(ativoModel);
@@ -265,14 +286,16 @@ public class TransacaoService {
 			    total = Math.abs(total);
 			    transacao.setTotal( BigDecimal.valueOf( total ));
 			    	    
-			    if (row.getCell(8) != null) {
+			    if (row.getCell(8) != null)  {
 			    	String dataVenctoString = row.getCell(8).getStringCellValue();
-				    LocalDate dataVencto = LocalDate.of(
-				    	Integer.parseInt( dataVenctoString.substring(6, 10) ), 
-				    	Integer.parseInt( dataVenctoString.substring(3, 5) ), 
-				    	Integer.parseInt( dataVenctoString.substring(0, 2) )
-				    );     
-				    transacao.setVencimento(dataVencto);
+			    	if (!dataVenctoString.isEmpty()) {
+					    LocalDate dataVencto = LocalDate.of(
+					    	Integer.parseInt( dataVenctoString.substring(6, 10) ), 
+					    	Integer.parseInt( dataVenctoString.substring(3, 5) ), 
+					    	Integer.parseInt( dataVenctoString.substring(0, 2) )
+					    );     
+					    transacao.setVencimento(dataVencto);
+			    	}
 			    }			    
 			    			    
 			    String nomeBanco = row.getCell(9).getStringCellValue();
@@ -293,6 +316,7 @@ public class TransacaoService {
 			    			    
 			    transacao.setDataAtualizacao(LocalDateTime.now(ZoneId.of("UTC")));
 			    transacao.setDataCriacao(LocalDateTime.now(ZoneId.of("UTC")));
+			    transacao.setUsuario(usuario);
 			    
 			    Optional<TransacaoModel> transacaoOptional = transacaoRepository.findByUsuarioAndDataAndQuantidadeAndTipoOperacaoAndTotal(
 			    		usuario,
@@ -316,5 +340,80 @@ public class TransacaoService {
 		}
 	}
 
+	public void calcularPrecoMedioTodos(UsuarioModel usuario) {
+		LocalDate date = LocalDate.of(1980, 1, 1);
+		List<AtivoModel> ativos = ativoService.findAllByUsuario(usuario);		
+		for (AtivoModel ativoModel : ativos) {
+			ativoModel.setPrecoMedio(calcularPrecoMedioAtivo(usuario, ativoModel, date)); 
+			ativoService.save(ativoModel);
+		}
+		
+	}
 
+	@Transactional
+	private BigDecimal calcularPrecoMedioAtivo(UsuarioModel usuario, AtivoModel ativoModel, LocalDate inicio) {
+		
+		ativoFechamentoService.deletaTodosFechamentosAtivoAposData(usuario, ativoModel, inicio);
+		
+		Optional<AtivoFechamentoModel> ultimoFechamento = 
+				ativoFechamentoService.findFirstUltimoFechamentoAtivoAntesData(usuario, ativoModel, inicio);
+		
+		BigDecimal totalValor = BigDecimal.ZERO;
+		BigDecimal totalQuantidade = BigDecimal.ZERO;
+		BigDecimal precoMedio = BigDecimal.ZERO;
+		LocalDate dataInicial;
+		
+		if (ultimoFechamento.isPresent()) {
+			totalQuantidade = ultimoFechamento.get().getQuantidade(); 
+			totalValor = ultimoFechamento.get().getTotal(); 
+			precoMedio = ultimoFechamento.get().getPrecoMedio();
+			dataInicial = ultimoFechamento.get().getData().plusDays(1);
+		} else {
+			Optional<TransacaoModel> primeiraTransacao = transacaoRepository
+					.findFirstByUsuarioAndAtivoOrderByData(usuario, ativoModel);
+			if (!primeiraTransacao.isPresent()) {
+				return BigDecimal.ZERO;
+			}
+			dataInicial = LocalDate.of(primeiraTransacao.get().getData().getYear(), 
+					primeiraTransacao.get().getData().getMonthValue(), 1);
+		}
+		
+		while ( dataInicial.isBefore(LocalDate.now()) ) {
+				
+			LocalDate dataFinal = dataInicial.plusMonths(1);
+			dataFinal = dataFinal.minusDays(1);
+			
+			List<TransacaoModel> listaTransacao = transacaoRepository
+					.findByUsuarioAndAtivoAndDataBetween(usuario, ativoModel, dataInicial, dataFinal);
+			for (TransacaoModel transacaoModel : listaTransacao) {
+				totalValor = totalValor.add(transacaoModel.getTotalLiquido()) ;
+				totalQuantidade = totalQuantidade.add(transacaoModel.getQuantidade());
+				
+				if (totalQuantidade.equals(BigDecimal.ZERO)) {
+					totalValor = BigDecimal.ZERO;
+					totalQuantidade = BigDecimal.ZERO;
+					precoMedio = BigDecimal.ZERO;
+				} else {
+					precoMedio = totalValor.divide(totalQuantidade, 2, RoundingMode.HALF_UP);
+				}
+			}	
+			
+			AtivoFechamentoModel ativoFechamentoModel = new AtivoFechamentoModel();
+			ativoFechamentoModel.setId(null);
+			ativoFechamentoModel.setUsuario(usuario);
+			ativoFechamentoModel.setAtivo(ativoModel);
+			ativoFechamentoModel.setPrecoMedio(precoMedio);
+			ativoFechamentoModel.setData(dataFinal);
+			ativoFechamentoModel.setDataAtualizacao(LocalDateTime.now(ZoneId.of("UTC")));
+			ativoFechamentoModel.setDataCriacao(LocalDateTime.now(ZoneId.of("UTC")));
+			ativoFechamentoService.save(ativoFechamentoModel);
+			
+		
+			dataInicial = dataFinal;
+			dataInicial = dataInicial.plusDays(1);
+		}
+			
+		
+		return precoMedio;
+	}
 }

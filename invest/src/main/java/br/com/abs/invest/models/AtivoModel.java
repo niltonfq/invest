@@ -79,16 +79,16 @@ public class AtivoModel extends RepresentationModel<AtivoModel> implements Seria
 	@Column
 	private String nome;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, precision = 15, scale = 10)
 	private BigDecimal precoMedio = BigDecimal.ZERO;
 	
 	@Column(nullable = false)
 	private BigDecimal totalInvestido = BigDecimal.ZERO;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, precision = 15, scale = 10)
 	private BigDecimal quantidadeInvestida = BigDecimal.ZERO;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, precision = 15, scale = 10)
 	private BigDecimal valorAtual = BigDecimal.ZERO;
 	
 	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")

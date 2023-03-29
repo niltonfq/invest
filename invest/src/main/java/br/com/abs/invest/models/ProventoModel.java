@@ -58,13 +58,13 @@ public class ProventoModel extends RepresentationModel<ProventoModel> implements
 	@JoinColumn(nullable =  false, name = "bancoId")
 	private BancoModel banco;
 	
-	@Column(length = 15)
+	@Column(precision = 15, scale = 10)
 	private BigDecimal quantidade = BigDecimal.ZERO;
 	
-	@Column(length = 15)
+	@Column(precision = 15, scale = 10)
 	private BigDecimal valor = BigDecimal.ZERO;
 	
-	@Column(length = 15)
+	@Column
 	private BigDecimal total = BigDecimal.ZERO;
 	
 	

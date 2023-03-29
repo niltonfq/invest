@@ -21,8 +21,8 @@ import org.hibernate.annotations.Type;
 import org.springframework.hateoas.RepresentationModel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import br.com.abs.invest.enums.TipoOperacao;
 
@@ -64,10 +64,10 @@ public class TransacaoModel extends RepresentationModel<AtivoModel> implements S
 	
 	private LocalDate data;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, precision = 15, scale = 10)
 	private BigDecimal quantidade = BigDecimal.ZERO;
 
-	@Column(nullable = false)
+	@Column(nullable = false, precision = 15, scale = 10)
 	private BigDecimal valor = BigDecimal.ZERO;
 
 	@Column(nullable = false)

@@ -66,7 +66,21 @@ public class TransacaoController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Arquivo importado com sucesso");
 	}
 	
-
+	@PostMapping("/usuario/{usuarioId}/transacoes/calcularPrecoMedioTodos")
+	public ResponseEntity<Object> calcularPrecoMedioTodos(
+			@PathVariable(value = "usuarioId") UUID usuarioId
+			) throws IOException {
+		
+		Optional<UsuarioModel> usuarioOptional = usuarioService.findById(usuarioId);
+		if (!usuarioOptional.isPresent()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
+		}
+		
+		
+		transacaoService.calcularPrecoMedioTodos(usuarioOptional.get());
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Todos os preços médios foram recalculados");
+	}
 	
 	
 }

@@ -1,5 +1,6 @@
 package br.com.abs.invest.services;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -37,6 +38,10 @@ public class AtivoService {
 
 	public Optional<AtivoModel> findByUsuarioAndCodigo(UsuarioModel usuarioModel, String codigo) {
 		return ativoRepository.findByUsuarioAndCodigo( usuarioModel, codigo);
+	}
+
+	public List<AtivoModel> findAllByUsuario(UsuarioModel usuario) {
+		return ativoRepository.findAllByUsuario(usuario);
 	}
 
 	

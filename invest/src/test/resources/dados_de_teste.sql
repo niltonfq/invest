@@ -8,7 +8,7 @@ DELETE FROM `usuario` WHERE 1 = 1;
 
 
 insert into usuario (id, email, username) values 
-("7062c0e4-6e5d-4125-ad1c-7363cf72e45c", "email@email.com", "test"),
+("7062c0e4-6e5d-4125-ad1c-7363cf72e45c", "niltonfq@gmail.com", "Nilton"),
 ("8062c0e4-6e5d-4125-ad1c-7363cf72e45c", "email2@email.com", "test2");
 
 INSERT INTO `ativo` (`id`, `cnpj`, `codigo`, `data_atualizacao`, `data_atualizacao_preco`, `data_criacao`, `moeda`, `nome`, `nota`, `observacao`, `preco_medio`, `quantidade_investida`, `quarentena`, `tipo_ativo`, `total_investido`, `valor_atual`, `banco_id`, `segmento_id`, `usuario_id`)

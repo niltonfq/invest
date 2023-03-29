@@ -2,6 +2,8 @@ package br.com.abs.invest.models;
 
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -25,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "ativoFechamento",
-	uniqueConstraints = { @UniqueConstraint(columnNames = {"usuarioId", "ativoId" }) }
+	uniqueConstraints = { @UniqueConstraint(columnNames = {"usuarioId", "ativoId", "data" }) }
 )
 public class AtivoFechamentoModel extends RepresentationModel<AtivoFechamentoModel> implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -36,6 +38,26 @@ public class AtivoFechamentoModel extends RepresentationModel<AtivoFechamentoMod
 	@Column(nullable = false, columnDefinition="char(36)")
 	private UUID id;
 	
+	@ManyToOne
+	@JoinColumn(name="usuarioId", nullable=false)
+	UsuarioModel usuario;
+	
+	@ManyToOne
+	@JoinColumn(nullable = false ,name = "ativoId")
+	private AtivoModel ativo;
+	
+	@Column(precision = 15, scale = 10)
+	private BigDecimal quantidade;
+	
+	private BigDecimal total;
+	
+	@Column(precision = 15, scale = 10)
+	private BigDecimal precoMedio;
+	
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	@Column(nullable = false)
+	private LocalDate data;
+	
 	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
 	@Column(nullable = false)
 	private LocalDateTime dataCriacao;
@@ -44,13 +66,7 @@ public class AtivoFechamentoModel extends RepresentationModel<AtivoFechamentoMod
 	@Column(nullable = false)
 	private LocalDateTime dataAtualizacao;
 	
-	@ManyToOne
-	@JoinColumn(name="usuarioId", nullable=false)
-	UsuarioModel usuario;
-	
-	@ManyToOne
-	@JoinColumn(nullable = false ,name = "ativoId")
-	private AtivoModel ativo;
+
 
 	public AtivoFechamentoModel() {
 		super();
@@ -95,7 +111,39 @@ public class AtivoFechamentoModel extends RepresentationModel<AtivoFechamentoMod
 	public void setAtivo(AtivoModel ativo) {
 		this.ativo = ativo;
 	}
-	
+
+	public BigDecimal getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(BigDecimal quantidade) {
+		this.quantidade = quantidade;
+	}
+
+	public BigDecimal getTotal() {
+		return total;
+	}
+
+	public void setTotal(BigDecimal total) {
+		this.total = total;
+	}
+
+	public BigDecimal getPrecoMedio() {
+		return precoMedio;
+	}
+
+	public void setPrecoMedio(BigDecimal precoMedio) {
+		this.precoMedio = precoMedio;
+	}
+
+	public LocalDate getData() {
+		return data;
+	}
+
+	public void setData(LocalDate data) {
+		this.data = data;
+	}
+
 	
 }
 	

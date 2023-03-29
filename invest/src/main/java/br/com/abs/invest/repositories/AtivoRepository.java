@@ -1,5 +1,6 @@
 package br.com.abs.invest.repositories;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,6 +19,8 @@ public interface AtivoRepository extends JpaRepository<AtivoModel, UUID>, JpaSpe
 	Optional<AtivoModel> findByUsuarioAndId(UsuarioModel usuario, UUID id);
 
 	Optional<AtivoModel> findByUsuarioAndCodigo(UsuarioModel usuarioModel, String codigo);
+
+	List<AtivoModel> findAllByUsuario(UsuarioModel usuario);
 
 	
 }
