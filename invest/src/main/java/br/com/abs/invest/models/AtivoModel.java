@@ -91,6 +91,9 @@ public class AtivoModel extends RepresentationModel<AtivoModel> implements Seria
 	@Column(nullable = false, precision = 15, scale = 10)
 	private BigDecimal valorAtual = BigDecimal.ZERO;
 	
+	@Column(nullable = false)
+	private BigDecimal totalAtual = BigDecimal.ZERO;
+	
 	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
 	private LocalDate dataAtualizacaoPreco;
 	
@@ -263,6 +266,14 @@ public class AtivoModel extends RepresentationModel<AtivoModel> implements Seria
 
 	public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
 		this.dataAtualizacao = dataAtualizacao;
+	}
+
+	public BigDecimal getTotalAtual() {
+		return totalAtual;
+	}
+
+	public void setTotalAtual(BigDecimal totalAtual) {
+		this.totalAtual = totalAtual;
 	}
 	
 	
