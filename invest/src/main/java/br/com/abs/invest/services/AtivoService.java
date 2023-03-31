@@ -2,14 +2,10 @@ package br.com.abs.invest.services;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +17,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.jayway.jsonpath.JsonPath;
 
+import br.com.abs.invest.dtos.PosicaoTipoAtivoDto;
 import br.com.abs.invest.enums.Moeda;
 import br.com.abs.invest.enums.TipoAtivo;
 import br.com.abs.invest.models.AtivoModel;
@@ -32,7 +29,6 @@ public class AtivoService {
 
 	@Autowired
 	AtivoRepository ativoRepository;
-	private Object read;
 
 	public Optional<AtivoModel> findByUsuario(UsuarioModel usuario, UUID id) {
 		return ativoRepository.findByUsuarioAndId(usuario, id);
@@ -82,20 +78,21 @@ public class AtivoService {
 		if (ativoModel.getTipoAtivo().equals(TipoAtivo.Criptomoeda)) {
 			uri = "https://www.mercadobitcoin.net/api/"+ativoModel.getCodigo()+"/ticker/";
 		} else if ( ativoModel.getMoeda().equals(Moeda.R$))  {
-          uri = "https://query1.finance.yahoo.com/v11/finance/quoteSummary/"+ativoModel.getCodigo()+".SA?modules=financialData";
+          uri = "https://query2.finance.yahoo.com/v11/finance/quoteSummary/"+ativoModel.getCodigo()+".SA?modules=price";
 		} else {
-          uri = "https://query1.finance.yahoo.com/v11/finance/quoteSummary/"+ativoModel.getCodigo()+"?modules=financialData";
+          uri = "https://query2.finance.yahoo.com/v11/finance/quoteSummary/"+ativoModel.getCodigo()+"?modules=price";
 		}
 		
-		Double preco;
-		try {
-			result = restTemplate.getForObject(uri, String.class);
-			preco = JsonPath.read(result, "$['quoteSummary']['result'][0]['financialData']['currentPrice']['raw']");
-			
-		} catch (Exception e) {
-			preco = 0.0;
+		Double preco = 0.0;
+		if (ativoModel.getQuantidadeInvestida().compareTo(BigDecimal.ZERO) > 0) {
+			try {
+				result = restTemplate.getForObject(uri, String.class);
+				preco = JsonPath.read(result, "$['quoteSummary']['result'][0]['price']['regularMarketPrice']['raw']");
+				
+			} catch (Exception e) {
+				preco = 0.0;
+			}
 		}
-	    
 	    ativoModel.setDataAtualizacaoPreco(LocalDate.now());
 	    if (
 	    		(ativoModel.getTipoAtivo().equals(TipoAtivo.Criptomoeda)) ||
@@ -114,5 +111,9 @@ public class AtivoService {
 	    return dolar;
 	}
 
+	public List<PosicaoTipoAtivoDto> posicaoPorTipo(UsuarioModel usuarioModel) {
+		BigDecimal total = ativoRepository.totalPorUsuario(usuarioModel.getId());
+		return ativoRepository.TotalPorTipo(usuarioModel.getId(), total );
+	}
 	
 }

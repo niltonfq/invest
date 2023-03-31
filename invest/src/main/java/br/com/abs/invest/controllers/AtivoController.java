@@ -5,6 +5,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,6 +32,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import br.com.abs.invest.dtos.AtivoDto;
+import br.com.abs.invest.dtos.PosicaoTipoAtivoDto;
 import br.com.abs.invest.models.AtivoModel;
 import br.com.abs.invest.models.UsuarioModel;
 import br.com.abs.invest.services.AtivoService;
@@ -46,6 +48,20 @@ public class AtivoController {
 	
 	@Autowired
 	UsuarioService usuarioService;
+	
+	@GetMapping(value = "/usuario/{usuarioId}/ativos/posicaoTipoAtivo")
+	public ResponseEntity<Object> posicaoTipoAtivo(			
+			@PathVariable(value = "usuarioId") UUID usuarioId
+			) throws JsonMappingException, JsonProcessingException {
+		
+		Optional<UsuarioModel> usuarioOptional = usuarioService.findById(usuarioId);
+		if (!usuarioOptional.isPresent()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
+		}
+		List<PosicaoTipoAtivoDto> lista = ativoService.posicaoPorTipo(usuarioOptional.get());
+		
+		return ResponseEntity.status(HttpStatus.OK).body(lista);
+	}
 	
 	@GetMapping(value = "/usuario/{usuarioId}/ativos/valorizarTodos")
 	public ResponseEntity<Object> valorizarTodos(			
