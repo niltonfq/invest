@@ -35,3 +35,4 @@ build/
 */.mvn/**
 .DS_Store
 /.metadata/
+invest/bin/**
