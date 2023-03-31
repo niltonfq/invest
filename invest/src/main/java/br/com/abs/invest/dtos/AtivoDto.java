@@ -1,5 +1,6 @@
 package br.com.abs.invest.dtos;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -15,8 +16,9 @@ import br.com.abs.invest.enums.TipoAtivo;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AtivoDto {
-	
+public class AtivoDto implements Serializable{
+	private static final long serialVersionUID = 1L;
+
 	private UUID id;
 	
 	private SegmentoDto segmento;

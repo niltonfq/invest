@@ -11,10 +11,9 @@ insert into usuario (id, email, username) values
 ("7062c0e4-6e5d-4125-ad1c-7363cf72e45c", "niltonfq@gmail.com", "Nilton"),
 ("8062c0e4-6e5d-4125-ad1c-7363cf72e45c", "email2@email.com", "test2");
 
-INSERT INTO `ativo` (`id`, `cnpj`, `codigo`, `data_atualizacao`, `data_atualizacao_preco`, `data_criacao`, `moeda`, `nome`, `nota`, `observacao`, `preco_medio`, `quantidade_investida`, `quarentena`, `tipo_ativo`, `total_investido`, `valor_atual`, `banco_id`, `segmento_id`, `usuario_id`)
-VALUES
-	('d2c8879c-cd1b-48c7-9880-2b864c81fe96', NULL, 'PTBR3', '2023-03-01 00:00:00.000000', NULL, '2023-03-01 00:00:00.000000', 'R$', NULL, 0, NULL, 0.00, 0.00, 0, 'Acoes', 0.00, 0.00, NULL, NULL, '7062c0e4-6e5d-4125-ad1c-7363cf72e45c'),
-	('e2c8879c-cd1b-48c7-9880-2b864c81fe96', NULL, 'PTBR3', '2023-03-01 00:00:00.000000', NULL, '2023-03-01 00:00:00.000000', 'R$', NULL, 0, NULL, 0.00, 0.00, 0, 'Acoes', 0.00, 0.00, NULL, NULL, '8062c0e4-6e5d-4125-ad1c-7363cf72e45c');
+INSERT INTO `ativo` (`id`, `cnpj`, `codigo`, `data_atualizacao`, `data_atualizacao_preco`, `data_criacao`, `moeda`, `nome`, `nota`, `observacao`, `preco_medio`, `quantidade_investida`, `quarentena`, `tipo_ativo`, `total_atual`, `total_investido`, `valor_atual`, `usuario_id`) 
+VALUES                          ('d2c8879c-cd1b-48c7-9880-2b864c81fe96', '', 'PTBR3', '2023-03-01 00:00:00.000000', '2023-03-01 00:00:00.000000', '2023-03-01 00:00:00.000000', 'R$', '', 0, '', 0.00, 0.00, 0, 'Acoes', 0.00, 0.00, 0.00, '7062c0e4-6e5d-4125-ad1c-7363cf72e45c'),
+                                ('e2c8879c-cd1b-48c7-9880-2b864c81fe96', '', 'PTBR3', '2023-03-01 00:00:00.000000', '2023-03-01 00:00:00.000000', '2023-03-01 00:00:00.000000', 'R$', '', 0, '', 0.00, 0.00, 0, 'Acoes', 0.00, 0.00, 0.00, '8062c0e4-6e5d-4125-ad1c-7363cf72e45c');
     
    
 
