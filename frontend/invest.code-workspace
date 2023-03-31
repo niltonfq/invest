@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "base_app"
+		},
+		{
+			"path": "commons_deps"
+		},
+		{
+			"path": "commons_design_system"
+		},
+		{
+			"path": "login"
+		},
+		{
+			"path": "micro_core"
+		},
+		{
+			"path": "invest"
+		}
+	],
+	"settings": {}
+}

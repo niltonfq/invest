@@ -1,0 +1,38 @@
+name: base_app
+description: A new Flutter project.
+version: 2.0.0
+publish_to: none
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  micro_core:
+    path: ../micro_core
+  commons_design_system:
+    path: ../commons_design_system
+  commons_deps:
+    path: ../commons_deps
+  login:
+    path: ../login
+  invest:
+    path: ../invest
+  
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+  fonts:
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/OpenSans-Regular.ttf
+        - asset: assets/fonts/OpenSans-Bold.ttf
+        - asset: assets/fonts/OpenSans-Light.ttf
+          
