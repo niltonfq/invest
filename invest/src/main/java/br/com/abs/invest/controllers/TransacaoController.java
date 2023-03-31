@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,7 +34,7 @@ public class TransacaoController {
 
 	}
 
-	@PostMapping("/usuario/{usuarioId}/transacoes/importB3Negociacoes")
+	@PostMapping("/transacoes/importB3Negociacoes/usuario/{usuarioId}")
 	public ResponseEntity<Object> importB3Negociacao(
 			@PathVariable(value = "usuarioId") UUID usuarioId,
 			@RequestParam("file") MultipartFile excel
@@ -46,11 +47,11 @@ public class TransacaoController {
 		
 		transacaoService.importarB3Negociacoes(excel, usuarioOptional.get());
 		
-	    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Arquivo importado com sucesso");
+	    return ResponseEntity.status(HttpStatus.CREATED).body("Arquivo importado com sucesso");
 	}
 
 	
-	@PostMapping("/usuario/{usuarioId}/transacoes/importar")
+	@PostMapping("/transacoes/importar/usuario/{usuarioId}")
 	public ResponseEntity<Object> importar(
 			@PathVariable(value = "usuarioId") UUID usuarioId,
 			@RequestParam("file") MultipartFile excel
@@ -63,10 +64,10 @@ public class TransacaoController {
 		
 		transacaoService.importar(excel, usuarioOptional.get());
 		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Arquivo importado com sucesso");
+		return ResponseEntity.status(HttpStatus.CREATED).body("Arquivo importado com sucesso");
 	}
 	
-	@PostMapping("/usuario/{usuarioId}/transacoes/calcularPrecoMedioTodos")
+	@PutMapping("/transacoes/calcularPrecoMedioTodos/usuario/{usuarioId}")
 	public ResponseEntity<Object> calcularPrecoMedioTodos(
 			@PathVariable(value = "usuarioId") UUID usuarioId
 			) throws IOException {
@@ -79,7 +80,7 @@ public class TransacaoController {
 		
 		transacaoService.calcularPrecoMedioTodos(usuarioOptional.get());
 		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Todos os preços médios foram recalculados");
+		return ResponseEntity.status(HttpStatus.OK).body("Todos os preços médios foram recalculados");
 	}
 	
 	

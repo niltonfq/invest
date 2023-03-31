@@ -2,6 +2,7 @@ package br.com.abs.invest.dtos;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.abs.invest.enums.TipoAtivo;
@@ -13,7 +14,7 @@ public class PosicaoTipoAtivoDto implements Serializable {
 	private Long quantidade;
 	private BigDecimal percentual;
 	private BigDecimal total;
-	private List<PosicaoAtivoDto> ativos;
+	private List<PosicaoAtivoDto> ativos = new ArrayList<>();
 	
 	public PosicaoTipoAtivoDto() {
 		super();

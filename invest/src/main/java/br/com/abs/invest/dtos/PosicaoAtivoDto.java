@@ -20,6 +20,23 @@ public class PosicaoAtivoDto implements Serializable {
 		super();
 	}
 
+	public PosicaoAtivoDto(String codigo, BigDecimal precoMedio, BigDecimal precoAtual, BigDecimal diferenca,
+			BigDecimal quantidade, BigDecimal totalInvestido, BigDecimal patrimonio, BigDecimal percentual,
+			BigDecimal percentualCarteira) {
+		super();
+		this.codigo = codigo;
+		this.precoMedio = precoMedio;
+		this.precoAtual = precoAtual;
+		this.diferenca = diferenca;
+		this.quantidade = quantidade;
+		this.totalInvestido = totalInvestido;
+		this.patrimonio = patrimonio;
+		this.percentual = percentual;
+		this.percentualCarteira = percentualCarteira;
+	}
+
+
+
 	public String getCodigo() {
 		return codigo;
 	}

@@ -33,7 +33,7 @@ public class ProventoController {
 
 	}
 
-	@PostMapping("/usuario/{usuarioId}/proventos/importB3Movimentacao")
+	@PostMapping("/proventos/importB3Movimentacao/usuario/{usuarioId}")
 	public ResponseEntity<Object> importB3Movimento(
 			@PathVariable(value = "usuarioId") UUID usuarioId,
 			@RequestParam("file") MultipartFile excel
@@ -46,7 +46,7 @@ public class ProventoController {
 		
 		proventoService.importarB3Movimento(excel, usuarioOptional.get());
 		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Arquivo importado com sucesso");
+		return ResponseEntity.status(HttpStatus.CREATED).body("Arquivo importado com sucesso");
 	}
 
 }

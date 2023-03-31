@@ -43,7 +43,7 @@ public class BancoController {
 	@Autowired
 	UsuarioService usuarioService;
 
-	@GetMapping(value = "/usuario/{usuarioId}/bancos")
+	@GetMapping(value = "/bancos/usuario/{usuarioId}")
 	public ResponseEntity<Object> getAll(			
 			@PathVariable(value = "usuarioId") UUID usuarioId,
 			@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable
@@ -65,7 +65,7 @@ public class BancoController {
 		return ResponseEntity.status(HttpStatus.OK).body(page);
 	}
 	
-	@GetMapping(value = "/usuario/{usuarioId}/bancos/{id}")
+	@GetMapping(value = "/bancos/{id}/usuario/{usuarioId}")
 	public ResponseEntity<Object> getOne(
 			@PathVariable(value = "usuarioId") UUID usuarioId,	
 			@PathVariable(value = "id") UUID id
@@ -84,7 +84,7 @@ public class BancoController {
 		
 	}
 	
-	@DeleteMapping(value = "/usuario/{usuarioId}/bancos/{id}")
+	@DeleteMapping(value = "/bancos/{id}/usuario/{usuarioId}")
 	public ResponseEntity<Object> delete(
 			@PathVariable(value = "usuarioId") UUID usuarioId,
 			@PathVariable(value = "id") UUID id
@@ -104,7 +104,7 @@ public class BancoController {
 		
 	}
 	
-	@PostMapping("/usuario/{usuarioId}/bancos")
+	@PostMapping("/bancos/usuario/{usuarioId}")
 	public ResponseEntity<Object> create(
 			@PathVariable(value = "usuarioId") UUID usuarioId,
 			@RequestBody @Valid BancoDto bancoDto
@@ -127,7 +127,7 @@ public class BancoController {
 	}
 	
 	
-	@PutMapping(value = "/usuario/{usuarioId}/bancos/{id}")
+	@PutMapping(value = "/bancos/{id}/usuario/{usuarioId}")
 	public ResponseEntity<Object> update(
 			@PathVariable(value = "usuarioId") UUID usuarioId,
 			@PathVariable(value = "id") UUID id,			

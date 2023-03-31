@@ -43,7 +43,7 @@ public class SegmentoController {
 	@Autowired
 	UsuarioService usuarioService;
 
-	@GetMapping(value = "/usuario/{usuarioId}/segmentos")
+	@GetMapping(value = "/segmentos/usuario/{usuarioId}")
 	public ResponseEntity<Object> getAll(			
 			@PathVariable(value = "usuarioId") UUID usuarioId,
 			@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable
@@ -65,7 +65,7 @@ public class SegmentoController {
 		return ResponseEntity.status(HttpStatus.OK).body(page);
 	}
 	
-	@GetMapping(value = "/usuario/{usuarioId}/segmentos/{id}")
+	@GetMapping(value = "/segmentos/{id}/usuario/{usuarioId}")
 	public ResponseEntity<Object> getOne(
 			@PathVariable(value = "usuarioId") UUID usuarioId,	
 			@PathVariable(value = "id") UUID id
@@ -84,7 +84,7 @@ public class SegmentoController {
 		
 	}
 	
-	@DeleteMapping(value = "/usuario/{usuarioId}/segmentos/{id}")
+	@DeleteMapping(value = "/segmentos/{id}/usuario/{usuarioId}")
 	public ResponseEntity<Object> delete(
 			@PathVariable(value = "usuarioId") UUID usuarioId,
 			@PathVariable(value = "id") UUID id
@@ -104,7 +104,7 @@ public class SegmentoController {
 		
 	}
 	
-	@PostMapping("/usuario/{usuarioId}/segmentos")
+	@PostMapping("/segmentos/usuario/{usuarioId}")
 	public ResponseEntity<Object> create(
 			@PathVariable(value = "usuarioId") UUID usuarioId,
 			@RequestBody @Valid SegmentoDto segmentoDto
@@ -127,7 +127,7 @@ public class SegmentoController {
 	}
 	
 	
-	@PutMapping(value = "/usuario/{usuarioId}/segmentos/{id}")
+	@PutMapping(value = "/segmentos/{id}/usuario/{usuarioId}")
 	public ResponseEntity<Object> update(
 			@PathVariable(value = "usuarioId") UUID usuarioId,
 			@PathVariable(value = "id") UUID id,			

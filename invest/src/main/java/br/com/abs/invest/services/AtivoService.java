@@ -17,6 +17,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.jayway.jsonpath.JsonPath;
 
+import br.com.abs.invest.dtos.PosicaoAtivoDto;
 import br.com.abs.invest.dtos.PosicaoTipoAtivoDto;
 import br.com.abs.invest.enums.Moeda;
 import br.com.abs.invest.enums.TipoAtivo;
@@ -56,7 +57,9 @@ public class AtivoService {
 
 	public void valorizarTodos(UsuarioModel usuario) throws JsonMappingException, JsonProcessingException {
 		Double dolar = 0.0;
-		List<AtivoModel> ativos = ativoRepository.findAllByUsuarioAndDataAtualizacaoPrecoBeforeOrDataAtualizacaoPrecoNull(usuario, LocalDate.now());		
+		
+		List<AtivoModel> ativos = ativoRepository.findAllByUsuarioAndDataAtualizacaoPrecoBeforeOrDataAtualizacaoPrecoNull(usuario, LocalDate.now());	
+		
 		for (AtivoModel ativoModel : ativos) {
 			dolar = valorizarAtivo(usuario, ativoModel, dolar);
 		}
@@ -113,7 +116,27 @@ public class AtivoService {
 
 	public List<PosicaoTipoAtivoDto> posicaoPorTipo(UsuarioModel usuarioModel) {
 		BigDecimal total = ativoRepository.totalPorUsuario(usuarioModel.getId());
-		return ativoRepository.TotalPorTipo(usuarioModel.getId(), total );
+		List<PosicaoTipoAtivoDto> list = ativoRepository.TotalPorTipo(usuarioModel.getId(), total );
+		
+		for (PosicaoTipoAtivoDto posicaoTipoAtivoDto : list) {
+			BigDecimal totalTipoAtivo = ativoRepository.totalTipoAtivoUsuario(
+					usuarioModel.getId(), posicaoTipoAtivoDto.getTipoAtipo());
+			
+			List<PosicaoAtivoDto> listItens = ativoRepository.AtivosPorTipoUsuario(
+					usuarioModel.getId(), totalTipoAtivo, total, posicaoTipoAtivoDto.getTipoAtipo() );
+			
+			posicaoTipoAtivoDto.getAtivos().addAll(listItens);
+		}
+		
+		return list;
 	}
 	
 }
+
+
+
+
+
+
+
+

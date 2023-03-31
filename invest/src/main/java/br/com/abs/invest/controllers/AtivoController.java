@@ -49,7 +49,7 @@ public class AtivoController {
 	@Autowired
 	UsuarioService usuarioService;
 	
-	@GetMapping(value = "/usuario/{usuarioId}/ativos/posicaoTipoAtivo")
+	@GetMapping(value = "/ativos/posicaoTipoAtivo/usuario/{usuarioId}")
 	public ResponseEntity<Object> posicaoTipoAtivo(			
 			@PathVariable(value = "usuarioId") UUID usuarioId
 			) throws JsonMappingException, JsonProcessingException {
@@ -63,7 +63,7 @@ public class AtivoController {
 		return ResponseEntity.status(HttpStatus.OK).body(lista);
 	}
 	
-	@GetMapping(value = "/usuario/{usuarioId}/ativos/valorizarTodos")
+	@PutMapping(value = "/ativos/valorizarTodos/usuario/{usuarioId}")
 	public ResponseEntity<Object> valorizarTodos(			
 			@PathVariable(value = "usuarioId") UUID usuarioId
 		) throws JsonMappingException, JsonProcessingException {
@@ -77,7 +77,7 @@ public class AtivoController {
 		return ResponseEntity.status(HttpStatus.OK).body("Todos os ativos foram valorizados");
 	}
 
-	@GetMapping(value = "/usuario/{usuarioId}/ativos")
+	@GetMapping(value = "/ativos/usuario/{usuarioId}")
 	public ResponseEntity<Object> getAll(			
 			@PathVariable(value = "usuarioId") UUID usuarioId,
 			SpecificationTemplate.AtivoSpec spec,	
@@ -95,7 +95,7 @@ public class AtivoController {
 		return ResponseEntity.status(HttpStatus.OK).body(page);
 	}
 	
-	@GetMapping(value = "/usuario/{usuarioId}/ativos/{id}")
+	@GetMapping(value = "/ativos/{id}/usuario/{usuarioId}")
 	public ResponseEntity<Object> getOne(
 			@PathVariable(value = "usuarioId") UUID usuarioId,	
 			@PathVariable(value = "id") UUID id
@@ -114,7 +114,7 @@ public class AtivoController {
 		
 	}
 	
-	@DeleteMapping(value = "/usuario/{usuarioId}/ativos/{id}")
+	@DeleteMapping(value = "/ativos/{id}/usuario/{usuarioId}")
 	public ResponseEntity<Object> delete(
 			@PathVariable(value = "usuarioId") UUID usuarioId,
 			@PathVariable(value = "id") UUID id
@@ -134,7 +134,7 @@ public class AtivoController {
 		
 	}
 	
-	@PostMapping("/usuario/{usuarioId}/ativos")
+	@PostMapping("/ativos/usuario/{usuarioId}")
 	public ResponseEntity<Object> create(
 			@PathVariable(value = "usuarioId") UUID usuarioId,
 			@RequestBody @Valid AtivoDto ativoDto
@@ -156,7 +156,7 @@ public class AtivoController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(ativoModel);
 	}
 	
-	@PutMapping(value = "/usuario/{usuarioId}/ativos/{id}")
+	@PutMapping(value = "/ativos/{id}/usuario/{usuarioId}")
 	public ResponseEntity<Object> update(
 			@PathVariable(value = "usuarioId") UUID usuarioId,
 			@PathVariable(value = "id") UUID id,			
