@@ -24,6 +24,8 @@ import br.com.abs.invest.enums.TipoOperacao;
 import br.com.abs.invest.models.AtivoFechamentoModel;
 import br.com.abs.invest.models.AtivoModel;
 import br.com.abs.invest.models.BancoModel;
+import br.com.abs.invest.models.SegmentoModel;
+import br.com.abs.invest.models.BancoModel;
 import br.com.abs.invest.models.TransacaoModel;
 import br.com.abs.invest.models.UsuarioModel;
 import br.com.abs.invest.repositories.TransacaoRepository;
@@ -35,18 +37,21 @@ public class TransacaoService {
 	private TransacaoRepository transacaoRepository;
 	private BancoService bancoService;
 	private AtivoService ativoService;
+	private SegmentoService segmentoService;
 	private AtivoFechamentoService ativoFechamentoService;
 	
 	public TransacaoService(
 			TransacaoRepository transacaoRepository,
 			BancoService bancoService,
 			AtivoService ativoService,
-			AtivoFechamentoService ativoFechamentoService
+			AtivoFechamentoService ativoFechamentoService,
+			SegmentoService segmentoService
 		) {
 		this.transacaoRepository = transacaoRepository;
 		this.bancoService = bancoService;
 		this.ativoService = ativoService;
 		this.ativoFechamentoService = ativoFechamentoService;
+		this.segmentoService = segmentoService;
 	}
 
 	public void saveAll(List<TransacaoModel> lista) {
@@ -191,8 +196,10 @@ public class TransacaoService {
 			    
 			    String codigo = row.getCell(1).getStringCellValue();
 			    Optional<AtivoModel> ativoOptional = ativoService.findByUsuarioAndCodigo(usuario, codigo);
-			    AtivoModel ativoModel = new AtivoModel();
+			    AtivoModel ativoModel;
 			    if (!ativoOptional.isPresent()) {
+			    	
+			    	ativoModel = new AtivoModel();
 			    	
 			    	String tipoAtivo = row.getCell(2).getStringCellValue(); 
 				    
@@ -254,9 +261,34 @@ public class TransacaoService {
 			    	
 			    	ativoModel.setQuarentena(false);
 			    	ativoModel.setUsuario(usuario);
+			    	
 			    	if (row.getCell(11) != null) {
 			    		ativoModel.setCnpj(row.getCell(11).getStringCellValue());
 				    }
+			    	
+			    	if (row.getCell(12) != null) {
+			    		String nome = row.getCell(12).getStringCellValue();
+			    		
+			    		ativoModel.setNome(nome);
+			    	}
+			    	
+			    	if (row.getCell(13) != null) {
+			    		String nomeBanco = row.getCell(13).getStringCellValue();
+			    		
+			    		ativoModel.setBanco(resolveBanco(usuario, nomeBanco));
+				    }
+			    	
+			    	if (row.getCell(14) != null) {
+			    		String nomeSegmento = row.getCell(14).getStringCellValue();
+			    		ativoModel.setSegmento(resolveSegmento(usuario, nomeSegmento));
+			    	}
+			    	
+			    	if (row.getCell(15) != null) {
+			    		String atividade = row.getCell(15).getStringCellValue();
+			    		
+			    		ativoModel.setAtividade(atividade);
+			    	}				    	
+			    	
 			    	ativoModel = ativoService.save(ativoModel);
 			    } else {
 			    	ativoModel = ativoOptional.get();
@@ -301,20 +333,8 @@ public class TransacaoService {
 			    }			    
 			    			    
 			    String nomeBanco = row.getCell(9).getStringCellValue();
-			    nomeBanco = nomeBanco.replace("DISTRIBUIDORA DE TITULOS E VALORES MOBILIARIOS", "DTVM");
-			    Optional<BancoModel> bancoOptional = bancoService.findByUsuarioAndNome(usuario, nomeBanco);
-			    BancoModel bancoModel = new BancoModel();
-			    if (!bancoOptional.isPresent()) {
-			    	bancoModel.setId(null);
-			    	bancoModel.setNome(nomeBanco);
-			    	bancoModel.setUsuario(usuario);
-			    	bancoModel.setDataAtualizacao(LocalDateTime.now(ZoneId.of("UTC")));
-			    	bancoModel.setDataCriacao(LocalDateTime.now(ZoneId.of("UTC")));
-			    	bancoModel =  bancoService.save(bancoModel);
-			    } else {
-			    	bancoModel = bancoOptional.get();
-			    }
-			    transacao.setBanco(bancoModel);
+			    
+			    transacao.setBanco(resolveBanco(usuario, nomeBanco));
 			    
 			    if (row.getCell(10) != null) {
 			    	transacao.setObservacao(row.getCell(10).getStringCellValue());
@@ -346,6 +366,49 @@ public class TransacaoService {
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private SegmentoModel resolveSegmento(UsuarioModel usuario, String nomeSegmento) {
+		if (nomeSegmento.isEmpty()) {
+			return null;
+		}
+		
+	    Optional<SegmentoModel> segmentoOptional = segmentoService.findByUsuarioAndNome(usuario, nomeSegmento);
+	    SegmentoModel segmentoModel; 
+	    if (!segmentoOptional.isPresent()) {
+	    	segmentoModel = new SegmentoModel();
+	    	segmentoModel.setId(null);
+	    	segmentoModel.setNome(nomeSegmento);
+	    	segmentoModel.setUsuario(usuario);
+	    	segmentoModel.setDataAtualizacao(LocalDateTime.now(ZoneId.of("UTC")));
+	    	segmentoModel.setDataCriacao(LocalDateTime.now(ZoneId.of("UTC")));
+	    	segmentoModel =  segmentoService.save(segmentoModel);
+	    } else {
+	    	segmentoModel = segmentoOptional.get();
+	    }
+		return segmentoModel;
+	}
+
+	private BancoModel resolveBanco(UsuarioModel usuario, String nomeBanco) {
+		if (nomeBanco.isEmpty()) {
+			return null;
+		}
+		
+		nomeBanco = nomeBanco.replace("DISTRIBUIDORA DE TITULOS E VALORES MOBILIARIOS", "DTVM");
+	    Optional<BancoModel> bancoOptional = bancoService.findByUsuarioAndNome(usuario, nomeBanco);
+	    BancoModel bancoModel;
+	    if (!bancoOptional.isPresent()) {
+	    	bancoModel = new BancoModel();
+	    	bancoModel.setId(null);
+	    	bancoModel.setNome(nomeBanco);
+	    	bancoModel.setUsuario(usuario);
+	    	bancoModel.setDataAtualizacao(LocalDateTime.now(ZoneId.of("UTC")));
+	    	bancoModel.setDataCriacao(LocalDateTime.now(ZoneId.of("UTC")));
+	    	bancoModel =  bancoService.save(bancoModel);
+	    } else {
+	    	bancoModel = bancoOptional.get();
+	    }
+		return bancoModel;
 	}
 
 	public void calcularPrecoMedioTodos(UsuarioModel usuario) {

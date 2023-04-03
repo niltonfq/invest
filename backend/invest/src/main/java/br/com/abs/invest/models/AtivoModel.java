@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -70,10 +71,14 @@ public class AtivoModel extends RepresentationModel<AtivoModel> implements Seria
 	
 	private String observacao;
 	
+	@Lob
+	@Column(nullable = false)
+	private String atividade;
+	
 	@Column(nullable = false)
 	private Short nota = 0;
 
-	@Column(length = 14)
+	@Column(length = 20)
 	private String cnpj;
 
 	@Column
@@ -274,6 +279,14 @@ public class AtivoModel extends RepresentationModel<AtivoModel> implements Seria
 
 	public void setTotalAtual(BigDecimal totalAtual) {
 		this.totalAtual = totalAtual;
+	}
+
+	public String getAtividade() {
+		return atividade;
+	}
+
+	public void setAtividade(String atividade) {
+		this.atividade = atividade;
 	}
 	
 	
