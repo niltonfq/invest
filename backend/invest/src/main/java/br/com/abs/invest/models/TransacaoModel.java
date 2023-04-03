@@ -80,6 +80,11 @@ public class TransacaoModel extends RepresentationModel<AtivoModel> implements S
 	private BigDecimal total = BigDecimal.ZERO;
 	private LocalDate vencimento;
 	
+	private String observacao;
+	
+	@Column(nullable = false)
+	private BigDecimal lucroPrejuizo = BigDecimal.ZERO;
+	
 	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
 	@Column(nullable = false)
 	private LocalDateTime dataCriacao;
@@ -218,6 +223,22 @@ public class TransacaoModel extends RepresentationModel<AtivoModel> implements S
 
 	public void setUsuario(UsuarioModel usuario) {
 		this.usuario = usuario;
+	}
+
+	public String getObservacao() {
+		return observacao;
+	}
+
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
+	}
+
+	public BigDecimal getLucroPrejuizo() {
+		return lucroPrejuizo;
+	}
+
+	public void setLucroPrejuizo(BigDecimal lucroPrejuizo) {
+		this.lucroPrejuizo = lucroPrejuizo;
 	}
 
 	

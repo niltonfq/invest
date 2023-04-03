@@ -254,6 +254,9 @@ public class TransacaoService {
 			    	
 			    	ativoModel.setQuarentena(false);
 			    	ativoModel.setUsuario(usuario);
+			    	if (row.getCell(11) != null) {
+			    		ativoModel.setCnpj(row.getCell(11).getStringCellValue());
+				    }
 			    	ativoModel = ativoService.save(ativoModel);
 			    } else {
 			    	ativoModel = ativoOptional.get();
@@ -262,13 +265,6 @@ public class TransacaoService {
 			    
 			    double quantidade = row.getCell(3).getNumericCellValue();
 			    transacao.setQuantidade(BigDecimal.valueOf( Math.abs(quantidade) ) );
-			    
-			    
-			    if (quantidade > 0) {
-			    	transacao.setTipoOperacao(TipoOperacao.Compra);
-			    } else {
-			    	transacao.setTipoOperacao(TipoOperacao.Venda);
-			    }
 			    
 			    double preco = row.getCell(4).getNumericCellValue();
 			    preco = Math.abs(preco);
@@ -285,6 +281,12 @@ public class TransacaoService {
 			    double total = row.getCell(7).getNumericCellValue();
 			    total = Math.abs(total);
 			    transacao.setTotal( BigDecimal.valueOf( total ));
+			    
+			    if (quantidade > 0) {
+			    	transacao.setTipoOperacao(TipoOperacao.Compra);
+			    } else {
+			    	transacao.setTipoOperacao(TipoOperacao.Venda);
+			    }
 			    	    
 			    if (row.getCell(8) != null)  {
 			    	String dataVenctoString = row.getCell(8).getStringCellValue();
@@ -313,7 +315,11 @@ public class TransacaoService {
 			    	bancoModel = bancoOptional.get();
 			    }
 			    transacao.setBanco(bancoModel);
-			    			    
+			    
+			    if (row.getCell(10) != null) {
+			    	transacao.setObservacao(row.getCell(10).getStringCellValue());
+			    }
+			    
 			    transacao.setDataAtualizacao(LocalDateTime.now(ZoneId.of("UTC")));
 			    transacao.setDataCriacao(LocalDateTime.now(ZoneId.of("UTC")));
 			    transacao.setUsuario(usuario);
@@ -334,6 +340,8 @@ public class TransacaoService {
 			if (!lista.isEmpty()) {
 				saveAll(lista);
 			}
+			
+			calcularPrecoMedioTodos(usuario);
 			
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
@@ -361,6 +369,7 @@ public class TransacaoService {
 		BigDecimal totalValor = BigDecimal.ZERO;
 		BigDecimal totalQuantidade = BigDecimal.ZERO;
 		BigDecimal precoMedio = BigDecimal.ZERO;
+		BigDecimal lucroPrejuizo = BigDecimal.ZERO;
 		LocalDate dataInicial;
 		
 		if (ultimoFechamento.isPresent()) {
@@ -390,18 +399,24 @@ public class TransacaoService {
 				if (transacaoModel.getTipoOperacao().equals(TipoOperacao.Venda)) {
 					totalValor = totalValor.subtract(transacaoModel.getTotalLiquido()) ;
 					totalQuantidade = totalQuantidade.subtract(transacaoModel.getQuantidade());
+					
+					lucroPrejuizo = transacaoModel.getTotalLiquido().subtract( precoMedio.multiply(transacaoModel.getQuantidade()) );
+					
+					transacaoModel.setLucroPrejuizo(lucroPrejuizo);					
+					transacaoRepository.save(transacaoModel);
+					
+					if (totalQuantidade.compareTo(BigDecimal.ZERO) <= 0) {
+						totalValor = BigDecimal.ZERO;
+						totalQuantidade = BigDecimal.ZERO;
+						precoMedio = BigDecimal.ZERO;
+					} 
+					
 				} else {
 					totalValor = totalValor.add(transacaoModel.getTotalLiquido()) ;
 					totalQuantidade = totalQuantidade.add(transacaoModel.getQuantidade());
-				}
-				
-				if (totalQuantidade.compareTo(BigDecimal.ZERO) <= 0) {
-					totalValor = BigDecimal.ZERO;
-					totalQuantidade = BigDecimal.ZERO;
-					precoMedio = BigDecimal.ZERO;
-				} else {
 					precoMedio = totalValor.divide(totalQuantidade, 2, RoundingMode.HALF_UP);
 				}
+				
 			}	
 			
 			AtivoFechamentoModel ativoFechamentoModel = new AtivoFechamentoModel();
