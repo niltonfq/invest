@@ -67,7 +67,7 @@ public class TransacaoController {
 		return ResponseEntity.status(HttpStatus.CREATED).body("Arquivo importado com sucesso");
 	}
 	
-	@PutMapping("/transacoes/calcularPrecoMedioTodos/usuario/{usuarioId}")
+	@PutMapping("/transacoes/calcularTodosPrecosMedios/usuario/{usuarioId}")
 	public ResponseEntity<Object> calcularPrecoMedioTodos(
 			@PathVariable(value = "usuarioId") UUID usuarioId
 			) throws IOException {
