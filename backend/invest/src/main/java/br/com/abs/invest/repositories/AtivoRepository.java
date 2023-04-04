@@ -70,7 +70,7 @@ public interface AtivoRepository extends JpaRepository<AtivoModel, UUID>, JpaSpe
 			+ "       atv.codigo, atv.precoMedio, atv.valorAtual,\n"
 			+ "       atv.valorAtual - atv.precoMedio as diferenca,\n"
 			+ "       atv.quantidadeInvestida, atv.totalInvestido,  \n"
-			+ "       atv.valorAtual * atv.quantidadeInvestida, \n"
+			+ "       atv.totalAtual, \n"
 			+ "       (atv.totalAtual / :totalTipoAtivo) * 100 as percentual,\n"
 			+ "       (atv.totalAtual / :total) * 100 as percentualCarteira) \n"
 			+ "       \n"
