@@ -20,8 +20,9 @@ public class PosicaoAtivoDto implements Serializable {
 		super();
 	}
 
-	public PosicaoAtivoDto(String codigo, BigDecimal precoMedio, BigDecimal precoAtual, BigDecimal diferenca,
-			BigDecimal quantidade, BigDecimal totalInvestido, BigDecimal patrimonio, BigDecimal percentual,
+	public PosicaoAtivoDto(String codigo, BigDecimal precoMedio, BigDecimal precoAtual, 
+			BigDecimal diferenca, BigDecimal quantidade, BigDecimal totalInvestido, 
+			BigDecimal patrimonio, BigDecimal percentual,
 			BigDecimal percentualCarteira) {
 		super();
 		this.codigo = codigo;

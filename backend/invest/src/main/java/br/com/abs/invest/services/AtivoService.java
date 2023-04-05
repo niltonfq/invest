@@ -87,7 +87,7 @@ public class AtivoService {
 		}
 		
 		Double preco = 0.0;
-		if (ativoModel.getQuantidadeInvestida().compareTo(BigDecimal.ZERO) > 0) {
+		if ((ativoModel.getQuantidadeInvestida().compareTo(BigDecimal.ZERO) > 0) && (!ativoModel.getTipoAtivo().equals(TipoAtivo.Tesouro_Direto))){
 			try {
 				result = restTemplate.getForObject(uri, String.class);
 				preco = JsonPath.read(result, "$['quoteSummary']['result'][0]['price']['regularMarketPrice']['raw']");
@@ -97,18 +97,24 @@ public class AtivoService {
 			}
 		}
 	    ativoModel.setDataAtualizacaoPreco(LocalDate.now());
-	    if (
-	    		(ativoModel.getTipoAtivo().equals(TipoAtivo.Criptomoeda)) ||
-	    		( ativoModel.getMoeda().equals(Moeda.R$))
-	    	) {
-	    	ativoModel.setTotalAtual(ativoModel.getQuantidadeInvestida()
-	    			.multiply(BigDecimal.valueOf(preco)));
-		} else {
-			ativoModel.setTotalAtual(ativoModel.getQuantidadeInvestida()
-					.multiply(BigDecimal.valueOf(preco))
-					.multiply(BigDecimal.valueOf(dolar)));
-		}
-	    ativoModel.setValorAtual(BigDecimal.valueOf(preco));
+	    
+	    if (ativoModel.getTipoAtivo().equals(TipoAtivo.Tesouro_Direto)) {
+	    	ativoModel.setTotalAtual(ativoModel.getTotalInvestido());
+	    	ativoModel.setValorAtual(ativoModel.getPrecoMedio());
+	    } else {
+		    if (
+		    		(ativoModel.getTipoAtivo().equals(TipoAtivo.Criptomoeda)) ||
+		    		( ativoModel.getMoeda().equals(Moeda.R$))
+		    	) {
+		    	ativoModel.setTotalAtual(ativoModel.getQuantidadeInvestida()
+		    			.multiply(BigDecimal.valueOf(preco)));
+			} else {
+				ativoModel.setTotalAtual(ativoModel.getQuantidadeInvestida()
+						.multiply(BigDecimal.valueOf(preco))
+						.multiply(BigDecimal.valueOf(dolar)));
+			}
+		    ativoModel.setValorAtual(BigDecimal.valueOf(preco));
+	    }
 	    ativoRepository.save(ativoModel);
 	    
 	    return dolar;

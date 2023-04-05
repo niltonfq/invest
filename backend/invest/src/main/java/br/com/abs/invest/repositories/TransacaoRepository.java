@@ -24,7 +24,7 @@ public interface TransacaoRepository extends JpaRepository<TransacaoModel, UUID>
 		);
 
 	
-	List<TransacaoModel> findByUsuarioAndAtivoAndDataBetween(UsuarioModel usuario, AtivoModel ativo, LocalDate dataInicial, LocalDate dataFinal);
+	List<TransacaoModel> findByUsuarioAndAtivoAndDataBetweenOrderByDataAscTipoOperacaoAsc(UsuarioModel usuario, AtivoModel ativo, LocalDate dataInicial, LocalDate dataFinal);
 
 
 	Optional<TransacaoModel> findFirstByUsuarioAndAtivoOrderByData(UsuarioModel usuario, AtivoModel ativoModel);

@@ -414,6 +414,11 @@ public class TransacaoService {
 		LocalDate date = LocalDate.of(1980, 1, 1);
 		List<AtivoModel> ativos = ativoService.findAllByUsuario(usuario);		
 		for (AtivoModel ativoModel : ativos) {
+			
+			ativoModel.setTotalInvestido(BigDecimal.ZERO);
+			ativoModel.setQuantidadeInvestida(BigDecimal.ZERO);
+			ativoModel.setPrecoMedio(BigDecimal.ZERO);
+			
 			calcularPrecoMedioAtivo(usuario, ativoModel, date);
 			
 		}
@@ -455,7 +460,9 @@ public class TransacaoService {
 			dataFinal = dataFinal.minusDays(1);
 			
 			List<TransacaoModel> listaTransacao = transacaoRepository
-					.findByUsuarioAndAtivoAndDataBetween(usuario, ativoModel, dataInicial, dataFinal);
+					.findByUsuarioAndAtivoAndDataBetweenOrderByDataAscTipoOperacaoAsc(
+							usuario, ativoModel, dataInicial, dataFinal
+			);
 			for (TransacaoModel transacaoModel : listaTransacao) {
 				
 				if (transacaoModel.getTipoOperacao().equals(TipoOperacao.Venda)) {
@@ -479,6 +486,10 @@ public class TransacaoService {
 					precoMedio = totalValor.divide(totalQuantidade, 2, RoundingMode.HALF_UP);
 				}
 				
+				ativoModel.setPrecoMedio(precoMedio); 
+				ativoModel.setQuantidadeInvestida(totalQuantidade);
+				ativoModel.setTotalInvestido( totalValor );
+				
 			}	
 			
 			AtivoFechamentoModel ativoFechamentoModel = new AtivoFechamentoModel();
@@ -491,15 +502,11 @@ public class TransacaoService {
 			ativoFechamentoModel.setDataCriacao(LocalDateTime.now(ZoneId.of("UTC")));
 			ativoFechamentoService.save(ativoFechamentoModel);
 			
-			ativoModel.setPrecoMedio(precoMedio); 
-			ativoModel.setQuantidadeInvestida(totalQuantidade);
-			ativoModel.setTotalInvestido(totalValor);
-			ativoService.save(ativoModel);
-			
 			dataInicial = dataFinal;
 			dataInicial = dataInicial.plusDays(1);
 		}
 			
+		ativoService.save(ativoModel);
 		
 		return precoMedio;
 	}
