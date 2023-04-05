@@ -2,16 +2,17 @@
 
 import 'dart:convert';
 
+import 'package:commons_deps/commons_deps.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../Ativo/models/ativo_view_model.dart';
 
 class TipoAtivoViewModel {
   String? tipoAtivo;
-  int?  quantidade;
-	double? percentual;
-	double? total;
-	List<AtivoViewModel>? ativos;
+  int? quantidade;
+  double? percentual;
+  double? total;
+  List<AtivoViewModel>? ativos;
 
   TipoAtivoViewModel({
     this.tipoAtivo,
@@ -20,6 +21,9 @@ class TipoAtivoViewModel {
     this.total,
     this.ativos,
   });
+
+  get totalFormatado => NumberFormat("R\$ ##0.00", 'pt_BR').format(total);
+  get percentualFormatado => "${percentual?.toStringAsFixed(2)} %";
 
   TipoAtivoViewModel copyWith({
     String? tipoAtivo,
@@ -51,15 +55,23 @@ class TipoAtivoViewModel {
     return TipoAtivoViewModel(
       tipoAtivo: map['tipoAtivo'] != null ? map['tipoAtivo'] as String : null,
       quantidade: map['quantidade'] != null ? map['quantidade'] as int : null,
-      percentual: map['percentual'] != null ? map['percentual'] as double : null,
+      percentual:
+          map['percentual'] != null ? map['percentual'] as double : null,
       total: map['total'] != null ? map['total'] as double : null,
-      ativos: map['ativos'] != null ? List<AtivoViewModel>.from((map['ativos'] as List<int>).map<AtivoViewModel?>((x) => AtivoViewModel.fromMap(x as Map<String,dynamic>),),) : null,
+      ativos: map['ativos'] != null
+          ? List<AtivoViewModel>.from(
+              (map['ativos'] as List<int>).map<AtivoViewModel?>(
+                (x) => AtivoViewModel.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory TipoAtivoViewModel.fromJson(String source) => TipoAtivoViewModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory TipoAtivoViewModel.fromJson(String source) =>
+      TipoAtivoViewModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -69,21 +81,20 @@ class TipoAtivoViewModel {
   @override
   bool operator ==(covariant TipoAtivoViewModel other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.tipoAtivo == tipoAtivo &&
-      other.quantidade == quantidade &&
-      other.percentual == percentual &&
-      other.total == total &&
-      listEquals(other.ativos, ativos);
+
+    return other.tipoAtivo == tipoAtivo &&
+        other.quantidade == quantidade &&
+        other.percentual == percentual &&
+        other.total == total &&
+        listEquals(other.ativos, ativos);
   }
 
   @override
   int get hashCode {
     return tipoAtivo.hashCode ^
-      quantidade.hashCode ^
-      percentual.hashCode ^
-      total.hashCode ^
-      ativos.hashCode;
+        quantidade.hashCode ^
+        percentual.hashCode ^
+        total.hashCode ^
+        ativos.hashCode;
   }
 }

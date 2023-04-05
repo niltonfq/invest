@@ -38,3 +38,4 @@ build/
 invest/bin/**
 *.lock
 *.lock
+frontend/base_app/.dart_tool/**
