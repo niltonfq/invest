@@ -6,3 +6,4 @@ export 'package:package_info_plus/package_info_plus.dart';
 export 'package:percent_indicator/percent_indicator.dart';
 export 'package:sqflite/sqflite.dart';
 export 'package:validatorless/validatorless.dart';
+export 'package:result_dart/result_dart.dart';

@@ -18,6 +18,7 @@ dependencies:
   sqflite: ^2.2.3 
   package_info_plus: ^3.0.2
   percent_indicator: ^4.0.1
+  result_dart: ^1.0.5
 
 dev_dependencies:
   flutter_test:

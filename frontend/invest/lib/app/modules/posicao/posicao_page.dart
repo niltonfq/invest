@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:commons_design_system/commons_design_system.dart';
-import 'package:excel/excel.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 class SenhaPage extends StatelessWidget {
@@ -47,9 +45,7 @@ class SenhaPage extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        onPressed: () {
-                          importarExcel();
-                        },
+                        onPressed: () {},
                         style: ButtonStyle(
                           backgroundColor:
                               MaterialStateProperty.all(CustomColors.destaque),
@@ -70,19 +66,5 @@ class SenhaPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future<void> importarExcel() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['xlsx'],
-    );
-
-    if (result != null) {
-      File file = File(result.files.single.path!);
-
-      var bytes = await file.readAsBytes();
-      var excel = Excel.decodeBytes(bytes);
-    } else {}
   }
 }

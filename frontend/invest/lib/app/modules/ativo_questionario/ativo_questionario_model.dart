@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import '../Ativo/ativo_model.dart';
+import '../Ativo/models/ativo_model.dart';
 import '../questionario/questionario_model.dart';
 
 

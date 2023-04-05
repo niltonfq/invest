@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import '../Ativo/ativo_model.dart';
+import '../Ativo/models/ativo_model.dart';
 import '../banco/banco_model.dart';
 import '../dominio/dominio_model.dart';
 

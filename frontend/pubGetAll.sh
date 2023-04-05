@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd base_app
+cd invest_app
 flutter clean && flutter pub get
 cd ..
 cd commons_deps

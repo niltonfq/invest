@@ -18,3 +18,4 @@ export 'widgets/commons/custom_search.dart';
 export 'widgets/commons/custom_tab_bar.dart';
 export 'widgets/commons/custom_text_form_field.dart';
 export 'widgets/text_form_edit/custom_text_form_field.dart';
+export 'widgets/commons/custom_snackbar.dart';

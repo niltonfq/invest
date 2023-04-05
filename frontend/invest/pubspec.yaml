@@ -11,8 +11,9 @@ environment:
 dependencies:
   micro_core:
     path: ../micro_core
-  excel: ^2.0.1
-  file_picker: ^5.2.5
+
+  commons_deps:
+    path: ../commons_deps
   
   commons_design_system:
     path: ../commons_design_system

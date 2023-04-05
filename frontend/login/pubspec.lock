@@ -293,6 +293,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.4"
+  result_dart:
+    dependency: transitive
+    description:
+      name: result_dart
+      sha256: c8a6baefe21b9f5af2f4a6b47d9a2f742c379f0018bf0373cc1d5056cb2d1625
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.5"
   sky_engine:
     dependency: transitive
     description: flutter
