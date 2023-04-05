@@ -69,7 +69,7 @@ class AtivoControllerTest {
 	@Order(2)
 	public void getAtivosDadosInvalidosRetornaVazio() throws Exception {
 		var content = given().spec(specification).contentType("application/json")
-				.basePath("/usuario/525c853f-dd20-4d1d-a1d7-59edd31b112f/ativos")
+				.basePath("/ativos/usuario/525c853f-dd20-4d1d-a1d7-59edd31b112f")
 				.queryParams("page", 0, "limit", 5, "direction", "asc")
 				.when().get()
 				.then().statusCode(200)
@@ -88,7 +88,7 @@ class AtivoControllerTest {
 	@Order(3)	
 	public void getAtivosDadosValidosRetornaAtivos() throws Exception {
 		var content = given().spec(specification).contentType("application/json")
-				.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/ativos")
+				.basePath("/ativos/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
 				.queryParams("page", 0, "limit", 5, "direction", "asc")
 				.when().get()
 				.then().statusCode(200)
@@ -109,7 +109,7 @@ class AtivoControllerTest {
 	@Order(4)	
 	public void getOneAtivoDadosValidoRetornaAtivo() throws Exception {
 		var content = given().spec(specification).contentType("application/json")
-				.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/ativos/d2c8879c-cd1b-48c7-9880-2b864c81fe96")
+				.basePath("/ativos/d2c8879c-cd1b-48c7-9880-2b864c81fe96/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
 					.when().get()
 				.then()
 					.statusCode(200)
@@ -147,7 +147,7 @@ class AtivoControllerTest {
 	    
 	    var content = given().spec(specification)
 	            .contentType("application/json")
-	            .basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/ativos")
+	            .basePath("/ativos/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
 	                .body(ativoDto)
 	                .when()
 	                .post()
@@ -201,7 +201,7 @@ class AtivoControllerTest {
 		
 		var content = given().spec(specification)
 	            .contentType("application/json")
-	            .basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/ativos/d2c8879c-cd1b-48c7-9880-2b864c81fe96")
+	            .basePath("/ativos/d2c8879c-cd1b-48c7-9880-2b864c81fe96/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
 	                .body(ativoDto)
 	                .when()
 	                .put()
@@ -250,7 +250,7 @@ class AtivoControllerTest {
 		
 		given().spec(specification)
 			.contentType("application/json")
-			.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/ativos/d2c8879c-cd1b-48c7-9880-2b864c81fe96")
+			.basePath("/ativos/d2c8879c-cd1b-48c7-9880-2b864c81fe96/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
 		.when()
 			.delete()
 		.then()
