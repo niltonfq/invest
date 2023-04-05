@@ -1,5 +1,8 @@
 package br.com.invest.authuser.controllers;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;
@@ -29,9 +32,6 @@ import br.com.invest.authuser.dtos.UsuarioDto.UserView;
 import br.com.invest.authuser.models.UsuarioModel;
 import br.com.invest.authuser.services.UsuarioService;
 import br.com.invest.authuser.specifications.SpecificationTemplate;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)

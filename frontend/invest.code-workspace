@@ -1,9 +1,6 @@
 {
 	"folders": [
 		{
-			"path": "base_app"
-		},
-		{
 			"path": "commons_deps"
 		},
 		{
@@ -17,6 +14,9 @@
 		},
 		{
 			"path": "invest"
+		},
+		{
+			"path": "invest_app"
 		}
 	],
 	"settings": {}

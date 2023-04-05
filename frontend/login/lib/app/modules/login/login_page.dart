@@ -64,7 +64,9 @@ class LoginPage extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.offAllNamed("/ativo");
+                        },
                         style: ButtonStyle(
                           backgroundColor:
                               MaterialStateProperty.all(CustomColors.destaque),

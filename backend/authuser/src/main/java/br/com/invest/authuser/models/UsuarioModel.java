@@ -18,13 +18,11 @@ import org.springframework.hateoas.RepresentationModel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-
-import br.com.invest.authuser.enums.UsuarioStatus;
-import br.com.invest.authuser.enums.UsuarioType;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import br.com.invest.authuser.enums.UsuarioStatus;
+import br.com.invest.authuser.enums.UsuarioType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

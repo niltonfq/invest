@@ -25,7 +25,6 @@ import br.com.abs.invest.models.AtivoFechamentoModel;
 import br.com.abs.invest.models.AtivoModel;
 import br.com.abs.invest.models.BancoModel;
 import br.com.abs.invest.models.SegmentoModel;
-import br.com.abs.invest.models.BancoModel;
 import br.com.abs.invest.models.TransacaoModel;
 import br.com.abs.invest.models.UsuarioModel;
 import br.com.abs.invest.repositories.TransacaoRepository;
