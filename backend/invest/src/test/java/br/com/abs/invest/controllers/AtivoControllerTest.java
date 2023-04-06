@@ -143,7 +143,7 @@ class AtivoControllerTest {
 	    
 		ativoDto.setCodigo("BCFF11");
 		ativoDto.setMoeda(Moeda.R$);
-		ativoDto.setTipoAtivo(TipoAtivo.FII);
+		ativoDto.setTipoAtivo(TipoAtivo.Fundos_Imobiliários);
 	    
 	    var content = given().spec(specification)
 	            .contentType("application/json")
@@ -172,7 +172,7 @@ class AtivoControllerTest {
 		
 		ativoDto.setCodigo("BCFF11");
 		ativoDto.setMoeda(Moeda.R$);
-		ativoDto.setTipoAtivo(TipoAtivo.FII);
+		ativoDto.setTipoAtivo(TipoAtivo.Fundos_Imobiliários);
 		
 		
 		given().spec(specification)
@@ -195,7 +195,7 @@ class AtivoControllerTest {
 		
 		ativoDto.setCodigo("PTBR3");
 		ativoDto.setMoeda(Moeda.R$);
-		ativoDto.setTipoAtivo(TipoAtivo.FII);
+		ativoDto.setTipoAtivo(TipoAtivo.Fundos_Imobiliários);
 		
 		ativoDto.setNome("nome alterado");
 		
@@ -227,7 +227,7 @@ class AtivoControllerTest {
 		
 		ativoDto.setCodigo("PTBR3");
 		ativoDto.setMoeda(Moeda.R$);
-		ativoDto.setTipoAtivo(TipoAtivo.FII);
+		ativoDto.setTipoAtivo(TipoAtivo.Fundos_Imobiliários);
 		
 		given().spec(specification)
 	            .contentType("application/json")

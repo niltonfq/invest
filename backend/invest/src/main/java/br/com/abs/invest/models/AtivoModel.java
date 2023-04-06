@@ -72,7 +72,7 @@ public class AtivoModel extends RepresentationModel<AtivoModel> implements Seria
 	private String observacao;
 	
 	@Lob
-	@Column(nullable = false)
+	@Column
 	private String atividade;
 	
 	@Column(nullable = false)
@@ -99,7 +99,7 @@ public class AtivoModel extends RepresentationModel<AtivoModel> implements Seria
 	@Column(nullable = false)
 	private BigDecimal totalAtual = BigDecimal.ZERO;
 	
-	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING)
 	private LocalDate dataAtualizacaoPreco;
 	
 	@Column(nullable = false)

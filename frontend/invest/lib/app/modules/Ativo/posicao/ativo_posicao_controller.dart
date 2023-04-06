@@ -1,13 +1,14 @@
-import 'package:commons_design_system/widgets/commons/custom_snackbar.dart';
-import 'package:invest/app/modules/tipo_ativo/models/tipo_ativo_view_model.dart';
-
-import '../ativo_service.dart';
 import 'package:commons_deps/commons_deps.dart';
+import 'package:commons_design_system/widgets/commons/custom_snackbar.dart';
+
+import '../../tipo_ativo/models/tipo_ativo_view_model.dart';
+import '../ativo_service.dart';
 
 class AtivoPosicaoController extends GetxController
     with StateMixin<List<TipoAtivoViewModel>> {
   final _isLoading = false.obs;
   get isLoading => _isLoading.value;
+  final totalPatrimonio = "".obs;
   final AtivoService _service;
 
   AtivoPosicaoController({required AtivoService service})
@@ -22,11 +23,12 @@ class AtivoPosicaoController extends GetxController
 
   findAll() async {
     _isLoading(true);
-    
+
     final result = await _service.findAll();
     result.fold(
       (success) {
         change(success, status: RxStatus.success());
+        somaPatrimonio();
         _isLoading(false);
       },
       ((failure) {
@@ -34,5 +36,13 @@ class AtivoPosicaoController extends GetxController
         CustomSnackbar.erro(mensagem: failure.toString());
       }),
     );
+  }
+
+  void somaPatrimonio() {
+    totalPatrimonio.value = NumberFormat("R\$ ###,##0.00", 'pt_BR').format(
+        state?.fold<double>(
+            0,
+            (previousValue, element) =>
+                previousValue = (previousValue + (element.total ?? 0))));
   }
 }

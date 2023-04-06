@@ -204,42 +204,47 @@ public class TransacaoService {
 				    
 				    switch (tipoAtivo) {
 					case "Ações":
-						ativoModel.setTipoAtivo(TipoAtivo.Acoes);
+						ativoModel.setTipoAtivo(TipoAtivo.Ações);
 						break;
+						
 					case "ETF's":
-						ativoModel.setTipoAtivo(TipoAtivo.ETF);
-						
+						ativoModel.setTipoAtivo(TipoAtivo.ETFs_Nacionais);
 						break;
+						
 					case "FII's":
-						ativoModel.setTipoAtivo(TipoAtivo.FII);
-						
+						ativoModel.setTipoAtivo(TipoAtivo.Fundos_Imobiliários);
 						break;
+						
+					case "Fiagro":
+						ativoModel.setTipoAtivo(TipoAtivo.Fiagro);
+						break;
+						
 					case "Tesouro Direto":
 						ativoModel.setTipoAtivo(TipoAtivo.Tesouro_Direto);
-						
 						break;
+						
 					case "Cripto":
-						ativoModel.setTipoAtivo(TipoAtivo.Criptomoeda);
-						
+						ativoModel.setTipoAtivo(TipoAtivo.Criptomoedas);
 						break;
+						
 					case "ETF Exterior":
-						ativoModel.setTipoAtivo(TipoAtivo.ETF_Exterior);
-						
+						ativoModel.setTipoAtivo(TipoAtivo.ETFs_Internacionais);
 						break;
+						
 					case "Reits":
 						ativoModel.setTipoAtivo(TipoAtivo.Reits);
-						
 						break;
+						
 					case "Stocks":
 						ativoModel.setTipoAtivo(TipoAtivo.Stocks);
-						
 						break;
+						
 					case "BDR":
-						ativoModel.setTipoAtivo(TipoAtivo.BDR);
-						
+						ativoModel.setTipoAtivo(TipoAtivo.BDRs);
 						break;
-
+						
 					default:
+						ativoModel.setTipoAtivo(TipoAtivo.Ações);
 						break;
 					}
 			   
@@ -249,7 +254,7 @@ public class TransacaoService {
 			    	ativoModel.setDataCriacao(LocalDateTime.now(ZoneId.of("UTC")));
 			    	
 			    	if (
-			    			ativoModel.getTipoAtivo().equals(TipoAtivo.ETF_Exterior) || 
+			    			ativoModel.getTipoAtivo().equals(TipoAtivo.ETFs_Internacionais) || 
 			    			ativoModel.getTipoAtivo().equals(TipoAtivo.Reits) || 
 			    			ativoModel.getTipoAtivo().equals(TipoAtivo.Stocks)  
 			    	) {
@@ -361,6 +366,7 @@ public class TransacaoService {
 			}
 			
 			calcularPrecoMedioTodos(usuario);
+			ativoService.valorizarTodos(usuario);
 			
 		} catch (NumberFormatException e) {
 			e.printStackTrace();

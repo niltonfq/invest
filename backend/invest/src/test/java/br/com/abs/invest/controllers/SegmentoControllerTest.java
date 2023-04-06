@@ -78,7 +78,7 @@ class SegmentoControllerTest {
 	@Order(3)	
 	public void getSegmentosDadosValidosRetornaSegmentos() throws Exception {
 		var content = given().spec(specification).contentType("application/json")
-				.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/segmentos")
+				.basePath("/segmentos/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
 				.queryParams("page", 0, "limit", 5, "direction", "asc")
 				.when().get()
 				.then().statusCode(200)
@@ -99,7 +99,7 @@ class SegmentoControllerTest {
 	@Order(4)	
 	public void getOneSegmentoDadosValidoRetornaSegmento() throws Exception {
 		var content = given().spec(specification).contentType("application/json")
-				.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/segmentos/e16613e7-cca0-46df-b2db-2dda5779e666")
+				.basePath("/segmentos/e16613e7-cca0-46df-b2db-2dda5779e666/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
 					.when().get()
 				.then()
 					.statusCode(200)
@@ -119,7 +119,7 @@ class SegmentoControllerTest {
 	@Order(5)	
 	public void getOneSegmentoDadosInvalidosRetornaNotFound() throws Exception {
 		given().spec(specification).contentType("application/json")
-				.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/segmentos/32380fb1-82aa-4766-b63e-0141f5df5207")
+				.basePath("/segmentos/32380fb1-82aa-4766-b63e-0141f5df5207/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
 					.when().get()
 				.then()
 					.statusCode(404)
@@ -135,7 +135,7 @@ class SegmentoControllerTest {
 
 	    var content = given().spec(specification)
 	            .contentType("application/json")
-	            .basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/segmentos")
+	            .basePath("/segmentos/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
 	                .body(segmentoDto)
 	                .when()
 	                .post()
@@ -162,7 +162,7 @@ class SegmentoControllerTest {
 
 		given().spec(specification)
 		            .contentType("application/json")
-		            .basePath("/usuario/9962c0e4-6e5d-4125-ad1c-7363cf72e45c/segmentos")
+		            .basePath("/segmentos/usuario/9962c0e4-6e5d-4125-ad1c-7363cf72e45c")
 		                .body(segmentoDto)
 		                .when()
 		                .post()
@@ -182,7 +182,7 @@ class SegmentoControllerTest {
 		
 		var content = given().spec(specification)
 	            .contentType("application/json")
-	            .basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/segmentos/e16613e7-cca0-46df-b2db-2dda5779e666")
+	            .basePath("/segmentos/e16613e7-cca0-46df-b2db-2dda5779e666/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
 	                .body(segmentoDto)
 	                .when()
 	                .put()
@@ -210,7 +210,7 @@ class SegmentoControllerTest {
 		
 		given().spec(specification)
 	            .contentType("application/json")
-	            .basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/segmentos/9762c0e4-6e5d-4125-ad1c-7363cf72e459")
+	            .basePath("/segmentos/9762c0e4-6e5d-4125-ad1c-7363cf72e459/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
 	                .body(segmentoDto)
 	                .when()
 	                .put()
@@ -229,7 +229,7 @@ class SegmentoControllerTest {
 		
 		given().spec(specification)
 			.contentType("application/json")
-			.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/segmentos/e16613e7-cca0-46df-b2db-2dda5779e666")
+			.basePath("/segmentos/e16613e7-cca0-46df-b2db-2dda5779e666/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
 		.when()
 			.delete()
 		.then()
@@ -243,7 +243,7 @@ class SegmentoControllerTest {
 		
 		given().spec(specification)
 		.contentType("application/json")
-		.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/segmentos/e2c8879c-cd1b-48c7-9880-2b864c81fe96")
+		.basePath("/segmentos/e2c8879c-cd1b-48c7-9880-2b864c81fe96/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
 		.when()
 			.delete()
 		.then()

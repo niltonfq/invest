@@ -78,7 +78,7 @@ class BancoControllerTest {
 	@Order(3)	
 	public void getBancosDadosValidosRetornaBancos() throws Exception {
 		var content = given().spec(specification).contentType("application/json")
-				.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/bancos")
+				.basePath("/bancos/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
 				.queryParams("page", 0, "limit", 5, "direction", "asc")
 				.when().get()
 				.then().statusCode(200)
@@ -99,7 +99,7 @@ class BancoControllerTest {
 	@Order(4)	
 	public void getOneBancoDadosValidoRetornaBanco() throws Exception {
 		var content = given().spec(specification).contentType("application/json")
-				.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/bancos/51a4dee7-23e9-4213-9e13-2a5a53da7d95")
+				.basePath("/bancos/51a4dee7-23e9-4213-9e13-2a5a53da7d95/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
 					.when().get()
 				.then()
 					.statusCode(200)
@@ -119,7 +119,7 @@ class BancoControllerTest {
 	@Order(5)	
 	public void getOneBancoDadosInvalidosRetornaNotFound() throws Exception {
 		given().spec(specification).contentType("application/json")
-				.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/bancos/32380fb1-82aa-4766-b63e-0141f5df5207")
+				.basePath("/bancos/32380fb1-82aa-4766-b63e-0141f5df5207/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
 					.when().get()
 				.then()
 					.statusCode(404)
@@ -135,7 +135,7 @@ class BancoControllerTest {
 		
 	    var content = given().spec(specification)
 	            .contentType("application/json")
-	            .basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/bancos")
+	            .basePath("/bancos/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
 	                .body(bancoDto)
 	                .when()
 	                .post()
@@ -161,7 +161,7 @@ class BancoControllerTest {
 		bancoDto.setNome("BCFF11");
 		given().spec(specification)
 		            .contentType("application/json")
-		            .basePath("/usuario/9962c0e4-6e5d-4125-ad1c-7363cf72e45c/bancos")
+		            .basePath("/bancos/usuario/9962c0e4-6e5d-4125-ad1c-7363cf72e45c")
 		                .body(bancoDto)
 		                .when()
 		                .post()
@@ -181,7 +181,7 @@ class BancoControllerTest {
 		
 		var content = given().spec(specification)
 	            .contentType("application/json")
-	            .basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/bancos/51a4dee7-23e9-4213-9e13-2a5a53da7d95")
+	            .basePath("/bancos/51a4dee7-23e9-4213-9e13-2a5a53da7d95/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
 	                .body(bancoDto)
 	                .when()
 	                .put()
@@ -209,7 +209,7 @@ class BancoControllerTest {
 		
 		given().spec(specification)
 	            .contentType("application/json")
-	            .basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/bancos/9762c0e4-6e5d-4125-ad1c-7363cf72e459")
+	            .basePath("/bancos/9762c0e4-6e5d-4125-ad1c-7363cf72e459/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
 	                .body(bancoDto)
 	                .when()
 	                .put()
@@ -228,7 +228,7 @@ class BancoControllerTest {
 		
 		given().spec(specification)
 			.contentType("application/json")
-			.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/bancos/51a4dee7-23e9-4213-9e13-2a5a53da7d95")
+			.basePath("/bancos/51a4dee7-23e9-4213-9e13-2a5a53da7d95/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
 		.when()
 			.delete()
 		.then()
@@ -242,7 +242,7 @@ class BancoControllerTest {
 		
 		given().spec(specification)
 		.contentType("application/json")
-		.basePath("/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c/bancos/e2c8879c-cd1b-48c7-9880-2b864c81fe96")
+		.basePath("/bancos/e2c8879c-cd1b-48c7-9880-2b864c81fe96/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c")
 		.when()
 			.delete()
 		.then()

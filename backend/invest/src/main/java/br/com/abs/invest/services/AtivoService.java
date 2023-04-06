@@ -78,7 +78,7 @@ public class AtivoService {
 		
 		String uri;
 		
-		if (ativoModel.getTipoAtivo().equals(TipoAtivo.Criptomoeda)) {
+		if (ativoModel.getTipoAtivo().equals(TipoAtivo.Criptomoedas)) {
 			uri = "https://www.mercadobitcoin.net/api/"+ativoModel.getCodigo()+"/ticker/";
 		} else if ( ativoModel.getMoeda().equals(Moeda.R$))  {
           uri = "https://query2.finance.yahoo.com/v11/finance/quoteSummary/"+ativoModel.getCodigo()+".SA?modules=price";
@@ -103,7 +103,7 @@ public class AtivoService {
 	    	ativoModel.setValorAtual(ativoModel.getPrecoMedio());
 	    } else {
 		    if (
-		    		(ativoModel.getTipoAtivo().equals(TipoAtivo.Criptomoeda)) ||
+		    		(ativoModel.getTipoAtivo().equals(TipoAtivo.Criptomoedas)) ||
 		    		( ativoModel.getMoeda().equals(Moeda.R$))
 		    	) {
 		    	ativoModel.setTotalAtual(ativoModel.getQuantidadeInvestida()

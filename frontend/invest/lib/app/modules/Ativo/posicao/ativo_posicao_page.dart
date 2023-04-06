@@ -15,16 +15,21 @@ class AtivoPosicaoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Posição ativos por tipo',
-      home: Scaffold(
-          appBar: AppBar(title: const Text('Posição ativos por tipo')),
-          body: _controller.obx(
-            (state) {
-              return ExpandingItems(lista: state ?? []);
-            },
-          )),
-    );
+    return Scaffold(
+        appBar: AppBar(
+            title: Row(
+              children: [
+                const Text('Posição ativos por tipo'),
+                const Spacer(),
+                Obx(() => Text(_controller.totalPatrimonio.value)),
+              ],
+            ),
+            centerTitle: false),
+        body: _controller.obx(
+          (state) {
+            return ExpandingItems(lista: state ?? []);
+          },
+        ));
   }
 }
 
@@ -60,13 +65,27 @@ class _ExpandingItemsState extends State<ExpandingItems> {
                 return Row(
                   children: [
                     const Spacer(),
-                    Text(widget.lista[i].tipoAtivo ?? ""),
+                    SizedBox(
+                      width: 130,
+                      child: Text(
+                        (widget.lista[i].tipoAtivo ?? "").replaceAll("_", " "),
+                      ),
+                    ),
                     const Spacer(),
-                    Text(" ${widget.lista[i].quantidade}  Ativo(s)"),
+                    SizedBox(
+                      width: 130,
+                      child: Text(" ${widget.lista[i].quantidade}  Ativo(s)"),
+                    ),
                     const Spacer(),
-                    Text(widget.lista[i].percentualFormatado),
+                    SizedBox(
+                      width: 130,
+                      child: Text(widget.lista[i].percentualFormatado),
+                    ),
                     const Spacer(),
-                    Text(widget.lista[i].totalFormatado),
+                    SizedBox(
+                      width: 130,
+                      child: Text(widget.lista[i].totalFormatado),
+                    ),
                   ],
                 );
               },

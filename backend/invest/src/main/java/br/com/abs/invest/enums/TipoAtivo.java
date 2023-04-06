@@ -2,22 +2,18 @@ package br.com.abs.invest.enums;
 
 public enum TipoAtivo {
 	
-	Acoes,
-	BDR,
+	Ações,
+	Fundos_Imobiliários,
+	Fiagro,
+	ETFs_Nacionais,
+	ETFs_Internacionais,
+	Criptomoedas,
+	Tesouro_Direto,
 	CDB,
-	CRI,
-	CRA,
-	Criptomoeda,
-	Debenture,
-	ETF,
-	ETF_Exterior,
-	FII,
-	Ipca,	
-	LCI,
-	LCA,
-	Prefixado,
+	LCI_e_LCA,
 	Reits,
-	Stocks,	
-	Tesouro_Direto
+	Stocks,
+	Contas_Remuneradas,
+	BDRs
 		
 }
