@@ -22,14 +22,23 @@ import br.com.abs.invest.dtos.PosicaoTipoAtivoDto;
 import br.com.abs.invest.enums.Moeda;
 import br.com.abs.invest.enums.TipoAtivo;
 import br.com.abs.invest.models.AtivoModel;
+import br.com.abs.invest.models.PercentualInvestimentoModel;
 import br.com.abs.invest.models.UsuarioModel;
 import br.com.abs.invest.repositories.AtivoRepository;
 
 @Service
 public class AtivoService {
 
-	@Autowired
 	AtivoRepository ativoRepository;
+	PercentualInvestimentoService percentualInvestimentoService;
+	
+	public AtivoService(
+			AtivoRepository ativoRepository,
+			PercentualInvestimentoService percentualInvestimentoService
+		) {
+		this.ativoRepository = ativoRepository;
+		this.percentualInvestimentoService = percentualInvestimentoService;
+	}
 
 	public Optional<AtivoModel> findByUsuario(UsuarioModel usuario, UUID id) {
 		return ativoRepository.findByUsuarioAndId(usuario, id);
@@ -137,6 +146,33 @@ public class AtivoService {
 		return list;
 	}
 	
+	public void calculaPercentualAporte(UsuarioModel usuarioModel, Double aporte) {
+		
+		PercentualInvestimentoModel percentualInvestimentoModel = percentualInvestimentoService.findByUsuario(usuarioModel);
+		
+		Double percFixo =  percentualInvestimentoModel.getRendaFixa() / 100.0 ;
+		Double percVariavel =  percentualInvestimentoModel.getRendaVariavel() / 100.0 ;
+		
+		Double aporteFixo =  percFixo * aporte;
+		Double aporteVariavel = percVariavel * aporte;
+		
+		/*
+		
+		BigDecimal total = ativoRepository.totalPorUsuario(usuarioModel.getId());
+		total = total.add(aporte);
+		
+		
+		for (TipoAtivo tipoAtivo : TipoAtivo.values()) {
+			ativoRepository.totalTipoAtivoUsuario(usuarioModel.getId(), tipoAtivo);
+		}
+		
+		List<PosicaoTipoAtivoDto> totalPorTipo = ativoRepository.TotalPorTipo(usuarioModel.getId(), total);
+		for (PosicaoTipoAtivoDto posicaoTipoAtivoDto : totalPorTipo) {
+			
+		}
+		*/
+		
+	}
 }
 
 

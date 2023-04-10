@@ -23,7 +23,6 @@ import org.hibernate.annotations.Type;
 import org.springframework.hateoas.RepresentationModel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import br.com.abs.invest.enums.Moeda;
