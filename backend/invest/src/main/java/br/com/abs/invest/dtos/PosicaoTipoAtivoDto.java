@@ -14,6 +14,9 @@ public class PosicaoTipoAtivoDto implements Serializable {
 	private Long quantidade;
 	private BigDecimal percentual;
 	private BigDecimal total;
+	private BigDecimal totalDesejado;
+	private BigDecimal diferenca;
+	private BigDecimal aporte;
 	private List<PosicaoAtivoDto> ativos = new ArrayList<>();
 	
 	public PosicaoTipoAtivoDto() {
@@ -30,7 +33,29 @@ public class PosicaoTipoAtivoDto implements Serializable {
 		this.total = total;
 	}
 
+	public BigDecimal getDiferenca() {
+		return diferenca;
+	}
 
+	public void setDiferenca(BigDecimal diferenca) {
+		this.diferenca = diferenca;
+	}
+
+	public BigDecimal getAporte() {
+		return aporte;
+	}
+
+	public void setAporte(BigDecimal aporte) {
+		this.aporte = aporte;
+	}
+
+	public BigDecimal getTotalDesejado() {
+		return totalDesejado;
+	}
+
+	public void setTotalDesejado(BigDecimal totalDesejado) {
+		this.totalDesejado = totalDesejado;
+	}
 
 	public TipoAtivo getTipoAtipo() {
 		return tipoAtipo;

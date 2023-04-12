@@ -1,6 +1,7 @@
 package br.com.abs.invest.services;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -145,32 +146,96 @@ public class AtivoService {
 		return list;
 	}
 	
-	public void calculaPercentualAporte(UsuarioModel usuarioModel, Double aporte) {
+	public List<PosicaoTipoAtivoDto>  calculaPercentualAporte(UsuarioModel usuarioModel, BigDecimal aporte) {
 		
 		PercentualInvestimentoModel percentualInvestimentoModel = percentualInvestimentoService.findByUsuario(usuarioModel);
 		
-		Double percFixo =  percentualInvestimentoModel.getRendaFixa() / 100.0 ;
-		Double percVariavel =  percentualInvestimentoModel.getRendaVariavel() / 100.0 ;
+		BigDecimal total = aporte;
+		BigDecimal totalDiferenca = BigDecimal.ZERO;
+		BigDecimal percentual = BigDecimal.ZERO;
+		List<PosicaoTipoAtivoDto> totalPorTipo = posicaoPorTipo(usuarioModel);
 		
-		Double aporteFixo =  percFixo * aporte;
-		Double aporteVariavel = percVariavel * aporte;
-		
-		/*
-		
-		BigDecimal total = ativoRepository.totalPorUsuario(usuarioModel.getId());
-		total = total.add(aporte);
-		
-		
-		for (TipoAtivo tipoAtivo : TipoAtivo.values()) {
-			ativoRepository.totalTipoAtivoUsuario(usuarioModel.getId(), tipoAtivo);
-		}
-		
-		List<PosicaoTipoAtivoDto> totalPorTipo = ativoRepository.TotalPorTipo(usuarioModel.getId(), total);
 		for (PosicaoTipoAtivoDto posicaoTipoAtivoDto : totalPorTipo) {
+			total = total.add(posicaoTipoAtivoDto.getTotal());
 			
 		}
-		*/
 		
+		for (PosicaoTipoAtivoDto posicaoTipoAtivoDto : totalPorTipo) {
+			
+			percentual = resolvePercentual(percentualInvestimentoModel, percentual, posicaoTipoAtivoDto);
+			
+			posicaoTipoAtivoDto.setTotalDesejado(
+					total.multiply(percentual)
+					);
+			if (posicaoTipoAtivoDto.getTotal()
+					.compareTo(posicaoTipoAtivoDto.getTotalDesejado()) >= 0) {
+				posicaoTipoAtivoDto.setDiferenca(BigDecimal.ZERO);
+				
+				
+			} else {
+				posicaoTipoAtivoDto.setDiferenca(
+						posicaoTipoAtivoDto.getTotalDesejado().subtract(posicaoTipoAtivoDto.getTotal()));
+				
+			}
+			totalDiferenca = totalDiferenca.add(posicaoTipoAtivoDto.getDiferenca());
+		}
+		
+		for (PosicaoTipoAtivoDto posicaoTipoAtivoDto : totalPorTipo) {
+			posicaoTipoAtivoDto.setAporte( 
+					aporte.multiply(posicaoTipoAtivoDto.getDiferenca().divide(totalDiferenca, 2, RoundingMode.HALF_UP) ));
+		}
+		
+		return totalPorTipo;
+	}
+
+	private BigDecimal resolvePercentual(PercentualInvestimentoModel percentualInvestimentoModel, BigDecimal percentual,
+			PosicaoTipoAtivoDto posicaoTipoAtivoDto) {
+		if (posicaoTipoAtivoDto.getTipoAtipo().equals(TipoAtivo.Ações)) {
+			percentual = BigDecimal.valueOf( percentualInvestimentoModel.getAcoes()/100.0);
+		}
+		if (posicaoTipoAtivoDto.getTipoAtipo().equals(TipoAtivo.BDRs)) {
+			percentual = BigDecimal.valueOf( percentualInvestimentoModel.getBdrs()/100.0);
+		}
+		if (posicaoTipoAtivoDto.getTipoAtipo().equals(TipoAtivo.CDB)) {
+			percentual = BigDecimal.valueOf( percentualInvestimentoModel.getCdb()/100.0);
+		}
+		if (posicaoTipoAtivoDto.getTipoAtipo().equals(TipoAtivo.Cri_e_Cra)) {
+			percentual = BigDecimal.valueOf( percentualInvestimentoModel.getCriCra()/100.0);
+		}
+		if (posicaoTipoAtivoDto.getTipoAtipo().equals(TipoAtivo.Criptomoedas)) {
+			percentual = BigDecimal.valueOf( percentualInvestimentoModel.getCriptoMoedas()/100.0);
+		}
+		if (posicaoTipoAtivoDto.getTipoAtipo().equals(TipoAtivo.Debendures)) {
+			percentual = BigDecimal.valueOf( percentualInvestimentoModel.getDebendures()/100.0);
+		}
+		if (posicaoTipoAtivoDto.getTipoAtipo().equals(TipoAtivo.ETFs_Internacionais)) {
+			percentual = BigDecimal.valueOf( percentualInvestimentoModel.getEtfsInternacional()/100.0);
+		}
+		if (posicaoTipoAtivoDto.getTipoAtipo().equals(TipoAtivo.ETFs_Nacionais)) {
+			percentual = BigDecimal.valueOf( percentualInvestimentoModel.getEtfsNacional()/100.0);
+		}
+		if (posicaoTipoAtivoDto.getTipoAtipo().equals(TipoAtivo.Fiagro)) {
+			percentual = BigDecimal.valueOf( percentualInvestimentoModel.getFiagro()/100.0);
+		}
+		if (posicaoTipoAtivoDto.getTipoAtipo().equals(TipoAtivo.Fundos_Imobiliários)) {
+			percentual = BigDecimal.valueOf( percentualInvestimentoModel.getFundosImobiliarios()/100.0);
+		}
+		if (posicaoTipoAtivoDto.getTipoAtipo().equals(TipoAtivo.Fundos_Investimentos)) {
+			percentual = BigDecimal.valueOf( percentualInvestimentoModel.getFundosInvestimentos()/100.0);
+		}
+		if (posicaoTipoAtivoDto.getTipoAtipo().equals(TipoAtivo.LCI_e_LCA)) {
+			percentual = BigDecimal.valueOf( percentualInvestimentoModel.getLciLca()/100.0);
+		}
+		if (posicaoTipoAtivoDto.getTipoAtipo().equals(TipoAtivo.Reits)) {
+			percentual = BigDecimal.valueOf( percentualInvestimentoModel.getReits()/100.0);
+		}
+		if (posicaoTipoAtivoDto.getTipoAtipo().equals(TipoAtivo.Stocks)) {
+			percentual = BigDecimal.valueOf( percentualInvestimentoModel.getStocks()/100.0);
+		}
+		if (posicaoTipoAtivoDto.getTipoAtipo().equals(TipoAtivo.Tesouro_Direto)) {
+			percentual = BigDecimal.valueOf( percentualInvestimentoModel.getTesouroDireto()/100.0);
+		}
+		return percentual;
 	}
 }
 

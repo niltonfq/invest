@@ -51,14 +51,6 @@ public class PercentualInvestimentoModel extends RepresentationModel<BancoModel>
 	private LocalDateTime dataAtualizacao;
 	
 	@Column( nullable = false)
-	private short rendaFixa;
-	
-	@Column( nullable = false)
-	private short rendaVariavel;
-	
-	
-	
-	@Column( nullable = false)
 	private short acoes;
 	
 	@Column( nullable = false)
@@ -139,14 +131,6 @@ public class PercentualInvestimentoModel extends RepresentationModel<BancoModel>
 		this.dataAtualizacao = dataAtualizacao;
 	}
 
-	public short getRendaFixa() {
-		return rendaFixa;
-	}
-
-	public void setRendaFixa(short rendaFixa) {
-		this.rendaFixa = rendaFixa;
-	}
-
 	public short getFundosImobiliarios() {
 		return fundosImobiliarios;
 	}
@@ -169,14 +153,6 @@ public class PercentualInvestimentoModel extends RepresentationModel<BancoModel>
 
 	public void setCriptoMoedas(short criptoMoedas) {
 		this.criptoMoedas = criptoMoedas;
-	}
-
-	public short getRendaVariavel() {
-		return rendaVariavel;
-	}
-
-	public void setRendaVariavel(short rendaVariavel) {
-		this.rendaVariavel = rendaVariavel;
 	}
 
 	public short getAcoes() {

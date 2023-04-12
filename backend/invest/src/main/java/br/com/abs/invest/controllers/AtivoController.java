@@ -3,6 +3,7 @@ package br.com.abs.invest.controllers;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -52,16 +53,16 @@ public class AtivoController {
 	@GetMapping(value = "/ativos/calcularAporte/{aporte}/usuario/{usuarioId}")
 	public ResponseEntity<Object> calcularAporte(			
 			@PathVariable(value = "usuarioId") UUID usuarioId,
-			@PathVariable(value = "aporte") Double aporte
+			@PathVariable(value = "aporte") BigDecimal aporte
 			) throws JsonMappingException, JsonProcessingException {
 		
 		Optional<UsuarioModel> usuarioOptional = usuarioService.findById(usuarioId);
 		if (!usuarioOptional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
 		}
-		ativoService.calculaPercentualAporte(usuarioOptional.get(), aporte);
+		List<PosicaoTipoAtivoDto> list = ativoService.calculaPercentualAporte(usuarioOptional.get(), aporte);
 		
-		return ResponseEntity.status(HttpStatus.OK).body(0);
+		return ResponseEntity.status(HttpStatus.OK).body(list);
 	}
 	
 	@GetMapping(value = "/ativos/posicaoTipoAtivo/usuario/{usuarioId}")

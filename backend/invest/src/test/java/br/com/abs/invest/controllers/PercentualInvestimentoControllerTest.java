@@ -91,7 +91,7 @@ class PercentualInvestimentoControllerTest {
 		List<PercentualInvestimentoModel> percentualInvestimentos = objectMapper.readValue(resp, new TypeReference<List<PercentualInvestimentoModel>>() {});
 		
 		assertTrue(percentualInvestimentos.size() == 1);
-		assertTrue(percentualInvestimentos.get(0).getRendaFixa() == 20);
+		assertTrue(percentualInvestimentos.get(0).getAcoes() == 20);
 		
 	}
 
@@ -109,7 +109,7 @@ class PercentualInvestimentoControllerTest {
 		PercentualInvestimentoModel percentualInvestimento = objectMapper.readValue(content, PercentualInvestimentoModel.class);
 		    
 		assertNotNull(percentualInvestimento.getId());
-		assertNotNull(percentualInvestimento.getRendaFixa());
+		assertNotNull(percentualInvestimento.getAcoes());
 		
 
 	}
@@ -147,7 +147,7 @@ class PercentualInvestimentoControllerTest {
 	    PercentualInvestimentoModel percentualInvestimento = objectMapper.readValue(content, PercentualInvestimentoModel.class);
 	    
 	    assertNotNull(percentualInvestimento.getId());
-	    assertNotNull(percentualInvestimento.getRendaFixa());
+	    assertNotNull(percentualInvestimento.getAcoes());
 	    
 	    
 	}
@@ -193,7 +193,7 @@ class PercentualInvestimentoControllerTest {
 		PercentualInvestimentoModel percentualInvestimento = objectMapper.readValue(content, PercentualInvestimentoModel.class);
 	    
 	    assertNotNull(percentualInvestimento.getId());
-	    assertNotNull(percentualInvestimento.getRendaFixa());
+	    assertNotNull(percentualInvestimento.getAcoes());
 	    
 		
 	}
