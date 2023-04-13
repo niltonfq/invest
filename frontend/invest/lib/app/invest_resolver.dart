@@ -5,6 +5,8 @@ import 'modules/Ativo/posicao/ativo_posicao_bindings.dart';
 import 'modules/Ativo/posicao/ativo_posicao_page.dart';
 import 'modules/home/home_bindings.dart';
 import 'modules/home/home_page.dart';
+import 'modules/percentualinvestimento/percentualinvestimento_bindings.dart';
+import 'modules/percentualinvestimento/percentualinvestimento_page.dart';
 
 class InvestResolver implements MicroApp {
   @override
@@ -18,9 +20,14 @@ class InvestResolver implements MicroApp {
           binding: HomeBindings(),
         ),
         GetPage(
-          name: '/ativo',
+          name: '/posicao',
           page: () => AtivoPosicaoPage(controller: Get.find()),
           binding: AtivoBindings(),
+        ),
+        GetPage(
+          name: '/percentual',
+          page: () => const PercentualinvestimentoPage(),
+          binding: PercentualinvestimentoBindings(),
         ),
       ];
 }

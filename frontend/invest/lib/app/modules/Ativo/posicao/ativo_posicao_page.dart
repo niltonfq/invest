@@ -2,6 +2,7 @@ import 'package:commons_deps/commons_deps.dart';
 import 'package:commons_design_system/commons_design_system.dart';
 import 'package:flutter/material.dart';
 
+import '../../../common/widgets/menu_drawer.dart';
 import '../../tipo_ativo/models/tipo_ativo_view_model.dart';
 import '../models/ativo_view_model.dart';
 import 'ativo_posicao_controller.dart';
@@ -25,6 +26,7 @@ class AtivoPosicaoPage extends StatelessWidget {
               ],
             ),
             centerTitle: false),
+        drawer: const MenuDrawer(),
         body: _controller.obx(
           (state) {
             return ExpandingItems(lista: state ?? []);

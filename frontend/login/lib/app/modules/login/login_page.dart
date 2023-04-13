@@ -65,7 +65,7 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          Get.offAllNamed("/ativo");
+                          Get.offAllNamed("/posicao");
                         },
                         style: ButtonStyle(
                           backgroundColor:
