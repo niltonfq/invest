@@ -21,6 +21,7 @@ class BaseApiService {
   }
 
   Future<Response> saveApi(Map<String, dynamic> model, String? uri) async {
+    
     if (uri == null) {
       uri = EnvironmentConfig.SERVER + recurso;
     }
