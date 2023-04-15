@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 class PercentualinvestimentoModel {
-  int? id;
+  String? id;
   int? acoes;
   int? fundosImobiliarios;
   int? fundosInvestimentos;
@@ -68,7 +68,7 @@ class PercentualinvestimentoModel {
 
   factory PercentualinvestimentoModel.fromMap(Map<String, dynamic> map) {
     return PercentualinvestimentoModel(
-      id: map['id'] != null ? map['id'] as int : null,
+      id: map['id'] != null ? map['id'] as String : null,
       acoes: map['acoes'] != null ? map['acoes'] as int : null,
       fundosImobiliarios: map['fundosImobiliarios'] != null ? map['fundosImobiliarios'] as int : null,
       fundosInvestimentos: map['fundosInvestimentos'] != null ? map['fundosInvestimentos'] as int : null,
@@ -92,7 +92,7 @@ class PercentualinvestimentoModel {
   factory PercentualinvestimentoModel.fromJson(String source) => PercentualinvestimentoModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   PercentualinvestimentoModel copyWith({
-    int? id,
+    String? id,
     int? acoes,
     int? fundosImobiliarios,
     int? fundosInvestimentos,

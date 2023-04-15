@@ -16,8 +16,18 @@ class PercentualinvestimentoController extends GetxController
         super();
 
   @override
-  void onReady() {
-    change(PercentualinvestimentoModel(), status: RxStatus.success());
+  void onReady() async {
+    var response = await _percentualinvestimentoService.getApi(
+        uri: EnvironmentConfig.SERVER +
+            '/percentualInvestimentos/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c');
+    if (response.statusCode == 200) {
+      List lista = (response.body['content'] as List);
+      var list = PercentualinvestimentoModel.fromJsonList(lista);
+
+      change(list[0], status: RxStatus.success());
+    } else {
+      change(PercentualinvestimentoModel(), status: RxStatus.success());
+    }
     super.onReady();
   }
 
@@ -62,21 +72,33 @@ class PercentualinvestimentoController extends GetxController
   int? setBDRs(double newValue) => state?.bdrs = newValue.round();
 
   salvar() async {
-    print(state!.toJson());
     if (percentualTotal.value != 100) {
       CustomSnackbar.erro(mensagem: 'Percentual total deve ser 100%');
     }
-    var response = await _percentualinvestimentoService.saveApi(
-      state!.toMap(),
-      EnvironmentConfig.SERVER +
-          '/percentualInvestimentos/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c',
-    );
-    if (response.statusCode != 201) {
+
+    Response<dynamic> response;
+    if (state?.id == null) {
+      response = await _percentualinvestimentoService.saveApi(
+        state!.toMap(),
+        EnvironmentConfig.SERVER +
+            '/percentualInvestimentos/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c',
+      );
+    } else {
+      response = await _percentualinvestimentoService.saveApi(
+        state!.toMap(),
+        EnvironmentConfig.SERVER +
+            '/percentualInvestimentos/' +
+            (state?.id ?? '') +
+            '/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c',
+      );
+    }
+    if ((response.statusCode != 201) && (response.statusCode != 200)) {
       CustomSnackbar.erro(
         mensagem: (response.statusText ?? '').isEmpty
             ? 'Erro ao salvar'
             : (response.statusText ?? ''),
       );
     }
+    CustomSnackbar.sucesso('Registro saldo com sucesso');
   }
 }

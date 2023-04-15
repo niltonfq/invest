@@ -147,8 +147,8 @@ public class PercentualInvestimentoController {
 			
 		var percentualInvestimentoModel = optional.get();
 		
-		percentualInvestimentoDto.setId(id);
 		BeanUtils.copyProperties(percentualInvestimentoDto, percentualInvestimentoModel);			
+		percentualInvestimentoModel.setId(id);
 		percentualInvestimentoModel.setDataAtualizacao(LocalDateTime.now(ZoneId.of("UTC")));			
 		percentualInvestimentoService.save(percentualInvestimentoModel);
 		

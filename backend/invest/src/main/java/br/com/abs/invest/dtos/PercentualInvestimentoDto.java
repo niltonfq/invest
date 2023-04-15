@@ -1,9 +1,6 @@
 package br.com.abs.invest.dtos;
 
 import java.io.Serializable;
-import java.util.UUID;
-
-import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -11,9 +8,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PercentualInvestimentoDto implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Type(type = "uuid-char")
-	private UUID id;
 	
 	UsuarioDto usuario;
 	
@@ -37,14 +31,6 @@ public class PercentualInvestimentoDto implements Serializable {
 
 	public PercentualInvestimentoDto() {
 		super();
-	}
-
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
 	}
 
 	public UsuarioDto getUsuario() {
