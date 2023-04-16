@@ -9,13 +9,13 @@ class PercentualinvestimentoModel {
   int? fiagro;
   int? stocks;
   int? reits;
-  int? etfsNacionais;
-  int? etfsInternacionais;
+  int? etfsNacional;
+  int? etfsInternacional;
   int? criptoMoedas;
   int? tesouroDireto;
   int? cdb;
-  int? lcilca;
-  int? cricra;
+  int? lciLca;
+  int? criCra;
   int? debendures;
   int? bdrs;
 	
@@ -27,13 +27,13 @@ class PercentualinvestimentoModel {
     this.fiagro,
     this.stocks,
     this.reits,
-    this.etfsNacionais,
-    this.etfsInternacionais,
+    this.etfsNacional,
+    this.etfsInternacional,
     this.criptoMoedas,
     this.tesouroDireto,
     this.cdb,
-    this.lcilca,
-    this.cricra,
+    this.lciLca,
+    this.criCra,
     this.debendures,
     this.bdrs,
   });
@@ -54,13 +54,13 @@ class PercentualinvestimentoModel {
       'fiagro': fiagro,
       'stocks': stocks,
       'reits': reits,
-      'etfsNacionais': etfsNacionais,
-      'etfsInternacionais': etfsInternacionais,
+      'etfsNacional': etfsNacional,
+      'etfsInternacional': etfsInternacional,
       'criptoMoedas': criptoMoedas,
       'tesouroDireto': tesouroDireto,
       'cdb': cdb,
-      'lcilca': lcilca,
-      'cricra': cricra,
+      'lciLca': lciLca,
+      'criCra': criCra,
       'debendures': debendures,
       'bdrs': bdrs,
     };
@@ -75,13 +75,13 @@ class PercentualinvestimentoModel {
       fiagro: map['fiagro'] != null ? map['fiagro'] as int : null,
       stocks: map['stocks'] != null ? map['stocks'] as int : null,
       reits: map['reits'] != null ? map['reits'] as int : null,
-      etfsNacionais: map['etfsNacionais'] != null ? map['etfsNacionais'] as int : null,
-      etfsInternacionais: map['etfsInternacionais'] != null ? map['etfsInternacionais'] as int : null,
+      etfsNacional: map['etfsNacional'] != null ? map['etfsNacional'] as int : null,
+      etfsInternacional: map['etfsInternacional'] != null ? map['etfsInternacional'] as int : null,
       criptoMoedas: map['criptoMoedas'] != null ? map['criptoMoedas'] as int : null,
       tesouroDireto: map['tesouroDireto'] != null ? map['tesouroDireto'] as int : null,
       cdb: map['cdb'] != null ? map['cdb'] as int : null,
-      lcilca: map['lcilca'] != null ? map['lcilca'] as int : null,
-      cricra: map['cricra'] != null ? map['cricra'] as int : null,
+      lciLca: map['lciLca'] != null ? map['lciLca'] as int : null,
+      criCra: map['criCra'] != null ? map['criCra'] as int : null,
       debendures: map['debendures'] != null ? map['debendures'] as int : null,
       bdrs: map['bdrs'] != null ? map['bdrs'] as int : null,
     );
@@ -99,13 +99,13 @@ class PercentualinvestimentoModel {
     int? fiagro,
     int? stocks,
     int? reits,
-    int? etfsNacionais,
-    int? etfsInternacionais,
+    int? etfsNacional,
+    int? etfsInternacional,
     int? criptoMoedas,
     int? tesouroDireto,
     int? cdb,
-    int? lcilca,
-    int? cricra,
+    int? lciLca,
+    int? criCra,
     int? debendures,
     int? bdrs,
   }) {
@@ -117,13 +117,13 @@ class PercentualinvestimentoModel {
       fiagro: fiagro ?? this.fiagro,
       stocks: stocks ?? this.stocks,
       reits: reits ?? this.reits,
-      etfsNacionais: etfsNacionais ?? this.etfsNacionais,
-      etfsInternacionais: etfsInternacionais ?? this.etfsInternacionais,
+      etfsNacional: etfsNacional ?? this.etfsNacional,
+      etfsInternacional: etfsInternacional ?? this.etfsInternacional,
       criptoMoedas: criptoMoedas ?? this.criptoMoedas,
       tesouroDireto: tesouroDireto ?? this.tesouroDireto,
       cdb: cdb ?? this.cdb,
-      lcilca: lcilca ?? this.lcilca,
-      cricra: cricra ?? this.cricra,
+      lciLca: lciLca ?? this.lciLca,
+      criCra: criCra ?? this.criCra,
       debendures: debendures ?? this.debendures,
       bdrs: bdrs ?? this.bdrs,
     );
@@ -131,7 +131,7 @@ class PercentualinvestimentoModel {
 
   @override
   String toString() {
-    return 'PercentualinvestimentoModel(id: $id, acoes: $acoes, fundosImobiliarios: $fundosImobiliarios, fundosInvestimentos: $fundosInvestimentos, fiagro: $fiagro, stocks: $stocks, reits: $reits, etfsNacionais: $etfsNacionais, etfsInternacionais: $etfsInternacionais, criptoMoedas: $criptoMoedas, tesouroDireto: $tesouroDireto, cdb: $cdb, lcilca: $lcilca, cricra: $cricra, debendures: $debendures, bdrs: $bdrs)';
+    return 'PercentualinvestimentoModel(id: $id, acoes: $acoes, fundosImobiliarios: $fundosImobiliarios, fundosInvestimentos: $fundosInvestimentos, fiagro: $fiagro, stocks: $stocks, reits: $reits, etfsNacional: $etfsNacional, etfsInternacional: $etfsInternacional, criptoMoedas: $criptoMoedas, tesouroDireto: $tesouroDireto, cdb: $cdb, lciLca: $lciLca, criCra: $criCra, debendures: $debendures, bdrs: $bdrs)';
   }
 
   @override
@@ -146,13 +146,13 @@ class PercentualinvestimentoModel {
       other.fiagro == fiagro &&
       other.stocks == stocks &&
       other.reits == reits &&
-      other.etfsNacionais == etfsNacionais &&
-      other.etfsInternacionais == etfsInternacionais &&
+      other.etfsNacional == etfsNacional &&
+      other.etfsInternacional == etfsInternacional &&
       other.criptoMoedas == criptoMoedas &&
       other.tesouroDireto == tesouroDireto &&
       other.cdb == cdb &&
-      other.lcilca == lcilca &&
-      other.cricra == cricra &&
+      other.lciLca == lciLca &&
+      other.criCra == criCra &&
       other.debendures == debendures &&
       other.bdrs == bdrs;
   }
@@ -166,13 +166,13 @@ class PercentualinvestimentoModel {
       fiagro.hashCode ^
       stocks.hashCode ^
       reits.hashCode ^
-      etfsNacionais.hashCode ^
-      etfsInternacionais.hashCode ^
+      etfsNacional.hashCode ^
+      etfsInternacional.hashCode ^
       criptoMoedas.hashCode ^
       tesouroDireto.hashCode ^
       cdb.hashCode ^
-      lcilca.hashCode ^
-      cricra.hashCode ^
+      lciLca.hashCode ^
+      criCra.hashCode ^
       debendures.hashCode ^
       bdrs.hashCode;
   }

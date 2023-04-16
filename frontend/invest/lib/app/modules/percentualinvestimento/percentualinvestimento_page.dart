@@ -74,12 +74,12 @@ class PercentualinvestimentoPage
                     children: [
                       sliderComp(
                         'ETFs Nacionais',
-                        controller.state?.etfsNacionais,
+                        controller.state?.etfsNacional,
                         controller.setEtfsNacionais,
                       ),
                       sliderComp(
                         'ETFs Internacionais',
-                        controller.state?.etfsInternacionais,
+                        controller.state?.etfsInternacional,
                         controller.setEtfsInternacionais,
                       ),
                       sliderComp(
@@ -106,7 +106,7 @@ class PercentualinvestimentoPage
                       ),
                       sliderComp(
                         'LCI e LCA',
-                        controller.state?.lcilca,
+                        controller.state?.lciLca,
                         controller.setLcilca,
                       ),
                     ],
@@ -118,7 +118,7 @@ class PercentualinvestimentoPage
                     children: [
                       sliderComp(
                         'Cri e Cra',
-                        controller.state?.cricra,
+                        controller.state?.criCra,
                         controller.setCricra,
                       ),
                       sliderComp(

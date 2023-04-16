@@ -14,6 +14,14 @@ class MenuDrawer extends StatelessWidget {
             accountEmail: Text('contato@abstrativa.com.br'),
           ),
           ListTile(
+            leading: const Icon(Icons.price_change_outlined),
+            title: const Text(
+              'Ativos',
+              style: TextStyle(fontSize: 16),
+            ),
+            onTap: () => Get.toNamed("/ativos"),
+          ),
+          ListTile(
             leading: const Icon(Icons.home),
             title: const Text(
               'Posição',

@@ -25,6 +25,7 @@ class PercentualinvestimentoController extends GetxController
       var list = PercentualinvestimentoModel.fromJsonList(lista);
 
       change(list[0], status: RxStatus.success());
+      somaPercent();
     } else {
       change(PercentualinvestimentoModel(), status: RxStatus.success());
     }
@@ -38,13 +39,13 @@ class PercentualinvestimentoController extends GetxController
         (state?.fiagro ?? 0) +
         (state?.stocks ?? 0) +
         (state?.reits ?? 0) +
-        (state?.etfsNacionais ?? 0) +
-        (state?.etfsInternacionais ?? 0) +
+        (state?.etfsNacional ?? 0) +
+        (state?.etfsInternacional ?? 0) +
         (state?.criptoMoedas ?? 0) +
         (state?.tesouroDireto ?? 0) +
         (state?.cdb ?? 0) +
-        (state?.lcilca ?? 0) +
-        (state?.cricra ?? 0) +
+        (state?.lciLca ?? 0) +
+        (state?.criCra ?? 0) +
         (state?.debendures ?? 0) +
         (state?.bdrs ?? 0));
     change(state, status: RxStatus.success());
@@ -58,16 +59,16 @@ class PercentualinvestimentoController extends GetxController
   int? setStocks(double newValue) => state?.stocks = newValue.round();
   int? setReits(double newValue) => state?.reits = newValue.round();
   int? setEtfsNacionais(double newValue) =>
-      state?.etfsNacionais = newValue.round();
+      state?.etfsNacional = newValue.round();
   int? setEtfsInternacionais(double newValue) =>
-      state?.etfsInternacionais = newValue.round();
+      state?.etfsInternacional = newValue.round();
   int? setCriptomoedas(double newValue) =>
       state?.criptoMoedas = newValue.round();
   int? setTesouroDireto(double newValue) =>
       state?.tesouroDireto = newValue.round();
   int? setCDB(double newValue) => state?.cdb = newValue.round();
-  int? setLcilca(double newValue) => state?.lcilca = newValue.round();
-  int? setCricra(double newValue) => state?.cricra = newValue.round();
+  int? setLcilca(double newValue) => state?.lciLca = newValue.round();
+  int? setCricra(double newValue) => state?.criCra = newValue.round();
   int? setDebendures(double newValue) => state?.debendures = newValue.round();
   int? setBDRs(double newValue) => state?.bdrs = newValue.round();
 
