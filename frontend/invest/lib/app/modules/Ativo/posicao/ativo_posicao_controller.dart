@@ -24,7 +24,7 @@ class AtivoPosicaoController extends GetxController
   findAll() async {
     _isLoading(true);
 
-    final result = await _service.findAll();
+    final result = await _service.findPosicaoPorTipoAtivo();
     result.fold(
       (success) {
         change(success, status: RxStatus.success());

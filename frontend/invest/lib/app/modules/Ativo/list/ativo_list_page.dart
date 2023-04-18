@@ -1,3 +1,4 @@
+import 'package:commons_design_system/commons_design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,16 +15,7 @@ class AtivoListPage extends GetView<AtivoListController> {
       appBar: AppBar(
         title: const Text('Lista de ativos'),
       ),
-      body: controller.obx(
-        (state) {
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(50, 20, 50, 0),
-              child: Container(),
-            ),
-          );
-        },
-      ),
+      body: CustomGrid(),
     );
   }
 }

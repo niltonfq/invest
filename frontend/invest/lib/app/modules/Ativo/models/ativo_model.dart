@@ -2,16 +2,13 @@
 import 'dart:convert';
 
 import '../../banco/banco_model.dart';
-import '../../dominio/dominio_model.dart';
 import '../../segmento/segmento_model.dart';
-import '../../tipo_ativo/models/tipo_ativo_model.dart';
 
 class AtivoModel {
-  int? id;
-  int? status;
-  TipoAtivoModel? tipoAtivo;
+  String? id;
+  String? tipoAtivo;
   String? codigo;
-  DominioModel? moeda;
+  String? moeda;
   SegmentoModel? segmento;
   String? observacao;
   double? precoMedio;
@@ -27,7 +24,6 @@ class AtivoModel {
   double? percentualTotal;
   AtivoModel({
     this.id,
-    this.status = 1,
     this.tipoAtivo,
     this.codigo,
     this.moeda,
@@ -51,12 +47,11 @@ class AtivoModel {
   }
 
   Map<String, dynamic> toMap() {
-    return {
+    return <String, dynamic>{
       'id': id,
-      'status': status,
-      'tipoAtivo': tipoAtivo?.toMap(),
+      'tipoAtivo': tipoAtivo,
       'codigo': codigo,
-      'moeda': moeda?.toMap(),
+      'moeda': moeda,
       'segmento': segmento?.toMap(),
       'observacao': observacao,
       'precoMedio': precoMedio,
@@ -75,36 +70,117 @@ class AtivoModel {
 
   factory AtivoModel.fromMap(Map<String, dynamic> map) {
     return AtivoModel(
-      id: map['id']?.toInt(),
-      status: map['status']?.toInt(),
-      tipoAtivo: map['tipoAtivo'] != null
-          ? TipoAtivoModel.fromMap(map['tipoAtivo'])
-          : null,
-      codigo: map['codigo'],
-      moeda: map['moeda'] != null ? DominioModel.fromMap(map['moeda']) : null,
-      segmento: map['segmento'] != null
-          ? SegmentoModel.fromMap(map['segmento'])
-          : null,
-      observacao: map['observacao'],
-      precoMedio: map['precoMedio']?.toDouble(),
-      nota: map['nota']?.toDouble(),
-      cnpj: map['cnpj'],
-      nome: map['nome'],
-      banco: map['banco'] != null ? BancoModel.fromMap(map['banco']) : null,
-      valorAtual: map['valorAtual']?.toDouble(),
-      quantidadeInvestida: map['quantidadeInvestida']?.toDouble(),
-      totalInvestido: map['totalInvestido']?.toDouble(),
-      aporte: map['aporte']?.toDouble(),
-      percentual: map['percentual']?.toDouble(),
-      percentualTotal: map['percentualTotal']?.toDouble(),
+      id: map['id'] != null ? map['id'] as String : null,
+      tipoAtivo: map['tipoAtivo'] != null ? map['tipoAtivo'] as String : null,
+      codigo: map['codigo'] != null ? map['codigo'] as String : null,
+      moeda: map['moeda'] != null ? map['moeda'] as String : null,
+      segmento: map['segmento'] != null ? SegmentoModel.fromMap(map['segmento'] as Map<String,dynamic>) : null,
+      observacao: map['observacao'] != null ? map['observacao'] as String : null,
+      precoMedio: map['precoMedio'] != null ? map['precoMedio'] as double : null,
+      nota: map['nota'] != null ? map['nota'] as double : null,
+      cnpj: map['cnpj'] != null ? map['cnpj'] as String : null,
+      nome: map['nome'] != null ? map['nome'] as String : null,
+      banco: map['banco'] != null ? BancoModel.fromMap(map['banco'] as Map<String,dynamic>) : null,
+      valorAtual: map['valorAtual'] != null ? map['valorAtual'] as double : null,
+      quantidadeInvestida: map['quantidadeInvestida'] != null ? map['quantidadeInvestida'] as double : null,
+      totalInvestido: map['totalInvestido'] != null ? map['totalInvestido'] as double : null,
+      aporte: map['aporte'] != null ? map['aporte'] as double : null,
+      percentual: map['percentual'] != null ? map['percentual'] as double : null,
+      percentualTotal: map['percentualTotal'] != null ? map['percentualTotal'] as double : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory AtivoModel.fromJson(String source) =>
-      AtivoModel.fromMap(json.decode(source));
+  factory AtivoModel.fromJson(String source) => AtivoModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => '$codigo';
+  String toString() {
+    return 'AtivoModel(id: $id, tipoAtivo: $tipoAtivo, codigo: $codigo, moeda: $moeda, segmento: $segmento, observacao: $observacao, precoMedio: $precoMedio, nota: $nota, cnpj: $cnpj, nome: $nome, banco: $banco, valorAtual: $valorAtual, quantidadeInvestida: $quantidadeInvestida, totalInvestido: $totalInvestido, aporte: $aporte, percentual: $percentual, percentualTotal: $percentualTotal)';
+  }
+
+  AtivoModel copyWith({
+    String? id,
+    String? tipoAtivo,
+    String? codigo,
+    String? moeda,
+    SegmentoModel? segmento,
+    String? observacao,
+    double? precoMedio,
+    double? nota,
+    String? cnpj,
+    String? nome,
+    BancoModel? banco,
+    double? valorAtual,
+    double? quantidadeInvestida,
+    double? totalInvestido,
+    double? aporte,
+    double? percentual,
+    double? percentualTotal,
+  }) {
+    return AtivoModel(
+      id: id ?? this.id,
+      tipoAtivo: tipoAtivo ?? this.tipoAtivo,
+      codigo: codigo ?? this.codigo,
+      moeda: moeda ?? this.moeda,
+      segmento: segmento ?? this.segmento,
+      observacao: observacao ?? this.observacao,
+      precoMedio: precoMedio ?? this.precoMedio,
+      nota: nota ?? this.nota,
+      cnpj: cnpj ?? this.cnpj,
+      nome: nome ?? this.nome,
+      banco: banco ?? this.banco,
+      valorAtual: valorAtual ?? this.valorAtual,
+      quantidadeInvestida: quantidadeInvestida ?? this.quantidadeInvestida,
+      totalInvestido: totalInvestido ?? this.totalInvestido,
+      aporte: aporte ?? this.aporte,
+      percentual: percentual ?? this.percentual,
+      percentualTotal: percentualTotal ?? this.percentualTotal,
+    );
+  }
+
+  @override
+  bool operator ==(covariant AtivoModel other) {
+    if (identical(this, other)) return true;
+  
+    return 
+      other.id == id &&
+      other.tipoAtivo == tipoAtivo &&
+      other.codigo == codigo &&
+      other.moeda == moeda &&
+      other.segmento == segmento &&
+      other.observacao == observacao &&
+      other.precoMedio == precoMedio &&
+      other.nota == nota &&
+      other.cnpj == cnpj &&
+      other.nome == nome &&
+      other.banco == banco &&
+      other.valorAtual == valorAtual &&
+      other.quantidadeInvestida == quantidadeInvestida &&
+      other.totalInvestido == totalInvestido &&
+      other.aporte == aporte &&
+      other.percentual == percentual &&
+      other.percentualTotal == percentualTotal;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+      tipoAtivo.hashCode ^
+      codigo.hashCode ^
+      moeda.hashCode ^
+      segmento.hashCode ^
+      observacao.hashCode ^
+      precoMedio.hashCode ^
+      nota.hashCode ^
+      cnpj.hashCode ^
+      nome.hashCode ^
+      banco.hashCode ^
+      valorAtual.hashCode ^
+      quantidadeInvestida.hashCode ^
+      totalInvestido.hashCode ^
+      aporte.hashCode ^
+      percentual.hashCode ^
+      percentualTotal.hashCode;
+  }
 }

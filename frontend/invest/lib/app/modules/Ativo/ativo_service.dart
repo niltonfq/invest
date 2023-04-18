@@ -1,10 +1,11 @@
-import 'package:invest/app/modules/Ativo/models/ativo_view_model.dart';
-import 'package:invest/app/modules/tipo_ativo/models/tipo_ativo_view_model.dart';
+import 'package:commons_deps/commons_deps.dart';
 import 'package:micro_core/app/log/log_logger.dart';
 import 'package:micro_core/micro_core.dart';
-import 'package:commons_deps/commons_deps.dart';
 
+import '../tipo_ativo/models/tipo_ativo_view_model.dart';
 import 'ativo_repository.dart';
+import 'models/ativo_model.dart';
+import 'models/ativo_view_model.dart';
 
 class AtivoService extends BaseApiService {
   final LogLogger _log = LogLogger();
@@ -16,7 +17,8 @@ class AtivoService extends BaseApiService {
 
 // /ativos/posicaoTipoAtivo/usuario/{usuarioId}
 
-  AsyncResult<List<TipoAtivoViewModel>, Exception> findAll() async {
+  AsyncResult<List<TipoAtivoViewModel>, Exception>
+      findPosicaoPorTipoAtivo() async {
     try {
       var response = await repoApi.get(
         uri: 'http://localhost:8088' +
@@ -60,6 +62,29 @@ class AtivoService extends BaseApiService {
       _log.e(e.toString());
       return Failure(
         Exception('Erro ao consultar ativos posição por tipo '),
+      );
+    }
+  }
+
+  AsyncResult<List<AtivoModel>, Exception> findAll() async {
+    try {
+      var response = await repoApi.get(
+        uri: 'http://localhost:8088' +
+            recurso +
+            '/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c',
+      );
+      if (response.statusCode == 200) {
+        List lista = (response.body['content'] as List);
+        return Success(AtivoModel.fromJsonList(lista));
+      } else {
+        return Failure(
+          Exception('Erro ao consultar ativos'),
+        );
+      }
+    } catch (e) {
+      _log.e(e.toString());
+      return Failure(
+        Exception('Erro ao consultar ativos'),
       );
     }
   }

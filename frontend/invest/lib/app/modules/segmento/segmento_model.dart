@@ -2,7 +2,7 @@ import 'dart:convert';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class SegmentoModel {
-  int? id;
+  String? id;
   String? nome;
   SegmentoModel({
     this.id,
@@ -18,7 +18,7 @@ class SegmentoModel {
 
   factory SegmentoModel.fromMap(Map<String, dynamic> map) {
     return SegmentoModel(
-      id: map['id'] != null ? map['id'] as int : null,
+      id: map['id'] != null ? map['id'] as String : null,
       nome: map['nome'] != null ? map['nome'] as String : null,
     );
   }
@@ -33,5 +33,27 @@ class SegmentoModel {
   }
 
   @override
-  String toString() => '$nome';
+  String toString() => 'SegmentoModel(id: $id, nome: $nome)';
+
+  SegmentoModel copyWith({
+    String? id,
+    String? nome,
+  }) {
+    return SegmentoModel(
+      id: id ?? this.id,
+      nome: nome ?? this.nome,
+    );
+  }
+
+  @override
+  bool operator ==(covariant SegmentoModel other) {
+    if (identical(this, other)) return true;
+  
+    return 
+      other.id == id &&
+      other.nome == nome;
+  }
+
+  @override
+  int get hashCode => id.hashCode ^ nome.hashCode;
 }

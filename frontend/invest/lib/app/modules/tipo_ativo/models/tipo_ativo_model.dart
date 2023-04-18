@@ -39,7 +39,30 @@ class TipoAtivoModel {
   }
 
   @override
-  String toString() {
-    return '$nome';
+  String toString() => 'TipoAtivoModel(id: $id, nome: $nome, fixavariavel: $fixavariavel)';
+
+  TipoAtivoModel copyWith({
+    int? id,
+    String? nome,
+    String? fixavariavel,
+  }) {
+    return TipoAtivoModel(
+      id: id ?? this.id,
+      nome: nome ?? this.nome,
+      fixavariavel: fixavariavel ?? this.fixavariavel,
+    );
   }
+
+  @override
+  bool operator ==(covariant TipoAtivoModel other) {
+    if (identical(this, other)) return true;
+  
+    return 
+      other.id == id &&
+      other.nome == nome &&
+      other.fixavariavel == fixavariavel;
+  }
+
+  @override
+  int get hashCode => id.hashCode ^ nome.hashCode ^ fixavariavel.hashCode;
 }

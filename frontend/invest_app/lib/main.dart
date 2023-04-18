@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget with BaseApp {
     super.registerRouters();
 
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: 'ABS - invest',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'OpenSans',

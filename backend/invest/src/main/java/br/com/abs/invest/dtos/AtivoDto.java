@@ -3,7 +3,6 @@ package br.com.abs.invest.dtos;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -19,8 +18,6 @@ import br.com.abs.invest.enums.TipoAtivo;
 public class AtivoDto implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	private UUID id;
-	
 	private SegmentoDto segmento;
 	
 	private BancoDto banco;
@@ -58,17 +55,6 @@ public class AtivoDto implements Serializable{
 	public AtivoDto() {
 		super();
 	}
-
-	
-	public UUID getId() {
-		return id;
-	}
-
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
-
 
 	public SegmentoDto getSegmento() {
 		return segmento;
