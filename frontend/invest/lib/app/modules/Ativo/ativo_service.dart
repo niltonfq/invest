@@ -4,7 +4,6 @@ import 'package:micro_core/micro_core.dart';
 
 import '../tipo_ativo/models/tipo_ativo_view_model.dart';
 import 'ativo_repository.dart';
-import 'models/ativo_model.dart';
 import 'models/ativo_view_model.dart';
 
 class AtivoService extends BaseApiService {
@@ -66,16 +65,16 @@ class AtivoService extends BaseApiService {
     }
   }
 
-  AsyncResult<List<AtivoModel>, Exception> findAll() async {
+  AsyncResult<Response<dynamic>, Exception> findAll(int page) async {
     try {
       var response = await repoApi.get(
         uri: 'http://localhost:8088' +
             recurso +
-            '/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c',
+            '/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c' +
+            '?page=$page',
       );
       if (response.statusCode == 200) {
-        List lista = (response.body['content'] as List);
-        return Success(AtivoModel.fromJsonList(lista));
+        return Success(response);
       } else {
         return Failure(
           Exception('Erro ao consultar ativos'),

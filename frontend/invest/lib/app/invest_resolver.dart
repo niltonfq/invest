@@ -23,7 +23,7 @@ class InvestResolver implements MicroApp {
         ),
         GetPage(
           name: '/ativos',
-          page: () => const AtivoListPage(),
+          page: () => AtivoListPage(),
           binding: AtivoListBindings(),
         ),
         GetPage(
