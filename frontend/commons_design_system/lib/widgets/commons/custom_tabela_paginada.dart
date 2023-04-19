@@ -6,6 +6,7 @@ class CustomTabelaPaginada<T> extends StatelessWidget {
   final List<String Function(T)> gerarDadosColunas;
   final int registrosPorPagina;
   final int totalDeRegistros;
+  final int pagina;
   final Function(int) onChangedPage;
 
   CustomTabelaPaginada({
@@ -14,7 +15,7 @@ class CustomTabelaPaginada<T> extends StatelessWidget {
     required this.gerarDadosColunas,
     required this.registrosPorPagina,
     required this.onChangedPage,
-    required this.totalDeRegistros,
+    required this.totalDeRegistros, required this.pagina,
   });
 
   @override
@@ -25,7 +26,7 @@ class CustomTabelaPaginada<T> extends StatelessWidget {
             (coluna) => DataColumn(label: Text(coluna)),
           )
           .toList(),
-      source: _DataSource<T>(dados, gerarDadosColunas, totalDeRegistros),
+      source: _DataSource<T>(dados, gerarDadosColunas, totalDeRegistros, pagina, registrosPorPagina),
       rowsPerPage: registrosPorPagina,
       onPageChanged: onChangedPage,
     );
@@ -37,11 +38,15 @@ class _DataSource<T> extends DataTableSource {
   int _selectedRowCount = 0;
   final List<String Function(T)> gerarDadosColunas;
   int _totalDeRegistros = 0;
+  int _pagina = 0;
+  int _registrosPorPagina = 0;
 
-  _DataSource(this._dados, this.gerarDadosColunas, this._totalDeRegistros);
+  _DataSource(this._dados, this.gerarDadosColunas, this._totalDeRegistros, this._pagina,
+  this._registrosPorPagina);
 
   @override
   DataRow getRow(int index) {
+    index = _pagina
     final dado = _dados[index];
     final cells = gerarDadosColunas
         .map(
