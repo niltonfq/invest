@@ -3,12 +3,13 @@ import 'package:commons_design_system/commons_design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../models/ativo_model.dart';
 import 'ativo_list_controller.dart';
 
 class AtivoListPage extends GetView<AtivoListController> {
-  static const double tamanho = 400;
-  final List<String> colunas = ['Codigo', 'nome', 'moeda'];
+  final List<DataColumn> columns = [
+    const DataColumn(label: Text('Codigo')),
+    const DataColumn(label: Text('Nome')),
+  ];
   AtivoListPage({Key? key}) : super(key: key);
 
   @override
@@ -19,17 +20,19 @@ class AtivoListPage extends GetView<AtivoListController> {
       ),
       body: controller.obx(
         (state) {
-          return CustomTabelaPaginada<AtivoModel>(
-            colunas: colunas,
-            dados: state!,
-            totalDeRegistros: controller.totalItens,
-            registrosPorPagina: 10,
-            onChangedPage: controller.onChangedPage,
-            gerarDadosColunas: [
-              (dado) => dado.codigo ?? "",
-              (dado) => dado.nome ?? "",
-              (dado) => dado.moeda ?? "",
-            ],
+          return CustomTabelaPaginada(
+            columns: columns,
+            rows: controller.linhas(),
+            primeira: () => controller.setPagina(0),
+            anterior: () => controller
+                .setPagina(controller.setPagina(controller.pagina - 1)),
+            proxima: () => controller
+                .setPagina(controller.setPagina(controller.pagina + 1)),
+            ultima: () => controller.setPagina(
+                controller.ultimaPagina),
+            pagina: controller.pagina,
+            totalPaginas:
+                (controller.totalItens / controller.totalPorPagina).ceil() - 1,
           );
         },
       ),

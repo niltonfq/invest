@@ -1,72 +1,83 @@
 import 'package:flutter/material.dart';
 
-class CustomTabelaPaginada<T> extends StatelessWidget {
-  final List<String> colunas;
-  final List<T> dados;
-  final List<String Function(T)> gerarDadosColunas;
-  final int registrosPorPagina;
-  final int totalDeRegistros;
-  final int pagina;
-  final Function(int) onChangedPage;
+import '../../commons_design_system.dart';
 
-  CustomTabelaPaginada({
-    required this.colunas,
-    required this.dados,
-    required this.gerarDadosColunas,
-    required this.registrosPorPagina,
-    required this.onChangedPage,
-    required this.totalDeRegistros, required this.pagina,
-  });
+class CustomTabelaPaginada extends StatelessWidget {
+  final List<DataColumn> columns;
+  final List<DataRow> rows;
+  final int? sortColumnIndex;
+  final bool sortAscending;
+  final void Function()? primeira;
+  final void Function()? anterior;
+  final void Function()? proxima;
+  final void Function()? ultima;
+  final int pagina;
+  final int totalPaginas;
+
+  const CustomTabelaPaginada({
+    Key? key,
+    required this.columns,
+    required this.rows,
+    this.sortColumnIndex,
+    this.sortAscending = true,
+    this.primeira,
+    this.anterior,
+    this.proxima,
+    this.ultima,
+    required this.pagina,
+    required this.totalPaginas,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return PaginatedDataTable(
-      columns: colunas
-          .map(
-            (coluna) => DataColumn(label: Text(coluna)),
-          )
-          .toList(),
-      source: _DataSource<T>(dados, gerarDadosColunas, totalDeRegistros, pagina, registrosPorPagina),
-      rowsPerPage: registrosPorPagina,
-      onPageChanged: onChangedPage,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        DataTable(
+          columns: columns,
+          rows: rows,
+          sortColumnIndex: sortColumnIndex,
+          sortAscending: sortAscending,
+        ),
+        Wrap(
+          spacing: 20,
+          children: [
+            SizedBox(
+              width: 100,
+              child: Text('${pagina + 1} / ${totalPaginas + 1}  '),
+            ),
+            SizedBox(
+              width: 100,
+              child: CustomButton(
+                child: Text("Primeira"),
+                onPressed: primeira,
+              ),
+            ),
+            SizedBox(
+              width: 100,
+              child: CustomButton(
+                child: Text("Anterior"),
+                onPressed: anterior,
+              ),
+            ),
+            SizedBox(
+              width: 100,
+              child: CustomButton(
+                child: Text("Próxima"),
+                onPressed: proxima,
+              ),
+            ),
+            SizedBox(
+              width: 100,
+              child: CustomButton(
+                child: Text("Última"),
+                onPressed: ultima,
+              ),
+            ),
+          ],
+        ),
+        Spacer()
+      ],
     );
   }
-}
-
-class _DataSource<T> extends DataTableSource {
-  List<T> _dados;
-  int _selectedRowCount = 0;
-  final List<String Function(T)> gerarDadosColunas;
-  int _totalDeRegistros = 0;
-  int _pagina = 0;
-  int _registrosPorPagina = 0;
-
-  _DataSource(this._dados, this.gerarDadosColunas, this._totalDeRegistros, this._pagina,
-  this._registrosPorPagina);
-
-  @override
-  DataRow getRow(int index) {
-    index = _pagina
-    final dado = _dados[index];
-    final cells = gerarDadosColunas
-        .map(
-          (gerarDadoColuna) => DataCell(Text(gerarDadoColuna(dado))),
-        )
-        .toList();
-    return DataRow.byIndex(
-      index: index,
-      cells: cells,
-    );
-  }
-
-  @override
-  int get rowCount => _totalDeRegistros;
-
-  @override
-  bool get isRowCountApproximate => false;
-
-  @override
-  int get selectedRowCount => _selectedRowCount;
-
-  void sort<T>(Comparable<T> Function(T d) getField, bool ascending) {}
 }

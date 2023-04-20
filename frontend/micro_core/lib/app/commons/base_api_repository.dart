@@ -1,5 +1,6 @@
 import 'package:commons_deps/commons_deps.dart';
-import 'package:micro_core/app/http/http_get.dart';
+
+import '../http/http_get.dart';
 
 class BaseApiRepository {
   Future<void> deleteApi({required String uri}) async {
@@ -14,7 +15,7 @@ class BaseApiRepository {
   Future<Response> get({required String uri}) async {
     HttpGet client = HttpGet();
     try {
-      var response = await client.auth().getApi(uri);
+      var response = await client.getApi(uri);
       return response;
     } finally {
       client.dispose();
