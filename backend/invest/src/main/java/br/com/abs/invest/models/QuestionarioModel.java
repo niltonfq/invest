@@ -59,6 +59,9 @@ public class QuestionarioModel extends RepresentationModel<QuestionarioModel> im
 	@Enumerated(EnumType.STRING)
 	private TipoAtivo tipoAtivo;
 	
+	@ManyToOne
+	@JoinColumn(name = "segmentoId")
+	private SegmentoModel segmento;
 	
 	@Column(length = 255)
 	private String criterio;
@@ -76,6 +79,14 @@ public class QuestionarioModel extends RepresentationModel<QuestionarioModel> im
 
 	public void setId(UUID id) {
 		this.id = id;
+	}
+
+	public SegmentoModel getSegmento() {
+		return segmento;
+	}
+
+	public void setSegmento(SegmentoModel segmento) {
+		this.segmento = segmento;
 	}
 
 	public LocalDateTime getDataCriacao() {

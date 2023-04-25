@@ -36,5 +36,10 @@ class InvestResolver implements MicroApp {
           page: () => const PercentualinvestimentoPage(),
           binding: PercentualinvestimentoBindings(),
         ),
+        GetPage(
+          name: '/questionario',
+          page: () => const PercentualinvestimentoPage(),
+          binding: PercentualinvestimentoBindings(),
+        ),
       ];
 }

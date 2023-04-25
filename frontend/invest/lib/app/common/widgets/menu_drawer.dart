@@ -37,6 +37,14 @@ class MenuDrawer extends StatelessWidget {
             ),
             onTap: () => Get.toNamed("/percentual"),
           ),
+          ListTile(
+            leading: const Icon(Icons.percent_rounded),
+            title: const Text(
+              'Questionário',
+              style: TextStyle(fontSize: 16),
+            ),
+            onTap: () => Get.toNamed("/questionario"),
+          ),
           const Spacer(),
           ListTile(
             leading: const Icon(Icons.exit_to_app),
