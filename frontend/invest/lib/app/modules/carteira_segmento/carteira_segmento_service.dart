@@ -5,6 +5,6 @@ import 'carteira_segmento_repository.dart';
 class CarteiraSegmentoService extends BaseApiService {
   CarteiraSegmentoService({required CarteiraSegmentoRepository repository}) {
     repoApi = repository;
-    recurso = '/carteiraSegmentgo/';
+    recurso = '/carteiraSegmento/';
   }
 }
