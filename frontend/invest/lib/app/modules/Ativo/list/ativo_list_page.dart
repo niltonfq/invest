@@ -19,10 +19,11 @@ class AtivoListPage extends GetView<AtivoListController> {
         title: const Text('Lista de ativos'),
         actions: [
           IconButton(
-              onPressed: () async {
-                await Get.toNamed("/banco");
-                controller.findAll();
-              }, icon:const Icon(Icons.five_k_plus_rounded)),
+            onPressed: () {
+              Get.toNamed("/ativo");
+            },
+            icon: const Icon(Icons.add),
+          ),
         ],
       ),
       body: controller.obx(
@@ -35,8 +36,7 @@ class AtivoListPage extends GetView<AtivoListController> {
                 .setPagina(controller.setPagina(controller.pagina - 1)),
             proxima: () => controller
                 .setPagina(controller.setPagina(controller.pagina + 1)),
-            ultima: () => controller.setPagina(
-                controller.ultimaPagina),
+            ultima: () => controller.setPagina(controller.ultimaPagina),
             pagina: controller.pagina,
             totalPaginas:
                 (controller.totalItens / controller.totalPorPagina).ceil() - 1,
