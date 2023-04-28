@@ -5,12 +5,10 @@ import '../ativo_questionario_service.dart';
 
 class AtivoQuestionarioListController extends GetxController
     with StateMixin<List<AtivoQuestionarioModel>> {
-
-
-      final AtivoQuestionarioService _ativoQuestionarioService;
+  final AtivoQuestionarioService _ativoQuestionarioService;
 
   AtivoQuestionarioListController({
-     required AtivoQuestionarioService ativoQuestionarioService,
-    }) : _ativoQuestionarioService = ativoQuestionarioService,
-    super();
-    }
+    required AtivoQuestionarioService ativoQuestionarioService,
+  })  : _ativoQuestionarioService = ativoQuestionarioService,
+        super();
+}
