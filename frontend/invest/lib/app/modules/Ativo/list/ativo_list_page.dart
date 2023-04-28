@@ -17,6 +17,13 @@ class AtivoListPage extends GetView<AtivoListController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Lista de ativos'),
+        actions: [
+          IconButton(
+              onPressed: () async {
+                await Get.toNamed("/banco");
+                controller.findAll();
+              }, icon:const Icon(Icons.five_k_plus_rounded)),
+        ],
       ),
       body: controller.obx(
         (state) {

@@ -5,7 +5,6 @@ import 'package:micro_core/micro_core.dart';
 import 'questionario_repository.dart';
 
 class QuestionarioService extends BaseApiService {
-  
   final LogLogger _log = LogLogger();
 
   QuestionarioService({required QuestionarioRepository repository}) {
@@ -25,13 +24,13 @@ class QuestionarioService extends BaseApiService {
         return Success(response);
       } else {
         return Failure(
-          Exception('Erro ao consultar ativos'),
+          Exception('Erro ao consultar Questionario'),
         );
       }
     } catch (e) {
       _log.e(e.toString());
       return Failure(
-        Exception('Erro ao consultar ativos'),
+        Exception('Erro ao consultar Questionario'),
       );
     }
   }
