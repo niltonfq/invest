@@ -80,8 +80,8 @@ class _AbsTextFormFieldState extends State<AbsTextFormField> {
                   Text(
                     widget.titulo,
                     style: widget.enabled
-                        ? Theme.of(context).textTheme.bodyText1
-                        : Theme.of(context).textTheme.bodyText1?.copyWith(
+                        ? Theme.of(context).textTheme.bodyLarge
+                        : Theme.of(context).textTheme.bodyLarge?.copyWith(
                               color: Theme.of(context)
                                   .inputDecorationTheme
                                   .hintStyle
@@ -92,7 +92,7 @@ class _AbsTextFormFieldState extends State<AbsTextFormField> {
                       ? Text(
                           ' *',
                           style:
-                              Theme.of(context).textTheme.bodyText1?.copyWith(
+                              Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     color: Theme.of(context)
                                         .inputDecorationTheme
                                         .errorStyle
