@@ -1,5 +1,3 @@
-
-
 import 'package:micro_core/micro_core.dart';
 
 import 'transacao_repository.dart';
@@ -9,6 +7,4 @@ class TransacaoService extends BaseApiService {
     repoApi = repository;
     recurso = '/atransacao/';
   }
-
- 
 }

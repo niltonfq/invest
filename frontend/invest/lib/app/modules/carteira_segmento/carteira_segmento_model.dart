@@ -5,13 +5,13 @@ import '../Ativo/models/ativo_model.dart';
 
 
 
-class CarteiraTipoModel {
+class CarteiraSegmentoModel {
   String? tipo;
   double? quantidade;
   double? total;
   double? percentual;
   List<AtivoModel>? ativos;
-  CarteiraTipoModel({
+  CarteiraSegmentoModel({
     this.tipo,
     this.quantidade,
     this.total,
@@ -29,8 +29,8 @@ class CarteiraTipoModel {
     };
   }
 
-  factory CarteiraTipoModel.fromMap(Map<String, dynamic> map) {
-    return CarteiraTipoModel(
+  factory CarteiraSegmentoModel.fromMap(Map<String, dynamic> map) {
+    return CarteiraSegmentoModel(
       tipo: map['tipo'],
       quantidade: map['quantidade']?.toDouble(),
       total: map['total']?.toDouble(),
@@ -44,10 +44,10 @@ class CarteiraTipoModel {
 
   String toJson() => json.encode(toMap());
 
-  factory CarteiraTipoModel.fromJson(String source) =>
-      CarteiraTipoModel.fromMap(json.decode(source));
+  factory CarteiraSegmentoModel.fromJson(String source) =>
+      CarteiraSegmentoModel.fromMap(json.decode(source));
 
-  static List<CarteiraTipoModel> fromJsonList(Iterable list) {
-    return list.map((item) => CarteiraTipoModel.fromMap(item)).toList();
+  static List<CarteiraSegmentoModel> fromJsonList(Iterable list) {
+    return list.map((item) => CarteiraSegmentoModel.fromMap(item)).toList();
   }
 }

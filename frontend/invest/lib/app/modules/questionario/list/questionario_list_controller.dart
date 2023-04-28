@@ -1,12 +1,13 @@
 import 'package:commons_deps/commons_deps.dart';
 import 'package:commons_design_system/commons_design_system.dart';
+import 'package:commons_design_system/widgets/commons/loader_mixin.dart';
 import 'package:flutter/material.dart';
 
 import '../questionario_model.dart';
 import '../questionario_service.dart';
 
 class QuestionarioListController extends GetxController
-    with StateMixin<List<QuestionarioModel>> {
+    with StateMixin<List<QuestionarioModel>>, LoaderMixin {
   final QuestionarioService _questionarioService;
 
   final _isLoading = false.obs;
