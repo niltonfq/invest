@@ -5,6 +5,8 @@ import 'modules/Ativo/list/ativo_list_bindings.dart';
 import 'modules/Ativo/list/ativo_list_page.dart';
 import 'modules/Ativo/posicao/ativo_posicao_bindings.dart';
 import 'modules/Ativo/posicao/ativo_posicao_page.dart';
+import 'modules/banco/list/banco_list_bindigs.dart';
+import 'modules/banco/list/banco_list_page.dart';
 import 'modules/home/home_bindings.dart';
 import 'modules/home/home_page.dart';
 import 'modules/percentualinvestimento/percentualinvestimento_bindings.dart';
@@ -40,6 +42,11 @@ class InvestResolver implements MicroApp {
           name: '/questionario',
           page: () => const PercentualinvestimentoPage(),
           binding: PercentualinvestimentoBindings(),
+        ),
+        GetPage(
+          name: '/banco',
+          page: () => const BancoListPage(),
+          binding: BancoListBindings(),
         ),
       ];
 }
