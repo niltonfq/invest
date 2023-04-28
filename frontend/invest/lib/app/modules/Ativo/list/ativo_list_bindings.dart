@@ -18,3 +18,4 @@ class AtivoListBindings implements Bindings {
     );
   }
 }
+
