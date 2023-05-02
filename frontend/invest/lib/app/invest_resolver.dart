@@ -1,6 +1,8 @@
 import 'package:commons_deps/commons_deps.dart';
 import 'package:micro_core/micro_core.dart';
 
+import 'modules/Ativo/detail/ativo_bindings.dart';
+import 'modules/Ativo/detail/ativo_page.dart';
 import 'modules/Ativo/list/ativo_list_bindings.dart';
 import 'modules/Ativo/list/ativo_list_page.dart';
 import 'modules/Ativo/posicao/ativo_posicao_bindings.dart';
@@ -26,6 +28,11 @@ class InvestResolver implements MicroApp {
           binding: HomeBindings(),
         ),
         GetPage(
+          name: '/ativo',
+          page: () => AtivoPage( controller: Get.find(),),
+          binding: AtivoBindings(),
+        ),
+        GetPage(
           name: '/ativos',
           page: () => AtivoListPage(),
           binding: AtivoListBindings(),
@@ -33,7 +40,7 @@ class InvestResolver implements MicroApp {
         GetPage(
           name: '/posicao',
           page: () => AtivoPosicaoPage(controller: Get.find()),
-          binding: AtivoBindings(),
+          binding: AtivoPosicaoBindings(),
         ),
         GetPage(
           name: '/percentual',
