@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:commons_deps/commons_deps.dart';
 import 'package:commons_design_system/widgets/commons/loader_mixin.dart';
 import 'package:flutter/material.dart';
@@ -8,43 +10,41 @@ import '../banco_service.dart';
 class BancoController extends GetxController
     with StateMixin<BancoModel>, LoaderMixin {
   final BancoService _bancoService;
+  final loading = false.obs;
   GlobalKey<FormState> form = GlobalKey();
+  final TextEditingController nomeTEC = TextEditingController();
+  final TextEditingController cnpjTEC = TextEditingController();
+
   BancoController({
     required BancoService bancoService,
   })  : _bancoService = bancoService,
         super();
 
-  // variáveis
-  final loading = false.obs;
-  Rx<BancoModel> obj = BancoModel().obs;
-  final TextEditingController nomeTEC = TextEditingController();
-  final TextEditingController cnpjTEC = TextEditingController();
-// endRegion variáveis
   @override
   onReady() async {
     try {
       loading(true);
 
       if (Get.arguments != null) {
-        obj.value.id = (Get.arguments as BancoModel).id;
-        findOne();
+        findOne(Get.arguments['id']);
       }
     } catch (e) {
       loading(false);
     }
   }
 
-  Future<void> findOne() async {
+  findOne(String id) async {
     try {
       loading(true);
+      
     } finally {
       loading(false);
     }
   }
 
   void setEdits() {
-    nomeTEC.text = obj.value.nome ?? '';
-    cnpjTEC.text = obj.value.cnpj ?? '';
+    nomeTEC.text = value?.nome ?? '';
+    cnpjTEC.text = value?.cnpj ?? '';
   }
 
   Future<void> salvar() async {}

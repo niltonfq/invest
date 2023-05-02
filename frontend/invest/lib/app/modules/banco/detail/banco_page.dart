@@ -2,7 +2,6 @@ import 'package:commons_deps/commons_deps.dart';
 import 'package:commons_design_system/commons_design_system.dart';
 import 'package:flutter/material.dart';
 
-import '../banco_model.dart';
 import 'banco_controller.dart';
 
 class BancoPage extends GetView<BancoController> {
@@ -62,7 +61,6 @@ class BancoPage extends GetView<BancoController> {
                 await controller.salvar();
                 controller.nomeTEC.text = '';
                 controller.cnpjTEC.text = '';
-                controller.obj(BancoModel());
               },
               child: const Text('Salvar'),
             ),
