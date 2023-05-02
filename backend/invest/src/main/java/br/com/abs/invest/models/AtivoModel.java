@@ -112,7 +112,7 @@ public class AtivoModel extends RepresentationModel<AtivoModel> implements Seria
 	@Column(nullable = false)
 	private LocalDateTime dataAtualizacao;
 
-	
+	private short diaPagamento;
 	
 	public AtivoModel() {
 		super();
@@ -126,6 +126,14 @@ public class AtivoModel extends RepresentationModel<AtivoModel> implements Seria
 
 	public void setId(UUID id) {
 		this.id = id;
+	}
+
+	public short getDiaPagamento() {
+		return diaPagamento;
+	}
+
+	public void setDiaPagamento(short diaPagamento) {
+		this.diaPagamento = diaPagamento;
 	}
 
 	public UsuarioModel getUsuario() {
