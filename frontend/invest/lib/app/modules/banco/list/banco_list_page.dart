@@ -14,7 +14,9 @@ class BancoListPage extends GetView<BancoListController> {
         ),
         floatingActionButton: FloatingActionButton(
           mini: true,
-          onPressed: () async {},
+          onPressed: () async {
+            Get.toNamed("/bancoPage");
+          },
           child: const Icon(Icons.add),
         ),
         body: Container());

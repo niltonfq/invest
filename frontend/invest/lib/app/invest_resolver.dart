@@ -5,6 +5,8 @@ import 'modules/Ativo/list/ativo_list_bindings.dart';
 import 'modules/Ativo/list/ativo_list_page.dart';
 import 'modules/Ativo/posicao/ativo_posicao_bindings.dart';
 import 'modules/Ativo/posicao/ativo_posicao_page.dart';
+import 'modules/banco/detail/banco_bindings.dart';
+import 'modules/banco/detail/banco_page.dart';
 import 'modules/banco/list/banco_list_bindigs.dart';
 import 'modules/banco/list/banco_list_page.dart';
 import 'modules/home/home_bindings.dart';
@@ -47,6 +49,11 @@ class InvestResolver implements MicroApp {
           name: '/banco',
           page: () => const BancoListPage(),
           binding: BancoListBindings(),
+        ),
+        GetPage(
+          name: '/bancoPage',
+          page: () => const BancoPage(),
+          binding: BancoBindings(),
         ),
       ];
 }
