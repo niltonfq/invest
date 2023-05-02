@@ -29,7 +29,9 @@ class InvestResolver implements MicroApp {
         ),
         GetPage(
           name: '/ativo',
-          page: () => AtivoPage( controller: Get.find(),),
+          page: () => AtivoPage(
+            controller: Get.find(),
+          ),
           binding: AtivoBindings(),
         ),
         GetPage(
@@ -54,7 +56,7 @@ class InvestResolver implements MicroApp {
         ),
         GetPage(
           name: '/banco',
-          page: () => const BancoListPage(),
+          page: () => BancoListPage(),
           binding: BancoListBindings(),
         ),
         GetPage(

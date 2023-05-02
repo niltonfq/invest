@@ -1,3 +1,4 @@
+import 'package:commons_deps/commons_deps.dart';
 import 'package:commons_design_system/commons_design_system.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,9 @@ class AtivoPage extends StatelessWidget {
             onItemTap: (value) {},
             controller: _controller.bancoTEC,
             lista: _controller.bancoList,
+            onPressedButton: () async {
+              await Get.toNamed("/banco");
+            },
           )
         ],
       ),
