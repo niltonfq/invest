@@ -73,7 +73,10 @@ class BancoListController extends GetxController
         .map(
           (e) => DataRow(
             cells: [
-              DataCell(Text(e.nome ?? "")),
+              DataCell(CustomButton(
+                child: Text(e.nome ?? ""),
+                onPressed: () => Get.toNamed("/bancoPage", arguments: e.id),
+              )),
               DataCell(Text(e.cnpj ?? "")),
             ],
           ),

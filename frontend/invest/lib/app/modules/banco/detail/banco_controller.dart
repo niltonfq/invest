@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:commons_deps/commons_deps.dart';
+import 'package:commons_design_system/commons_design_system.dart';
 import 'package:commons_design_system/widgets/commons/loader_mixin.dart';
 import 'package:flutter/material.dart';
+import 'package:micro_core/micro_core.dart';
 
 import '../banco_model.dart';
 import '../banco_service.dart';
@@ -10,7 +12,8 @@ import '../banco_service.dart';
 class BancoController extends GetxController
     with StateMixin<BancoModel>, LoaderMixin {
   final BancoService _bancoService;
-  final loading = false.obs;
+  final _isLoading = false.obs;
+  get isLoading => _isLoading.value;
   GlobalKey<FormState> form = GlobalKey();
   final TextEditingController nomeTEC = TextEditingController();
   final TextEditingController cnpjTEC = TextEditingController();
@@ -23,22 +26,34 @@ class BancoController extends GetxController
   @override
   onReady() async {
     try {
-      loading(true);
+      isLoading(true);
 
       if (Get.arguments != null) {
         findOne(Get.arguments['id']);
       }
     } catch (e) {
-      loading(false);
+      isLoading(false);
     }
   }
 
   findOne(String id) async {
     try {
-      loading(true);
-      
+      isLoading(true);
+      final result = await _bancoService.find("/" + id + '/usuario/' + EnvironmentConfig.USER);
+      result.fold(
+        (success) {
+          var model = BancoModel.fromMap( success as Map<String, dynamic>);
+          change(model, status: RxStatus.success());
+          
+          _isLoading(false);
+        },
+        ((failure) {
+          _isLoading(false);
+          CustomSnackbar.erro(mensagem: failure.toString());
+        }),
+      );
     } finally {
-      loading(false);
+      _isLoading(false);
     }
   }
 
