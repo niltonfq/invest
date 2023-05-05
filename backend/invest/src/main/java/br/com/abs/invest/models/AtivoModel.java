@@ -112,7 +112,8 @@ public class AtivoModel extends RepresentationModel<AtivoModel> implements Seria
 	@Column(nullable = false)
 	private LocalDateTime dataAtualizacao;
 
-	private short diaPagamento;
+	
+	private Short diaPagamento;
 	
 	public AtivoModel() {
 		super();
