@@ -55,12 +55,12 @@ class InvestResolver implements MicroApp {
           binding: PercentualinvestimentoBindings(),
         ),
         GetPage(
-          name: '/banco',
+          name: '/bancos',
           page: () => BancoListPage(),
           binding: BancoListBindings(),
         ),
         GetPage(
-          name: '/bancoPage',
+          name: '/banco',
           page: () => const BancoPage(),
           binding: BancoBindings(),
         ),

@@ -16,15 +16,12 @@ class AtivoPage extends StatelessWidget {
       appBar: AppBar(title: const Text('Ativo')),
       body: Column(
         children: [
-          CustomCombo(
-            titulo: 'Banco',
-            onItemTap: (value) {},
-            controller: _controller.bancoTEC,
-            lista: _controller.bancoList,
-            onPressedButton: () async {
-              await Get.toNamed("/banco");
-            },
-          )
+          Obx(() => CustomCombo(
+                buscaDados: _controller.carregaAtivos,
+                chave: 'codigo',
+                lista: _controller.ativos,
+                titulo: 'Ativos',
+              )),
         ],
       ),
     );

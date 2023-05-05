@@ -1,3 +1,12 @@
+## Mac OS, configuração para acesso API
+```
+macos/Runner/DebugProfile.entitlements
+<key>com.apple.security.network.client</key>
+<true/>
+
+to macos/Runner/DebugProfile.entitlements and macos/Runner/Release.entitlements.
+```
+
 # Definições e Padrões do Projeto
 
 Esta documentação encontra-se alguns acordos firmados pelos times de Desenvolvimento envolvidos com a tecnologia Flutter e como sera trabalhado.

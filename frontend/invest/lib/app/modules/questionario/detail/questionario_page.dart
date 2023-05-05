@@ -17,13 +17,13 @@ class QuestionarioPage extends GetView<QuestionarioController> {
           CustomAppBar(
             title: 'Questionario',
           ),
-          bodyForm(),
+          bodyForm(context),
         ],
       ),
     );
   }
 
-  bodyForm() {
+  bodyForm(BuildContext context) {
     return SingleChildScrollView(
       child: Form(
         key: controller.form,
@@ -32,16 +32,7 @@ class QuestionarioPage extends GetView<QuestionarioController> {
             Row(
               children: [
                 Expanded(
-                  child: CustomCombo(
-                    titulo: 'Tipo de ativo',
-                    lista: const ['', ''],
-                    controller: controller.tipoAtivoTEC,
-                    onItemTap: (value) {
-                      controller.obj.value.tipoAtivo = value;
-                      controller.obj.refresh();
-                    },
-                    validator: Validatorless.required('Campo obrigatório'),
-                  ),
+                  child: Container(),
                 ),
               ],
             ),

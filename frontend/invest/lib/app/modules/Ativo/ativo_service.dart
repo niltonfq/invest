@@ -65,13 +65,15 @@ class AtivoService extends BaseApiService {
     }
   }
 
-  AsyncResult<Response<dynamic>, Exception> findAll(int page) async {
+  AsyncResult<Response<dynamic>, Exception> findAll([
+      int page = 0, String order = '']) async {
     try {
       var response = await repoApi.get(
-        uri: 'http://localhost:8088' +
+        uri: EnvironmentConfig.SERVER +
             recurso +
-            '/usuario/7062c0e4-6e5d-4125-ad1c-7363cf72e45c' +
-            '?page=$page',
+            '/usuario/' +
+            EnvironmentConfig.USER +
+            '?page=$page&sort=$order',
       );
       if (response.statusCode == 200) {
         return Success(response);
