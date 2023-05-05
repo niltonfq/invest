@@ -14,15 +14,16 @@ class AtivoController extends GetxController
   final RxList<BancoModel> bancoList = <BancoModel>[].obs; 
   final AtivoService _ativoService;
   final BancoService _bancoService;
+  
 
   List<dynamic> bancos = [];
-  List<dynamic> ativos = [];
+  RxList<dynamic> ativos = [].obs;
 
 
   @override
   void onReady() async {
     carregaBancos();
-    carregaAtivos(0);
+    carregaAtivos();
     super.onReady();
   }
 
@@ -41,10 +42,16 @@ class AtivoController extends GetxController
     }, (error) => null);
   }
   
-  Future<void> carregaAtivos(int paginaAtivo) async {
+  Future<void> carregaAtivos([int paginaAtivo = 0, String filtro = '']) async {
     final result = await _ativoService.findAll(paginaAtivo, 'codigo');
     await result.fold((success) async {
-      ativos.addAll(success.body['content']);      
+      ativos.addAll(success.body['content']); 
+      ativos.refresh();     
     }, (error) => null);
+  }
+
+  selecionaAtivo(Map<String, dynamic> obj) {
+    AtivoModel ativo = AtivoModel.fromMap(obj);
+    
   }
 }

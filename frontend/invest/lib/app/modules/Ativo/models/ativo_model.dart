@@ -12,7 +12,7 @@ class AtivoModel {
   SegmentoModel? segmento;
   String? observacao;
   double? precoMedio;
-  double? nota;
+  int? nota;
   String? cnpj;
   String? nome;
   BancoModel? banco;
@@ -77,7 +77,7 @@ class AtivoModel {
       segmento: map['segmento'] != null ? SegmentoModel.fromMap(map['segmento'] as Map<String,dynamic>) : null,
       observacao: map['observacao'] != null ? map['observacao'] as String : null,
       precoMedio: map['precoMedio'] != null ? map['precoMedio'] as double : null,
-      nota: map['nota'] != null ? map['nota'] as double : null,
+      nota: map['nota'] != null ? map['nota'] as int : null,
       cnpj: map['cnpj'] != null ? map['cnpj'] as String : null,
       nome: map['nome'] != null ? map['nome'] as String : null,
       banco: map['banco'] != null ? BancoModel.fromMap(map['banco'] as Map<String,dynamic>) : null,
@@ -107,7 +107,7 @@ class AtivoModel {
     SegmentoModel? segmento,
     String? observacao,
     double? precoMedio,
-    double? nota,
+    int? nota,
     String? cnpj,
     String? nome,
     BancoModel? banco,

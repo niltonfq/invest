@@ -17,6 +17,7 @@ class CustomTextFormField extends StatefulWidget {
   final TextInputType? textInputType;
   final GlobalKey<FormFieldState>? formFieldKey;
   final double borderRadius;
+  final void Function(String)? onChanged;
 
   const CustomTextFormField({
     Key? key,
@@ -32,7 +33,7 @@ class CustomTextFormField extends StatefulWidget {
     this.formFieldKey,
     this.borderRadius = 0,
     this.prefixIcon,
-    this.suffixIcon,
+    this.suffixIcon, this.onChanged,
   }) : super(key: key);
 
   @override
@@ -46,6 +47,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: widget.onChanged,
       key: widget.formFieldKey,
       controller: widget.controller,
       readOnly: widget.readOnly,
@@ -58,6 +60,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       style: TextStyle(color: Colors.white),
       decoration: InputDecoration(
         isDense: true,
+        
         contentPadding:
             const EdgeInsets.symmetric(vertical: 12.0, horizontal: 17.0),
         prefixIcon: widget.prefixIcon,

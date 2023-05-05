@@ -1,53 +1,73 @@
+import 'package:commons_deps/commons_deps.dart';
 import 'package:commons_design_system/commons_design_system.dart';
 import 'package:flutter/material.dart';
 
-class CustomCombo extends StatefulWidget {
+class CustomCombo extends StatelessWidget {
   final String titulo;
   final String chave;
-  final List<dynamic> lista;
-  final Future<void> Function(int) buscaDados;
-  const CustomCombo({
+  final RxList<dynamic> lista;
+  final Future<void> Function(int, String) buscaDados;
+  final _works = <Worker>[];
+  final RxString _busca = ''.obs;
+  final _buscaTec = TextEditingController();
+  final void Function(Map<String, dynamic>) onTap;
+  final String valorAtual;
+
+  CustomCombo({
     Key? key,
     required this.chave,
     required this.titulo,
     required this.lista,
     required this.buscaDados,
-  }) : super(key: key);
+    required this.onTap,
+    required this.valorAtual,
+  }) : super(key: key) {
+    _buscaTec.text = valorAtual;
+  }
 
-  @override
-  State<CustomCombo> createState() => _CustomComboState();
-}
+  final ScrollController _controller = ScrollController();
 
-class _CustomComboState extends State<CustomCombo> {
-  ScrollController _controller = ScrollController();
-  int pagina = 0;
+  final _pagina = 0.obs;
 
-  init(Future<void> Function(int paginaAtivo) buscaDados) {
-    _controller.addListener(() {
-      if (_controller.offset >= _controller.position.maxScrollExtent &&
-          !_controller.position.outOfRange) {
-        pagina++;
-        setState(() {
-          buscaDados(pagina);
-          print(pagina);
-        });
+  init(Future<void> Function(int paginaAtivo, String busca) buscaDados) {
+    final workerDebounce = debounce<String>(_busca, (busca) {
+      _pagina(0);
+      buscaDados(_pagina.value, _busca.value);
+    });
+
+    _works.add(workerDebounce);
+    final _workerPagina = ever<int>(_pagina, (_) {
+      if (_pagina.value > 0) {
+        buscaDados(_pagina.value, _busca.value);
       }
     });
+    _works.add(_workerPagina);
+
+    _controller.addListener(
+      () {
+        if (_controller.offset >= _controller.position.maxScrollExtent &&
+            !_controller.position.outOfRange) {
+          _pagina.value++;
+        }
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return CustomTextFormField(
       label: 'Ativos',
+      controller: _buscaTec,
+      readOnly: true,
       suffixIcon: CustomIconButton(
-        icon: Icon(Icons.abc, color: Colors.white),
+        icon: Icon(Icons.expand_more_rounded, color: Colors.white),
         onPressed: () async {
           await show(
             context: context,
-            titulo: widget.titulo,
-            lista: widget.lista,
-            chave: widget.chave,
-            buscaDados: widget.buscaDados,
+            titulo: titulo,
+            lista: lista,
+            chave: chave,
+            buscaDados: buscaDados,
           );
         },
       ),
@@ -57,31 +77,71 @@ class _CustomComboState extends State<CustomCombo> {
   Future show({
     required BuildContext context,
     required String titulo,
-    required List<dynamic> lista,
+    required RxList<dynamic> lista,
     required String chave,
-    required Future<void> Function(int paginaAtivo) buscaDados,
+    required Future<void> Function(int paginaAtivo, String busca) buscaDados,
   }) async {
     init(buscaDados);
 
     return showDialog<String>(
       context: context,
       builder: (BuildContext context) => SimpleDialog(
-        title: Text(titulo),
-        children: [
-          CustomTextFormField(label: 'Pesquisar'),
-          SizedBox(
-            height: 100,
-            width: 500,
-            child: ListView.builder(
-              controller: _controller,
-              itemCount: lista.length,
-              itemBuilder: (context, index) {
-                return Text(lista[index][chave]);
-              },
+        title: Row(
+          children: [
+            Text(
+              titulo,
             ),
+            Spacer(),
+            CustomIconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {},
+            )
+          ],
+        ),
+        children: [
+          CustomTextFormField(
+            label: 'Pesquisar',
+            onChanged: (value) {
+              _busca(value);
+            },
+          ),
+          Obx(
+            () => SizedBox(
+              height: 100,
+              width: 500,
+              child: ListView.builder(
+                padding: EdgeInsets.all(8),
+                controller: _controller,
+                itemCount: lista.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    child:
+                        SizedBox(height: 30, child: Text(lista[index][chave])),
+                    onTap: () {
+                      onTap(lista[index]);
+                      _buscaTec.text = lista[index][chave];
+                      voltar();
+                    },
+                  );
+                },
+              ),
+            ),
+          ),
+          CustomButton(
+            child: Text('Fechar'),
+            onPressed: () {
+              voltar();
+            },
           )
         ],
       ),
     );
+  }
+
+  void voltar() {
+    for (var element in _works) {
+      element.dispose();
+    }
+    Get.back();
   }
 }

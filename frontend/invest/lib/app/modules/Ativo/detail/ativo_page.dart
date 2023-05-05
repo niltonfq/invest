@@ -1,4 +1,3 @@
-import 'package:commons_deps/commons_deps.dart';
 import 'package:commons_design_system/commons_design_system.dart';
 import 'package:flutter/material.dart';
 
@@ -16,12 +15,14 @@ class AtivoPage extends StatelessWidget {
       appBar: AppBar(title: const Text('Ativo')),
       body: Column(
         children: [
-          Obx(() => CustomCombo(
-                buscaDados: _controller.carregaAtivos,
-                chave: 'codigo',
-                lista: _controller.ativos,
-                titulo: 'Ativos',
-              )),
+          CustomCombo(
+            buscaDados: _controller.carregaAtivos,
+            chave: 'codigo',
+            lista: _controller.ativos,
+            titulo: 'Ativos',
+            onTap: _controller.selecionaAtivo,
+            valorAtual: 'PTBR',
+          ),
         ],
       ),
     );
