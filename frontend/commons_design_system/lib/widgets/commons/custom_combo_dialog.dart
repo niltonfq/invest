@@ -2,43 +2,56 @@ import 'package:commons_deps/commons_deps.dart';
 import 'package:commons_design_system/commons_design_system.dart';
 import 'package:flutter/material.dart';
 
-class CustomCombo extends StatelessWidget {
+class CustomComboDialog extends StatelessWidget {
   final String titulo;
   final String chave;
   final RxList<dynamic> lista;
-  final Future<void> Function(int, String) buscaDados;
+  final Future<void> Function(int, String) fonteDados;
   final _works = <Worker>[];
   final RxString _busca = ''.obs;
   final _buscaTec = TextEditingController();
   final void Function(Map<String, dynamic>) onTap;
-  final String valorAtual;
+  final String? valorAtual;
+  final Future<void> Function()? addNovo;
+  final _isLoading = false.obs;
+  List<String> campos = [];
+  final ScrollController _controller = ScrollController();
+  final _pagina = 0.obs;
+  final String label;
 
-  CustomCombo({
+  CustomComboDialog({
     Key? key,
     required this.chave,
     required this.titulo,
     required this.lista,
-    required this.buscaDados,
+    required this.fonteDados,
     required this.onTap,
     required this.valorAtual,
+    this.addNovo,
+    required this.label,
   }) : super(key: key) {
-    _buscaTec.text = valorAtual;
+    _buscaTec.text = valorAtual ?? '';
   }
 
-  final ScrollController _controller = ScrollController();
+  _carregaDados() {
+    _isLoading(true);
+    fonteDados(_pagina.value, _busca.value);
+    _isLoading(false);
+  }
 
-  final _pagina = 0.obs;
+  init(Future<void> Function(int paginaAtivo, String busca) fonteDados) {
+    campos = chave.split(';');
+    _carregaDados();
 
-  init(Future<void> Function(int paginaAtivo, String busca) buscaDados) {
     final workerDebounce = debounce<String>(_busca, (busca) {
       _pagina(0);
-      buscaDados(_pagina.value, _busca.value);
+      _carregaDados();
     });
 
     _works.add(workerDebounce);
-    final _workerPagina = ever<int>(_pagina, (_) {
+    final _workerPagina = ever<int>(_pagina, (_) async {
       if (_pagina.value > 0) {
-        buscaDados(_pagina.value, _busca.value);
+        await _carregaDados();
       }
     });
     _works.add(_workerPagina);
@@ -56,7 +69,7 @@ class CustomCombo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomTextFormField(
-      label: 'Ativos',
+      label: label,
       controller: _buscaTec,
       readOnly: true,
       suffixIcon: CustomIconButton(
@@ -67,7 +80,7 @@ class CustomCombo extends StatelessWidget {
             titulo: titulo,
             lista: lista,
             chave: chave,
-            buscaDados: buscaDados,
+            fonteDados: fonteDados,
           );
         },
       ),
@@ -79,9 +92,9 @@ class CustomCombo extends StatelessWidget {
     required String titulo,
     required RxList<dynamic> lista,
     required String chave,
-    required Future<void> Function(int paginaAtivo, String busca) buscaDados,
+    required Future<void> Function(int paginaAtivo, String busca) fonteDados,
   }) async {
-    init(buscaDados);
+    init(fonteDados);
 
     return showDialog<String>(
       context: context,
@@ -93,8 +106,10 @@ class CustomCombo extends StatelessWidget {
             ),
             Spacer(),
             CustomIconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {},
+              icon: Icon(Icons.close),
+              onPressed: () {
+                Get.back();
+              },
             )
           ],
         ),
@@ -107,41 +122,59 @@ class CustomCombo extends StatelessWidget {
           ),
           Obx(
             () => SizedBox(
-              height: 100,
-              width: 500,
+              height: 300,
+              width: Get.width * .70,
               child: ListView.builder(
+                shrinkWrap: true,
                 padding: EdgeInsets.all(8),
                 controller: _controller,
-                itemCount: lista.length,
+                itemCount: lista.length + (_isLoading.value ? 1 : 0),
                 itemBuilder: (context, index) {
+                  if (index == lista.length) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+
                   return InkWell(
-                    child:
-                        SizedBox(height: 30, child: Text(lista[index][chave])),
+                    child: SizedBox(
+                        height: 30, child: Row(children: resolveCampos(index))),
                     onTap: () {
                       onTap(lista[index]);
-                      _buscaTec.text = lista[index][chave];
-                      voltar();
+                      _buscaTec.text = lista[index][campos[0]];
+                      Get.back();
                     },
                   );
                 },
               ),
             ),
           ),
-          CustomButton(
-            child: Text('Fechar'),
-            onPressed: () {
-              voltar();
-            },
+          Visibility(
+            visible: addNovo != null,
+            child: CustomButton(
+                child: Text('Novo'),
+                onPressed: () async {
+                  if (addNovo != null) {
+                    await addNovo!();
+                  }
+                  _pagina(0);
+                }),
           )
         ],
       ),
-    );
+    ).then((value) => voltar());
   }
 
   void voltar() {
     for (var element in _works) {
       element.dispose();
     }
-    Get.back();
+  }
+
+  List<Widget> resolveCampos(index) {
+    List<Widget> listaWidget = [];
+    for (var campo in campos) {
+      listaWidget.add(Expanded(child: Text(lista[index][campo] ?? '')));
+    }
+
+    return listaWidget;
   }
 }

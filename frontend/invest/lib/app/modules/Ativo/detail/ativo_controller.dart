@@ -16,14 +16,13 @@ class AtivoController extends GetxController
   final BancoService _bancoService;
   
 
-  List<dynamic> bancos = [];
+  RxList<dynamic>bancos = [].obs;
   RxList<dynamic> ativos = [].obs;
 
 
   @override
-  void onReady() async {
-    carregaBancos();
-    carregaAtivos();
+  void onReady() async {   
+    change(AtivoModel(), status: RxStatus.success());
     super.onReady();
   }
 
@@ -34,16 +33,28 @@ class AtivoController extends GetxController
         _bancoService = bancoService,
         super();
         
-  void carregaBancos() {
-    final result = _bancoService.findAll(0);
+  Future<void> carregaBancos([int pagina = 0, String filtro = '']) async {
+    if (pagina == 0){
+      bancos.clear();
+    }
+    final result = _bancoService.findAll(pagina, filtro);
     result.fold((success) {
-      bancos = success.body['content'];
-      
+      bancos.addAll(success.body['content']); 
+      bancos.refresh();     
     }, (error) => null);
   }
+
+  selecionaBanco(Map<String, dynamic> obj) {
+    BancoModel banco = BancoModel.fromMap(obj);
+    state?.banco = banco;
+    change(state, status: RxStatus.success());
+  }
   
-  Future<void> carregaAtivos([int paginaAtivo = 0, String filtro = '']) async {
-    final result = await _ativoService.findAll(paginaAtivo, 'codigo');
+  Future<void> carregaAtivos([int pagina = 0, String filtro = '']) async {
+    if (pagina == 0){
+      ativos.clear();
+    }
+    final result = await _ativoService.findAll(pagina, filtro);
     await result.fold((success) async {
       ativos.addAll(success.body['content']); 
       ativos.refresh();     
@@ -52,6 +63,6 @@ class AtivoController extends GetxController
 
   selecionaAtivo(Map<String, dynamic> obj) {
     AtivoModel ativo = AtivoModel.fromMap(obj);
-    
+    print(ativo);
   }
 }

@@ -9,7 +9,7 @@ export 'widgets/buttons/custom_text_button.dart';
 export 'widgets/commons/custom_app_name.dart';
 export 'widgets/commons/custom_appbar.dar.dart';
 export 'widgets/commons/custom_card_buttons.dart';
-export 'widgets/commons/custom_combo.dart';
+export 'widgets/commons/custom_combo_dialog.dart';
 export 'widgets/commons/custom_date.dart';
 export 'widgets/commons/custom_icon.dart';
 export 'widgets/commons/custom_margin.dart';

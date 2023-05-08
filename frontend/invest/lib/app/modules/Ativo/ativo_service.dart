@@ -65,15 +65,15 @@ class AtivoService extends BaseApiService {
     }
   }
 
-  AsyncResult<Response<dynamic>, Exception> findAll([
-      int page = 0, String order = '']) async {
+  AsyncResult<Response<dynamic>, Exception> findAll(
+      [int page = 0, String filtro = '%']) async {
     try {
       var response = await repoApi.get(
         uri: EnvironmentConfig.SERVER +
             recurso +
             '/usuario/' +
             EnvironmentConfig.USER +
-            '?page=$page&sort=$order',
+            '?page=$page&sort=codigo&codigo=$filtro',
       );
       if (response.statusCode == 200) {
         return Success(response);

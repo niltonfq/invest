@@ -12,13 +12,16 @@ import br.com.abs.invest.models.AtivoModel;
 import br.com.abs.invest.models.UsuarioModel;
 import net.kaczmarzyk.spring.data.jpa.domain.Equal;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
+import net.kaczmarzyk.spring.data.jpa.web.annotation.Or;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
+import net.kaczmarzyk.spring.data.jpa.domain.Like;
 
 public class SpecificationTemplate {
 
     @And({
         @Spec(path = "tipoAtivo", spec = Equal.class),
         @Spec(path = "segmento", spec = Equal.class)
+        
     })
     public interface AtivoSpec extends Specification<AtivoModel> {}
 
