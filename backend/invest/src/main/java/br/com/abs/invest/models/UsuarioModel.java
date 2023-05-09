@@ -13,8 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 import org.springframework.hateoas.RepresentationModel;
 
@@ -43,8 +41,11 @@ public class UsuarioModel extends RepresentationModel<UsuarioModel> implements S
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY )
-    @Fetch(FetchMode.SUBSELECT)
     private Set<AtivoModel> ativos;
+
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY )
+	private Set<BancoModel> bancos;
 
 	public UsuarioModel() {
 		super();
@@ -80,6 +81,14 @@ public class UsuarioModel extends RepresentationModel<UsuarioModel> implements S
 
 	public void setAtivos(Set<AtivoModel> ativos) {
 		this.ativos = ativos;
+	}
+
+	public Set<BancoModel> getBancos() {
+		return bancos;
+	}
+
+	public void setBancos(Set<BancoModel> bancos) {
+		this.bancos = bancos;
 	}
 	
 	

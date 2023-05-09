@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import br.com.abs.invest.models.BancoModel;
@@ -32,12 +33,14 @@ public class BancoService {
 		return bancoRepository.findByUsuarioAndNome(usuarioModel, nomeBanco);
 	}
 
-	public Page<BancoModel> findByUsuario(UsuarioModel usuarioModel, Pageable pageable) {
-		return bancoRepository.findByUsuario(usuarioModel, pageable);
+	public Page<BancoModel> findAll(Specification<BancoModel> spec, Pageable pageable) {
+		return bancoRepository.findAll(spec, pageable);
 	}
 
 	public Optional<BancoModel> findByUsuarioAndId(UsuarioModel usuarioModel, UUID id) {
 		return bancoRepository.findByUsuarioAndId(usuarioModel, id);
 	}
+
+	
 
 }

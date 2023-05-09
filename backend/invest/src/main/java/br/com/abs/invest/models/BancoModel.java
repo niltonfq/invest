@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,6 +21,7 @@ import org.springframework.hateoas.RepresentationModel;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 
@@ -37,17 +39,11 @@ public class BancoModel extends RepresentationModel<BancoModel> implements Seria
 	@Type(type = "uuid-char")
 	@Column(nullable = false, columnDefinition="char(36)")
 	private UUID id;
-	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-	@Column(nullable = false)
-	private LocalDateTime dataCriacao;
 	
-	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-	@Column(nullable = false)
-	private LocalDateTime dataAtualizacao;
-	
-	@ManyToOne
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@JoinColumn(name="usuarioId", nullable=false)
-	UsuarioModel usuario;
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	private UsuarioModel usuario;
 	
 	
 	@Column(nullable = false, length = 255)
@@ -59,7 +55,13 @@ public class BancoModel extends RepresentationModel<BancoModel> implements Seria
 	@Column(length = 10)
 	private String numero;
 	
-
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	@Column(nullable = false)
+	private LocalDateTime dataCriacao;
+	
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	@Column(nullable = false)
+	private LocalDateTime dataAtualizacao;
 
 	public BancoModel() {
 		super();

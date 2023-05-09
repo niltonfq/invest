@@ -32,6 +32,7 @@ import br.com.abs.invest.models.BancoModel;
 import br.com.abs.invest.models.UsuarioModel;
 import br.com.abs.invest.services.BancoService;
 import br.com.abs.invest.services.UsuarioService;
+import br.com.abs.invest.specifications.SpecificationTemplate;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -44,17 +45,14 @@ public class BancoController {
 	UsuarioService usuarioService;
 
 	@GetMapping(value = "/bancos/usuario/{usuarioId}")
-	public ResponseEntity<Object> getAll(			
-			@PathVariable(value = "usuarioId") UUID usuarioId,
-			@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable
+	public ResponseEntity<Object> findAll(		
+			SpecificationTemplate.BancoSpec spec,
+			@PageableDefault(page = 0, size = 10, sort = "nome", direction = Direction.ASC) Pageable pageable,
+			@PathVariable(value = "usuarioId") UUID usuarioId
+			
 		) {
 		
-		Optional<UsuarioModel> usuarioOptional = usuarioService.findById(usuarioId);
-		if (!usuarioOptional.isPresent()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
-		}
-		
-		Page<BancoModel> page = bancoService.findByUsuario(usuarioOptional.get(), pageable);
+		Page<BancoModel> page = bancoService.findAll(SpecificationTemplate.bancoUsuarioId(usuarioId).and(spec), pageable);
 		
 		if (!page.isEmpty()) {
 			for (BancoModel banco : page.toList()) {
