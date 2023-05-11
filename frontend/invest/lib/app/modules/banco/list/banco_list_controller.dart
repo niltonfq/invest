@@ -9,7 +9,11 @@ class BancoListController extends GetxController
     with StateMixin<List<BancoModel>> {
   final BancoService _bancoService;
 
+  String ordem = 'nome,ASC';
+
   final _isLoading = false.obs;
+
+  bool sortAscending = true;
   get isLoading => _isLoading.value;
 
   final _totalItens = 0.obs;
@@ -22,13 +26,15 @@ class BancoListController extends GetxController
 
   final _pagina = 0.obs;
   get pagina => _pagina.value;
-  setPagina(value) {
+  setPagina(value) async {
+    _isLoading(true);
     if (value < 0) value = 0;
     if (value > (totalItens / totalPorPagina)) {
       value = (totalItens / totalPorPagina);
     }
     _pagina(value);
-    findAll();
+    await findAll();
+    _isLoading(false);
   }
 
   BancoListController({
@@ -44,7 +50,7 @@ class BancoListController extends GetxController
 
   Future<void> findAll() async {
     _isLoading(true);
-    final result = await _bancoService.findAll(pagina);
+    final result = await _bancoService.findAll(page: pagina, sort: ordem);
     await result.fold(
       (success) async {
         List content = (success.body['content'] as List);
@@ -73,14 +79,32 @@ class BancoListController extends GetxController
         .map(
           (e) => DataRow(
             cells: [
-              DataCell(CustomButton(
-                child: Text(e.nome ?? ""),
-                onPressed: () => Get.toNamed("/bancoPage", arguments: e.id),
-              )),
+              DataCell(
+                InkWell(
+                  child: Text(
+                    e.nome ?? "",
+                    style: const TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: CustomColors.Link,
+                    ),
+                  ),
+                  onTap: () => Get.toNamed("/banco", arguments: {"id": e.id}),
+                ),
+              ),
               DataCell(Text(e.cnpj ?? "")),
             ],
           ),
         )
         .toList();
+  }
+
+  sort(String nome) {
+    sortAscending = !sortAscending;
+    if (sortAscending) {
+      ordem = nome + ',ASC';
+    } else {
+      ordem = nome + ',DESC';
+    }
+    setPagina(0);
   }
 }

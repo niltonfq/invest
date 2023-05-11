@@ -129,11 +129,11 @@ public class AtivoModel extends RepresentationModel<AtivoModel> implements Seria
 		this.id = id;
 	}
 
-	public short getDiaPagamento() {
+	public Short getDiaPagamento() {
 		return diaPagamento;
 	}
 
-	public void setDiaPagamento(short diaPagamento) {
+	public void setDiaPagamento(Short diaPagamento) {
 		this.diaPagamento = diaPagamento;
 	}
 

@@ -7,5 +7,6 @@ class CustomColors {
   static const fundo_widgets = Color(0xFF20232C);
   static const branco = Color(0xFFFFFFFF);
   static const alerta = Color(0xFFCB0B0B);
+  static const Link = Color.fromARGB(255, 13, 82, 211);
   CustomColors._();
 }

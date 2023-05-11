@@ -6,14 +6,21 @@ import 'package:get/get.dart';
 import 'banco_list_controller.dart';
 
 class BancoListPage extends GetView<BancoListController> {
-  final List<DataColumn> columns = [
-    const DataColumn(label: Text('Nome')),
-    const DataColumn(label: Text('Cnpj')),
-  ];
-  BancoListPage({Key? key}) : super(key: key);
+  const BancoListPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final List<DataColumn> columns = [
+      DataColumn(
+        label: const Text('Nome'),
+        onSort: (columnIndex, ascending) => controller.sort('nome'),
+      ),
+      DataColumn(
+        label: const Text('Cnpj'),
+        onSort: (columnIndex, ascending) => controller.sort('cnpj'),
+      ),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Lista de bancos'),
@@ -29,6 +36,7 @@ class BancoListPage extends GetView<BancoListController> {
       body: controller.obx(
         (state) {
           return CustomTabelaPaginada(
+            sortAscending: controller.sortAscending,
             columns: columns,
             rows: controller.linhas(),
             primeira: () => controller.setPagina(0),

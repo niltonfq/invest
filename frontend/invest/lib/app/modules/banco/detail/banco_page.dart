@@ -59,8 +59,6 @@ class BancoPage extends GetView<BancoController> {
             CustomButton(
               onPressed: () async {
                 await controller.salvar();
-                controller.nomeTEC.text = '';
-                controller.cnpjTEC.text = '';
               },
               child: const Text('Salvar'),
             ),

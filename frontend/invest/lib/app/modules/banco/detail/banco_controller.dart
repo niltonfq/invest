@@ -26,25 +26,26 @@ class BancoController extends GetxController
   @override
   onReady() async {
     try {
-      isLoading(true);
+      _isLoading(true);
 
       if (Get.arguments != null) {
         findOne(Get.arguments['id']);
       }
     } catch (e) {
-      isLoading(false);
+      _isLoading(false);
     }
   }
 
   findOne(String id) async {
     try {
-      isLoading(true);
-      final result = await _bancoService.find("/" + id + '/usuario/' + EnvironmentConfig.USER);
+      _isLoading(true);
+      final result = await _bancoService
+          .find("/" + id + '/usuario/' + EnvironmentConfig.USER);
       result.fold(
         (success) {
-          var model = BancoModel.fromMap( success as Map<String, dynamic>);
+          var model = BancoModel.fromMap(success.body as Map<String, dynamic>);
           change(model, status: RxStatus.success());
-          
+          setEdits();
           _isLoading(false);
         },
         ((failure) {
@@ -62,5 +63,10 @@ class BancoController extends GetxController
     cnpjTEC.text = value?.cnpj ?? '';
   }
 
-  Future<void> salvar() async {}
+  Future<void> salvar() async {
+    if (form.currentState!.validate()) {
+      final result = _bancoService.saveApi(state!.toMap(), 'usuario/'+EnvironmentConfig.USER);
+      CustomSnackbar.sucesso('Salvo com sucesso.');
+    } 
+  }
 }

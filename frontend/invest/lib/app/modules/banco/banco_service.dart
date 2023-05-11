@@ -34,14 +34,14 @@ class BancoService extends BaseApiService {
     }
   }
 
-  AsyncResult<Response<dynamic>, Exception> findAll([int page = 0, String filtro = '']) async {
+  AsyncResult<Response<dynamic>, Exception> findAll({int page = 0, String filter = '', String sort = 'nome,ASC'}) async {
     try {
       var response = await repoApi.get(
           uri: EnvironmentConfig.SERVER +
               recurso +
               '/usuario/' +
               EnvironmentConfig.USER +
-              '?page=$page&nome=$filtro');
+              '?page=$page&sort=$sort&nome=$filter');
       if (response.statusCode == 200) {
         return Success(response);
       } else {

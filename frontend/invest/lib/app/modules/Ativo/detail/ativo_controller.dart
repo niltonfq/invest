@@ -1,10 +1,9 @@
 import 'package:commons_deps/commons_deps.dart';
-import 'package:commons_design_system/commons_design_system.dart';
 import 'package:commons_design_system/widgets/commons/loader_mixin.dart';
 import 'package:flutter/material.dart';
-import 'package:invest/app/modules/banco/banco_service.dart';
 
 import '../../banco/banco_model.dart';
+import '../../banco/banco_service.dart';
 import '../ativo_service.dart';
 import '../models/ativo_model.dart';
 
@@ -37,7 +36,7 @@ class AtivoController extends GetxController
     if (pagina == 0){
       bancos.clear();
     }
-    final result = _bancoService.findAll(pagina, filtro);
+    final result = _bancoService.findAll(page:pagina, filter: filtro);
     result.fold((success) {
       bancos.addAll(success.body['content']); 
       bancos.refresh();     
@@ -62,7 +61,7 @@ class AtivoController extends GetxController
   }
 
   selecionaAtivo(Map<String, dynamic> obj) {
-    AtivoModel ativo = AtivoModel.fromMap(obj);
-    print(ativo);
+    
+    
   }
 }
