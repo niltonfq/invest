@@ -63,10 +63,20 @@ class BancoController extends GetxController
     cnpjTEC.text = value?.cnpj ?? '';
   }
 
+  void getEdits() {
+    BancoModel? model = state;
+    if (model != null) {
+      model.cnpj = cnpjTEC.text;
+      model.nome = nomeTEC.text;
+    }
+  }
+
   Future<void> salvar() async {
     if (form.currentState!.validate()) {
+      getEdits();
       final result = _bancoService.saveApi(state!.toMap(), 'usuario/'+EnvironmentConfig.USER);
       CustomSnackbar.sucesso('Salvo com sucesso.');
     } 
   }
+  
 }

@@ -127,8 +127,8 @@ public class BancoController {
 	
 	@PutMapping(value = "/bancos/{id}/usuario/{usuarioId}")
 	public ResponseEntity<Object> update(
-			@PathVariable(value = "usuarioId") UUID usuarioId,
 			@PathVariable(value = "id") UUID id,			
+			@PathVariable(value = "usuarioId") UUID usuarioId,
 			@RequestBody @Valid BancoDto bancoDto
 			
 		) { 

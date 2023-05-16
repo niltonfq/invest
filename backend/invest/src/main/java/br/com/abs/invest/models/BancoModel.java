@@ -49,7 +49,7 @@ public class BancoModel extends RepresentationModel<BancoModel> implements Seria
 	@Column(nullable = false, length = 255)
 	private String nome;
 	
-	@Column(length = 14)
+	@Column(length = 20)
 	private String cnpj;
 	
 	@Column(length = 10)
