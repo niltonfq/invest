@@ -145,8 +145,8 @@ public class BancoController {
 			
 		var bancoModel = optional.get();
 		
-		bancoDto.setId(id);
-		BeanUtils.copyProperties(bancoDto, bancoModel);			
+		
+		BeanUtils.copyProperties(bancoDto, bancoModel);	
 		bancoModel.setDataAtualizacao(LocalDateTime.now(ZoneId.of("UTC")));			
 		bancoService.save(bancoModel);
 		

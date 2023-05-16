@@ -10,15 +10,14 @@ class BaseApiService {
 
   AsyncResult<Response<dynamic>, Exception> find(String url) async {
     try {
-      var response = await repoApi.get(
-          uri: EnvironmentConfig.SERVER +
-              recurso +
-              url);
+      var response =
+          await repoApi.get(uri: EnvironmentConfig.SERVER + recurso + url);
       if (response.statusCode == 200) {
         return Success(response);
       } else {
         return Failure(
-          Exception('Erro ao consultar, status code: '+response.statusCode.toString()),
+          Exception('Erro ao consultar, status code: ' +
+              response.statusCode.toString()),
         );
       }
     } catch (e) {
@@ -29,10 +28,13 @@ class BaseApiService {
     }
   }
 
-  Future<void> deleteApi(String? uri) async {
-    if (uri == null) {
-      uri = EnvironmentConfig.SERVER + recurso;
-    }
+  Future<void> deleteApi(String id) async {
+    String uri = EnvironmentConfig.SERVER +
+        recurso +
+        id +
+        "/usuario/" +
+        EnvironmentConfig.USER;
+
     await repoApi.deleteApi(uri: uri);
   }
 
@@ -44,12 +46,8 @@ class BaseApiService {
   }
 
   Future<Response> saveApi(Map<String, dynamic> model, String uri) async {
-    
-
-    model['id'] = model['id'] ?? 0;
-
-    if (model['id'] == 0) {
-      uri = EnvironmentConfig.SERVER + recurso +  uri;
+    if (model['id'] == null) {
+      uri = EnvironmentConfig.SERVER + recurso + uri;
       return await repoApi.post(model: model, uri: uri);
     } else {
       uri = EnvironmentConfig.SERVER + recurso + model['id'] + '/' + uri;

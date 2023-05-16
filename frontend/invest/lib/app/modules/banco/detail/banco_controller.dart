@@ -30,6 +30,8 @@ class BancoController extends GetxController
 
       if (Get.arguments != null) {
         findOne(Get.arguments['id']);
+      } else {
+        change(BancoModel(), status: RxStatus.success());
       }
     } catch (e) {
       _isLoading(false);
@@ -59,24 +61,23 @@ class BancoController extends GetxController
   }
 
   void setEdits() {
-    nomeTEC.text = value?.nome ?? '';
-    cnpjTEC.text = value?.cnpj ?? '';
+    nomeTEC.text = state?.nome ?? '';
+    cnpjTEC.text = state?.cnpj ?? '';
   }
 
   void getEdits() {
-    BancoModel? model = state;
-    if (model != null) {
-      model.cnpj = cnpjTEC.text;
-      model.nome = nomeTEC.text;
+    if (state != null) {
+      state?.cnpj = cnpjTEC.text;
+      state?.nome = nomeTEC.text;
     }
   }
 
   Future<void> salvar() async {
     if (form.currentState!.validate()) {
       getEdits();
-      final result = _bancoService.saveApi(state!.toMap(), 'usuario/'+EnvironmentConfig.USER);
+      final result = _bancoService.saveApi(
+          state!.toMap(), 'usuario/' + EnvironmentConfig.USER);
       CustomSnackbar.sucesso('Salvo com sucesso.');
-    } 
+    }
   }
-  
 }

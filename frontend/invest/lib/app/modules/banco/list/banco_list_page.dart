@@ -19,6 +19,9 @@ class BancoListPage extends GetView<BancoListController> {
         label: const Text('Cnpj'),
         onSort: (columnIndex, ascending) => controller.sort('cnpj'),
       ),
+      const DataColumn(
+        label: Text('Ações'),
+      ),
     ];
 
     return Scaffold(
@@ -27,7 +30,7 @@ class BancoListPage extends GetView<BancoListController> {
         actions: [
           IconButton(
             onPressed: () {
-              Get.toNamed("/bancoPage");
+              Get.toNamed("/banco");
             },
             icon: const Icon(Icons.add),
           ),

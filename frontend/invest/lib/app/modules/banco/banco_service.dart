@@ -8,7 +8,7 @@ class BancoService extends BaseApiService {
   final LogLogger _log = LogLogger();
   BancoService({required BancoRepository repository}) {
     repoApi = repository;
-    recurso = '/bancos/';
+    recurso = 'bancos/';
   }
 
   AsyncResult<Response<dynamic>, Exception> findOne(String id) async {
@@ -34,7 +34,8 @@ class BancoService extends BaseApiService {
     }
   }
 
-  AsyncResult<Response<dynamic>, Exception> findAll({int page = 0, String filter = '', String sort = 'nome,ASC'}) async {
+  AsyncResult<Response<dynamic>, Exception> findAll(
+      {int page = 0, String filter = '', String sort = 'nome,ASC'}) async {
     try {
       var response = await repoApi.get(
           uri: EnvironmentConfig.SERVER +

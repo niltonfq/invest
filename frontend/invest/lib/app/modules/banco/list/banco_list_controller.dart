@@ -91,7 +91,23 @@ class BancoListController extends GetxController
                   onTap: () => Get.toNamed("/banco", arguments: {"id": e.id}),
                 ),
               ),
-              DataCell(Text(e.cnpj ?? "")),
+              DataCell(
+                Text(e.cnpj ?? ""),
+              ),
+              DataCell(
+                CustomButton(
+                  child: const Text('Deletar'),
+                  onPressed: () {
+                    _bancoService.deleteApi(e.id!);
+                    state?.remove(e);
+                    change(state, status: RxStatus.success());
+                    CustomSnackbar.sucesso('Excluido com sucesso');
+                    if (state!.isEmpty) {
+                      setPagina(0);
+                    }
+                  },
+                ),
+              ),
             ],
           ),
         )
