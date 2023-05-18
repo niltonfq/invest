@@ -8,7 +8,7 @@ class SegmentoService extends BaseApiService {
   final LogLogger _log = LogLogger();
   SegmentoService({required SegmentoRepository repository}) {
     repoApi = repository;
-    recurso = '/segmento/';
+    recurso = 'segmentos';
   }
   AsyncResult<Response<dynamic>, Exception> findOne(String id) async {
     try {
@@ -22,13 +22,13 @@ class SegmentoService extends BaseApiService {
         return Success(response);
       } else {
         return Failure(
-          Exception('Erro ao consultar banco'),
+          Exception('Erro ao consultar segmento'),
         );
       }
     } catch (e) {
       _log.e(e.toString());
       return Failure(
-        Exception('Erro ao consultar banco'),
+        Exception('Erro ao consultar segmento'),
       );
     }
   }
@@ -46,13 +46,13 @@ class SegmentoService extends BaseApiService {
         return Success(response);
       } else {
         return Failure(
-          Exception('Erro ao consultar banco'),
+          Exception('Erro ao consultar segmento'),
         );
       }
     } catch (e) {
       _log.e(e.toString());
       return Failure(
-        Exception('Erro ao consultar banco'),
+        Exception('Erro ao consultar segmento'),
       );
     }
   }

@@ -15,10 +15,6 @@ class SegmentoListPage extends GetView<SegmentoListController> {
         label: const Text('Nome'),
         onSort: (columnIndex, ascending) => controller.sort('nome'),
       ),
-      DataColumn(
-        label: const Text('Cnpj'),
-        onSort: (columnIndex, ascending) => controller.sort('cnpj'),
-      ),
       const DataColumn(
         label: Text('Ações'),
       ),
