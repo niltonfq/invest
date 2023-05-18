@@ -7,10 +7,8 @@ import 'segmento_controller.dart';
 class SegmentoBindings implements Bindings {
   @override
   void dependencies() {
-    void dependencies() {
-      Get.lazyPut(() => SegmentoRepository());
-      Get.lazyPut(() => SegmentoService(repository: Get.find()));
-      Get.lazyPut(() => SegmentoController(segmentoService: Get.find()));
-    }
+    Get.lazyPut(() => SegmentoRepository());
+    Get.lazyPut(() => SegmentoService(repository: Get.find()));
+    Get.lazyPut(() => SegmentoController(segmentoService: Get.find()));
   }
 }
