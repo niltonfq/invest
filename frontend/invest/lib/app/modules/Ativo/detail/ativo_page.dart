@@ -16,6 +16,7 @@ class AtivoPage extends StatelessWidget {
       appBar: AppBar(title: const Text('Ativo')),
       body: Column(
         children: [
+          const SizedBox(height: 15),
           CustomComboDialog(
             fonteDados: _controller.carregaAtivos,
             chave: 'codigo',
@@ -26,6 +27,7 @@ class AtivoPage extends StatelessWidget {
             addNovo: () async => await Get.toNamed('/ativos'),
             label: 'ativo',
           ),
+          const SizedBox(height: 15),
           CustomComboDialog(
             fonteDados: _controller.carregaBancos,
             chave: 'nome;numero',
@@ -34,7 +36,18 @@ class AtivoPage extends StatelessWidget {
             onTap: _controller.selecionaBanco,
             valorAtual: _controller.state?.banco?.nome ?? '',
             addNovo: () async => await Get.toNamed('/bancos'),
-            label: 'banco',
+            label: 'Banco',
+          ),
+          const SizedBox(height: 15),
+          CustomComboDialog(
+            fonteDados: _controller.carregaSegmento,
+            chave: 'nome;',
+            lista: _controller.segmentos,
+            titulo: 'Segmento',
+            onTap: _controller.selecionaSegmento,
+            valorAtual: _controller.state?.segmento?.nome ?? '',
+            addNovo: () async => await Get.toNamed('/segmentos'),
+            label: 'Segmento',
           ),
         ],
       ),

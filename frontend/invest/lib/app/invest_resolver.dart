@@ -1,4 +1,5 @@
 import 'package:commons_deps/commons_deps.dart';
+import 'package:invest/app/modules/segmento/list/segmento_list_page.dart';
 import 'package:micro_core/micro_core.dart';
 
 import 'modules/Ativo/detail/ativo_bindings.dart';
@@ -15,6 +16,9 @@ import 'modules/home/home_bindings.dart';
 import 'modules/home/home_page.dart';
 import 'modules/percentualinvestimento/percentualinvestimento_bindings.dart';
 import 'modules/percentualinvestimento/percentualinvestimento_page.dart';
+import 'modules/segmento/detail/segmento_bindings.dart';
+import 'modules/segmento/detail/segmento_page.dart';
+import 'modules/segmento/list/segmento_list_bindings.dart';
 
 class InvestResolver implements MicroApp {
   @override
@@ -56,13 +60,23 @@ class InvestResolver implements MicroApp {
         ),
         GetPage(
           name: '/bancos',
-          page: () => BancoListPage(),
+          page: () => const BancoListPage(),
           binding: BancoListBindings(),
         ),
         GetPage(
           name: '/banco',
           page: () => const BancoPage(),
           binding: BancoBindings(),
+        ),
+        GetPage(
+          name: '/segmentos',
+          page: () => const SegmentoListPage(),
+          binding: SegmentoListBindings(),
+        ),
+        GetPage(
+          name: '/segmento',
+          page: () => const SegmentoPage(),
+          binding: SegmentoBindings(),
         ),
       ];
 }
