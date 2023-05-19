@@ -8,7 +8,7 @@ class SegmentoService extends BaseApiService {
   final LogLogger _log = LogLogger();
   SegmentoService({required SegmentoRepository repository}) {
     repoApi = repository;
-    recurso = 'segmentos';
+    recurso = 'segmentos/';
   }
   AsyncResult<Response<dynamic>, Exception> findOne(String id) async {
     try {
