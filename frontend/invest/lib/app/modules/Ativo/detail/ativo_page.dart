@@ -18,14 +18,24 @@ class AtivoPage extends StatelessWidget {
         children: [
           const SizedBox(height: 15),
           CustomComboDialog(
-            fonteDados: _controller.carregaAtivos,
+            fonteDados: _controller.carregaTipoAtivos,
             chave: 'codigo',
             lista: _controller.ativos,
-            titulo: 'Ativos',
-            onTap: _controller.selecionaAtivo,
+            titulo: 'TipoAtivos',
+            onTap: _controller.selecionaTipoAtivos,
             valorAtual: 'PTBR',
             addNovo: () async => await Get.toNamed('/ativos'),
-            label: 'ativo',
+            label: 'TipoAtivo',
+          ),
+          const SizedBox(height: 15),
+          AbsTextFormField(
+            titulo: 'Ticket',
+            controller: _controller.codigoTEC,
+            validator: Validatorless.required('Campo Obrigatório'),
+            onFieldSubmitted: (_) async {
+              await _controller.salvar();
+              clearFields();
+            },
           ),
           const SizedBox(height: 15),
           CustomComboDialog(
@@ -52,5 +62,19 @@ class AtivoPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void clearFields() {
+    _controller.nomeTEC.text = '';
+    _controller.cnpjTEC.text = '';
+    _controller.codigoTEC.text = '';
+    _controller.observacaoTEC.text = '';
+
+    _controller.precoTEC.text = '';
+
+    // _controller.state(AtivoModel(
+    //     moeda: _controller.state.moeda,
+    //     tipoAtivo: _controller.obj.value.tipoAtivo,
+    //     banco: _controller.state?.banco));
   }
 }

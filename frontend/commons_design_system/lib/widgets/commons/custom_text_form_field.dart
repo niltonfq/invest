@@ -20,8 +20,6 @@ class AbsTextFormField extends StatefulWidget {
     this.textAlign = TextAlign.start,
     this.keyboardType,
     this.obscureText = false,
-    this.isSecret = false,
-    this.icon,
   }) : super(key: key);
   final bool enabled;
   final String titulo;
@@ -38,8 +36,6 @@ class AbsTextFormField extends StatefulWidget {
   final void Function(String)? onFieldSubmitted;
   final bool obscureText;
   final TextInputType? keyboardType;
-  final bool isSecret;
-  final IconData? icon;
 
   @override
   State<AbsTextFormField> createState() => _AbsTextFormFieldState();
@@ -48,11 +44,8 @@ class AbsTextFormField extends StatefulWidget {
 class _AbsTextFormFieldState extends State<AbsTextFormField> {
   FocusNode focusNode = FocusNode();
   String hintText = '';
-  bool isObscure = false;
-
   @override
   void initState() {
-    isObscure = widget.isSecret;
     super.initState();
     focusNode.addListener(() {
       if (focusNode.hasFocus) {
@@ -114,36 +107,20 @@ class _AbsTextFormFieldState extends State<AbsTextFormField> {
             autovalidateMode: widget.autovalidateMode,
             enabled: widget.enabled,
             onChanged: widget.onChanged,
-            obscureText: isObscure,
+            obscureText: widget.obscureText,
             onFieldSubmitted: widget.onFieldSubmitted,
             keyboardType: widget.keyboardType,
-            // style: !widget.enabled
-            //     ? TextStyle(
-            //         color: Theme.of(context).disabledColor,
-            //       )
-            //     : null,
+            style: !widget.enabled
+                ? TextStyle(
+                    color: Theme.of(context).disabledColor,
+                  )
+                : null,
             textAlign: widget.textAlign,
             decoration: InputDecoration(
-              prefixIcon: Icon(widget.icon),
-              suffixIcon: widget.isSecret
-                  ? IconButton(
-                      onPressed: () {
-                        setState(() {
-                          isObscure = !isObscure;
-                        });
-                      },
-                      icon: Icon(
-                        isObscure ? Icons.visibility : Icons.visibility_off,
-                      ),
-                    )
+              fillColor: !widget.enabled
+                  ? Theme.of(context).scaffoldBackgroundColor
                   : null,
-              // fillColor: !widget.enabled
-              //     ? Theme.of(context).scaffoldBackgroundColor
-              //     : null,
               hintText: widget.placeholder,
-              isDense: true,
-              // border:
-              //     OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
             ),
           ),
         ],

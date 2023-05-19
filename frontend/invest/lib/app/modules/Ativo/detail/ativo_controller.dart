@@ -1,8 +1,11 @@
 import 'package:commons_deps/commons_deps.dart';
+import 'package:commons_design_system/widgets/commons/custom_snackbar.dart';
 import 'package:commons_design_system/widgets/commons/loader_mixin.dart';
 import 'package:flutter/material.dart';
+import 'package:invest/app/enums/tipoativo.dart';
 import 'package:invest/app/modules/segmento/segmento_model.dart';
 import 'package:invest/app/modules/segmento/segmento_service.dart';
+import 'package:micro_core/micro_core.dart';
 
 import '../../banco/banco_model.dart';
 import '../../banco/banco_service.dart';
@@ -16,6 +19,15 @@ class AtivoController extends GetxController
   final AtivoService _ativoService;
   final BancoService _bancoService;
   final SegmentoService _segmentoService;
+  GlobalKey<FormState> form = GlobalKey();
+
+  final TextEditingController codigoTEC = TextEditingController();
+  final TextEditingController nomeTEC = TextEditingController();
+  final TextEditingController cnpjTEC = TextEditingController();
+  final TextEditingController quantidadeInicialTEC = TextEditingController();
+  final TextEditingController precoTEC = TextEditingController();
+  final TextEditingController observacaoTEC = TextEditingController();
+  final TextEditingController notaTEC = TextEditingController();
 
   RxList<dynamic> bancos = [].obs;
   RxList<dynamic> segmentos = [].obs;
@@ -35,6 +47,23 @@ class AtivoController extends GetxController
         _bancoService = bancoService,
         _segmentoService = segmentoService,
         super();
+
+  Future<void> carregaTipoAtivos([int pagina = 0, String filtro = '']) async {
+    if (pagina == 0) {
+      ativos.clear();
+    }
+    final result = await _ativoService.findAll(pagina, filtro);
+    await result.fold((success) async {
+      ativos.addAll(success.body['content']);
+      ativos.refresh();
+    }, (error) => null);
+  }
+
+  selecionaTipoAtivos(List<String> obj) {
+    TiposAtivos tipoativo = TiposAtivos();
+    state?.nome = tipoativo as String?;
+    change(state, status: RxStatus.success());
+  }
 
   Future<void> carregaBancos([int pagina = 0, String filtro = '']) async {
     if (pagina == 0) {
@@ -70,16 +99,19 @@ class AtivoController extends GetxController
     change(state, status: RxStatus.success());
   }
 
-  Future<void> carregaAtivos([int pagina = 0, String filtro = '']) async {
-    if (pagina == 0) {
-      ativos.clear();
+  void getEdits() {
+    if (state != null) {
+      state?.cnpj = cnpjTEC.text;
+      state?.nome = nomeTEC.text;
     }
-    final result = await _ativoService.findAll(pagina, filtro);
-    await result.fold((success) async {
-      ativos.addAll(success.body['content']);
-      ativos.refresh();
-    }, (error) => null);
   }
 
-  selecionaAtivo(Map<String, dynamic> obj) {}
+  Future<void> salvar() async {
+    if (form.currentState!.validate()) {
+      getEdits();
+      final result = _bancoService.saveApi(
+          state!.toMap(), 'usuario/' + EnvironmentConfig.USER);
+      CustomSnackbar.sucesso('Salvo com sucesso.');
+    }
+  }
 }
