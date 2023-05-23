@@ -1,12 +1,34 @@
 import 'package:commons_deps/commons_deps.dart';
-import 'package:commons_design_system/commons_design_system.dart';
+import 'package:commons_design_system/widgets/commons/custom_combo_dialog.dart';
+import 'package:commons_design_system/widgets/commons/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:invest/app/enums/tipoativo.dart';
 
 import 'ativo_controller.dart';
 
 class AtivoPage extends StatelessWidget {
   final AtivoController _controller;
-  const AtivoPage({Key? key, required AtivoController controller})
+  final dropValue = ValueNotifier('');
+  final dropOpcoes = TipoAtivos.values.map((e) => e.value).toList();
+  //[
+  //   'Ações',
+  //   'Fundos_Imobiliários',
+  //   'Fundos_Investimentos',
+  //   'Fiagro',
+  //   'Stocks',
+  //   'Reits',
+  //   'ETFs_Nacionais',
+  //   'ETFs_Internacionais',
+  //   'Criptomoedas',
+  //   'Tesouro_Direto',
+  //   'CDB',
+  //   'LCI_e_LCA',
+  //   'Cri_e_Cra',
+  //   'Debendures',
+  //   'BDRs'
+  // ];
+
+  AtivoPage({Key? key, required AtivoController controller})
       : _controller = controller,
         super(key: key);
 
@@ -17,15 +39,23 @@ class AtivoPage extends StatelessWidget {
       body: Column(
         children: [
           const SizedBox(height: 15),
-          CustomComboDialog(
-            fonteDados: _controller.carregaTipoAtivos,
-            chave: 'codigo',
-            lista: _controller.ativos,
-            titulo: 'TipoAtivos',
-            onTap: _controller.selecionaTipoAtivos,
-            valorAtual: 'PTBR',
-            addNovo: () async => await Get.toNamed('/ativos'),
-            label: 'TipoAtivo',
+          ValueListenableBuilder(
+            valueListenable: dropValue,
+            builder: (BuildContext context, String value, _) {
+              return DropdownButton<String>(
+                hint: const Text('Escolha o Tipo de Ativo'),
+                value: (value.isEmpty) ? null : value,
+                items: dropOpcoes
+                    .map(
+                      (op) => DropdownMenuItem(
+                        child: Text(op),
+                        value: op,
+                      ),
+                    )
+                    .toList(),
+                onChanged: (escolha) => dropValue.value = escolha.toString(),
+              );
+            },
           ),
           const SizedBox(height: 15),
           AbsTextFormField(

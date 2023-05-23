@@ -2,7 +2,6 @@ import 'package:commons_deps/commons_deps.dart';
 import 'package:commons_design_system/widgets/commons/custom_snackbar.dart';
 import 'package:commons_design_system/widgets/commons/loader_mixin.dart';
 import 'package:flutter/material.dart';
-import 'package:invest/app/enums/tipoativo.dart';
 import 'package:invest/app/modules/segmento/segmento_model.dart';
 import 'package:invest/app/modules/segmento/segmento_service.dart';
 import 'package:micro_core/micro_core.dart';
@@ -31,7 +30,6 @@ class AtivoController extends GetxController
 
   RxList<dynamic> bancos = [].obs;
   RxList<dynamic> segmentos = [].obs;
-  RxList<dynamic> ativos = [].obs;
 
   @override
   void onReady() async {
@@ -48,21 +46,12 @@ class AtivoController extends GetxController
         _segmentoService = segmentoService,
         super();
 
-  Future<void> carregaTipoAtivos([int pagina = 0, String filtro = '']) async {
-    if (pagina == 0) {
-      ativos.clear();
-    }
-    final result = await _ativoService.findAll(pagina, filtro);
-    await result.fold((success) async {
-      ativos.addAll(success.body['content']);
-      ativos.refresh();
-    }, (error) => null);
-  }
+  Future<void> carregaTipoAtivos([int pagina = 0, String filtro = '']) async {}
 
-  selecionaTipoAtivos(List<String> obj) {
-    TiposAtivos tipoativo = TiposAtivos();
-    state?.nome = tipoativo as String?;
-    change(state, status: RxStatus.success());
+  selecionaTipoAtivos(Map<String, dynamic> obj) {
+    // TiposAtivos tipoativo = TiposAtivos();
+    // state?.nome = tipoativo as String?;
+    // change(state, status: RxStatus.success());
   }
 
   Future<void> carregaBancos([int pagina = 0, String filtro = '']) async {
