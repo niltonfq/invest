@@ -109,11 +109,19 @@ class AtivoPage extends StatelessWidget {
                   titulo: 'Cnpj',
                   controller: _controller.cnpjTEC,
                   validator: Validatorless.cnpj('Campo Obrigatório'),
+                  onFieldSubmitted: (_) async {
+                    await _controller.salvar();
+                    clearFields();
+                  },
                 ),
                 const SizedBox(height: 15),
                 AbsTextFormField(
                   titulo: 'Razão Social',
                   controller: _controller.cnpjTEC,
+                  onFieldSubmitted: (_) async {
+                    await _controller.salvar();
+                    clearFields();
+                  },
                 ),
                 const SizedBox(height: 15),
                 CustomComboDialog(
