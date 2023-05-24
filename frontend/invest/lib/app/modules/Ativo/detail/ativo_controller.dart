@@ -2,10 +2,12 @@ import 'package:commons_deps/commons_deps.dart';
 import 'package:commons_design_system/widgets/commons/custom_snackbar.dart';
 import 'package:commons_design_system/widgets/commons/loader_mixin.dart';
 import 'package:flutter/material.dart';
+import 'package:invest/app/enums/moeda.dart';
 import 'package:invest/app/modules/segmento/segmento_model.dart';
 import 'package:invest/app/modules/segmento/segmento_service.dart';
 import 'package:micro_core/micro_core.dart';
 
+import '../../../enums/tipoativo.dart';
 import '../../banco/banco_model.dart';
 import '../../banco/banco_service.dart';
 import '../ativo_service.dart';
@@ -27,6 +29,8 @@ class AtivoController extends GetxController
   final TextEditingController precoTEC = TextEditingController();
   final TextEditingController observacaoTEC = TextEditingController();
   final TextEditingController notaTEC = TextEditingController();
+  final dropOpcoesTA = TipoAtivos.values.map((e) => e.value).toList();
+  final dropOpcoesMO = Moeda.values.map((e) => e.value).toList();
 
   RxList<dynamic> bancos = [].obs;
   RxList<dynamic> segmentos = [].obs;
@@ -47,12 +51,6 @@ class AtivoController extends GetxController
         super();
 
   Future<void> carregaTipoAtivos([int pagina = 0, String filtro = '']) async {}
-
-  selecionaTipoAtivos(Map<String, dynamic> obj) {
-    // TiposAtivos tipoativo = TiposAtivos();
-    // state?.nome = tipoativo as String?;
-    // change(state, status: RxStatus.success());
-  }
 
   Future<void> carregaBancos([int pagina = 0, String filtro = '']) async {
     if (pagina == 0) {
@@ -102,5 +100,9 @@ class AtivoController extends GetxController
           state!.toMap(), 'usuario/' + EnvironmentConfig.USER);
       CustomSnackbar.sucesso('Salvo com sucesso.');
     }
+  }
+
+  void atualizarTela() {
+    change(state, status: RxStatus.success());
   }
 }
