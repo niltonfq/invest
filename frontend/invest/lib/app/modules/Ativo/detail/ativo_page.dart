@@ -43,6 +43,7 @@ class AtivoPage extends StatelessWidget {
             valueListenable: dropValue,
             builder: (BuildContext context, String value, _) {
               return DropdownButton<String>(
+                isExpanded: true,
                 hint: const Text('Escolha o Tipo de Ativo'),
                 value: (value.isEmpty) ? null : value,
                 items: dropOpcoes
