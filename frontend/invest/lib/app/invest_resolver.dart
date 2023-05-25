@@ -33,9 +33,7 @@ class InvestResolver implements MicroApp {
         ),
         GetPage(
           name: '/ativo',
-          page: () => AtivoPage(
-            controller: Get.find(),
-          ),
+          page: () => AtivoPage(controller: Get.find()),
           binding: AtivoBindings(),
         ),
         GetPage(

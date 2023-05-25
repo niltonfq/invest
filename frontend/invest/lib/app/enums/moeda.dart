@@ -1,6 +1,6 @@
 enum Moeda {
-  real('Real'),
-  dolar('Dolar');
+  real('R\$'),
+  dolar('US\$');
 
   final String value;
   const Moeda(this.value);

@@ -21,25 +21,20 @@ class AtivoController extends GetxController
   final BancoService _bancoService;
   final SegmentoService _segmentoService;
   GlobalKey<FormState> form = GlobalKey();
+  final _isLoading = false.obs;
+  get isLoading => _isLoading.value;
 
   final TextEditingController codigoTEC = TextEditingController();
   final TextEditingController nomeTEC = TextEditingController();
   final TextEditingController cnpjTEC = TextEditingController();
-  final TextEditingController quantidadeInicialTEC = TextEditingController();
-  final TextEditingController precoTEC = TextEditingController();
+
   final TextEditingController observacaoTEC = TextEditingController();
-  final TextEditingController notaTEC = TextEditingController();
+
   final dropOpcoesTA = TipoAtivos.values.map((e) => e.value).toList();
   final dropOpcoesMO = Moeda.values.map((e) => e.value).toList();
 
   RxList<dynamic> bancos = [].obs;
   RxList<dynamic> segmentos = [].obs;
-
-  @override
-  void onReady() async {
-    change(AtivoModel(), status: RxStatus.success());
-    super.onReady();
-  }
 
   AtivoController(
       {required AtivoService ativoService,
@@ -49,6 +44,43 @@ class AtivoController extends GetxController
         _bancoService = bancoService,
         _segmentoService = segmentoService,
         super();
+
+  @override
+  onReady() async {
+    try {
+      _isLoading(true);
+
+      if (Get.arguments != null) {
+        findOne(Get.arguments['id']);
+      } else {
+        change(AtivoModel(), status: RxStatus.success());
+      }
+    } catch (e) {
+      _isLoading(false);
+    }
+  }
+
+  findOne(String id) async {
+    try {
+      _isLoading(true);
+      final result = await _ativoService
+          .find("/" + id + '/usuario/' + EnvironmentConfig.USER);
+      result.fold(
+        (success) {
+          var model = AtivoModel.fromMap(success.body as Map<String, dynamic>);
+          change(model, status: RxStatus.success());
+          setEdits();
+          _isLoading(false);
+        },
+        ((failure) {
+          _isLoading(false);
+          CustomSnackbar.erro(mensagem: failure.toString());
+        }),
+      );
+    } finally {
+      _isLoading(false);
+    }
+  }
 
   Future<void> carregaTipoAtivos([int pagina = 0, String filtro = '']) async {}
 
@@ -88,18 +120,30 @@ class AtivoController extends GetxController
 
   void getEdits() {
     if (state != null) {
-      state?.cnpj = cnpjTEC.text;
+      state?.codigo = codigoTEC.text;
       state?.nome = nomeTEC.text;
+      state?.cnpj = cnpjTEC.text;
+      state?.observacao = observacaoTEC.text;
     }
   }
 
-  Future<void> salvar() async {
+  void setEdits() {
+    codigoTEC.text = state?.codigo ?? '';
+    nomeTEC.text =  state?.nome ?? '' ;
+     cnpjTEC.text = state?.cnpj ?? '' ;
+     observacaoTEC.text = state?.observacao ?? '';
+  }
+
+  Future<void> salvar() async {   
     if (form.currentState!.validate()) {
       getEdits();
-      final result = _bancoService.saveApi(
+      String corpo = state!.toJson();
+
+      final result = _ativoService.saveApi(
           state!.toMap(), 'usuario/' + EnvironmentConfig.USER);
       CustomSnackbar.sucesso('Salvo com sucesso.');
     }
+
   }
 
   void atualizarTela() {
