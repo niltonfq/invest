@@ -74,7 +74,7 @@ public class AtivoModel extends RepresentationModel<AtivoModel> implements Seria
 	@Column
 	private String atividade;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private Short nota = 0;
 
 	@Column(length = 20)
