@@ -74,7 +74,7 @@ public class AtivoModel extends RepresentationModel<AtivoModel> implements Seria
 	@Column
 	private String atividade;
 	
-	@Column(nullable = true)
+	@Column(nullable = false, columnDefinition = "smallint default 0", insertable = false)
 	private Short nota = 0;
 
 	@Column(length = 20)
@@ -83,7 +83,7 @@ public class AtivoModel extends RepresentationModel<AtivoModel> implements Seria
 	@Column
 	private String nome;
 	
-	@Column(nullable = false, precision = 15, scale = 10)
+	@Column(nullable = false, precision = 15, scale = 10, columnDefinition = "decimal(15,10) default 0", insertable = false)
 	private BigDecimal precoMedio = BigDecimal.ZERO;
 	
 	@Column(nullable = false)
